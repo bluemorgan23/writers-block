@@ -1,53 +1,52 @@
-// React imports
+// React Imports
 import React, {Component} from "react"
-import {Link} from "react-router-dom"
 
-// Module imports
+// Module Imports
 import userData from "../../modules/userData"
 
-// Style imports
+// Styling Imports
 import { Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CardTitle } from "reactstrap"
-import "./login.css"
 
-export default class Login extends Component {
+export default class Register extends Component {
     
     state = {
         username: "",
-        password: ""
+        password: "",
     }
 
     handleFieldChange = (event) => {
-        let stateToChange = {}
+        const stateToChange = {}
         stateToChange[event.target.id] = event.target.value
         this.setState(stateToChange)
     }
 
-    handleLogin = (event) => {
+    handleRegister = (event) => {
         event.preventDefault()
-
-        return userData.getAllUsers()
-            .then(listOfUsers => {
-                let foundUser = listOfUsers.find(user => user.username.toLowerCase() === this.state.username.toLowerCase() && user.password === this.state.password)
-
-                return foundUser
+        userData.getAllUsers()
+            .then(userList => {
+               return userList.find(user => user.username.toLowerCase() === this.state.username) 
             }).then(matchedUser => {
                 if(matchedUser){
-                   sessionStorage.setItem("userID", Number(matchedUser.id))
-                   this.props.onLogin()
-                   this.props.history.push("/new-entry")
+                    return window.alert("An account with this username already exists!")
                 } else {
-                    window.alert("Invalid login information")
+                    let userData = {
+                        username: this.state.username,
+                        password: this.state.password
+                    }
+                    return this.props.onRegister(userData)
                 }
             })
     }
 
     render() {
         return (
-            <Card className="loginCard">
-                <CardHeader className="loginCard-header">Welcome to The Writer's Block</CardHeader>
+            <Card className="registerCard">
+                <CardHeader className="registerCard-header">Register a New Account</CardHeader>
+                <Button>Go Back</Button>
                 <CardBody>
-                    <CardTitle className="loginMessage">Please Login To Your Account</CardTitle>
-                   <Form onSubmit={this.handleLogin}>
+                    <CardTitle className="registerMessage">Please enter your preferred username and password to register.</CardTitle>
+                    <hr></hr>
+                   <Form onSubmit={this.handleRegister} >
                         <FormGroup>
                             <Label for="username">Username: </Label>
                             <Input 
@@ -72,13 +71,12 @@ export default class Login extends Component {
                         </FormGroup>
                         <hr></hr>
                         <div className="buttonLink-container">
-                            <Button className="mb-2">Submit</Button>
-                            <Link to="/register">Click here to register a new account</Link>
+                            <Button className="mb-2">Register</Button>
                         </div>
                     </Form> 
                 </CardBody>
             </Card>
-            
         )
     }
+
 }
