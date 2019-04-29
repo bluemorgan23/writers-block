@@ -5,6 +5,7 @@ import {Route, Redirect} from "react-router-dom"
 // Module Imports
 import userData from '../modules/userData';
 import entryData from "../modules/entryData"
+import filtering from "../modules/filter"
 
 // Component Imports
 import Register from "./register/Register"
@@ -47,7 +48,8 @@ class ApplicationViews extends Component {
 
     onAnalyze = (entryObj) => {
         let stateToChange = {
-            body: entryObj.body
+            body: entryObj.body,
+            sentenceArray: filtering.removeEmptyStrings((entryObj.body).split("."))
         }
         this.setState(stateToChange)
         entryData.postNewEntry(entryObj)
