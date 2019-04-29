@@ -1,6 +1,7 @@
 import React, {Component} from "react"
 
 import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup } from "reactstrap"
+import "./results.css"
 
 export default class Results extends Component {
 
@@ -11,17 +12,18 @@ export default class Results extends Component {
             <Card>
                 <CardHeader>Results</CardHeader>
                 <CardBody className="resultsBody">
-                    <Card>
+                    <Card className="resultsEntry">
                         <CardBody>
                             <CardTitle>{this.props.title}</CardTitle>
                             <CardText>{this.props.body}</CardText>
                         </CardBody>
                     </Card>
                     <div className="resultsBody-right">
-                        <Card>
+                        <Card className="resultsAnalysis">
                             <CardBody>
                                 <CardTitle>Analysis</CardTitle>
                                 <CardText>The readability level is casual</CardText>
+                                <CardText>The highest scoring word is: </CardText>
                             </CardBody>
                         </Card>
                         <Card>

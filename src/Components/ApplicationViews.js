@@ -24,9 +24,15 @@ class ApplicationViews extends Component {
     }
 
     componentDidMount(){
-        this.setState({
-            userID: sessionStorage.getItem("userID")
+
+        entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
+        .then(currentEntry => {
+           this.setState({
+            userID: sessionStorage.getItem("userID"),
+            body: currentEntry 
+            }) 
         })
+        
     }
 
     isAuthenticated = () => sessionStorage.getItem("userID") !== null
@@ -59,6 +65,7 @@ class ApplicationViews extends Component {
     }
 
     render(){
+        console.log(entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID")))
         return (
         <React.Fragment>
             <Route exact path="/" render={ props => {

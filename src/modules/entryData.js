@@ -16,6 +16,12 @@ const entryData = {
         const currentUserId = Number(sessionStorage.getItem("userID"))
         return fetch(`${baseURL}?userId=${currentUserId}`)
             .then(response => response.json())
+    },
+    getCurrentEntry: (id) => {
+
+        return fetch(`${baseURL}/${id}`)
+            .then(response => response.json())
+            .then(response => response.body)
     }
 }
 
