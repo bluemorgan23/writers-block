@@ -20,18 +20,41 @@ class ApplicationViews extends Component {
         })
     }
 
+    componentDidMount(){
+        this.setState({
+            userID: sessionStorage.getItem("userID")
+        })
+    }
+
     onRegister = (userToRegister) => {
         return userData.postUser(userToRegister)
+            .then(() => userData.getAllUsers())
+            .then(userList => {
+                return userList.find(user => user.username.toLowerCase() === userToRegister.username.toLowerCase())
+            })
+            .then(matchedUser => this.setState({
+                userID: matchedUser.id
+            }))
     }
 
     render(){
         return (
         <React.Fragment>
             <Route exact path="/" render={ props => {
-                return <Login onLogin={this.onLogin} {...props} />
+                if(this.isAuthenticated()){
+                    return <Redirect to="/stats" />
+                } else {
+                    return <Login onLogin={this.onLogin} {...props} />
+                }
+                
             }} />
             <Route path="/register" render={ props => {
-                return <Register onRegister={this.onRegister} {...props} />
+                if(this.isAuthenticated()){
+                    return <Redirect to="/stats" />
+                } else {
+                    return <Register onRegister={this.onRegister} {...props} />
+                }
+                
             }} />
         </React.Fragment>
             

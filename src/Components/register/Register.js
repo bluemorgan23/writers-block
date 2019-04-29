@@ -29,11 +29,17 @@ export default class Register extends Component {
                 if(matchedUser){
                     return window.alert("An account with this username already exists!")
                 } else {
-                    let userData = {
+                    let userObj = {
                         username: this.state.username,
                         password: this.state.password
                     }
-                    return this.props.onRegister(userData)
+                    this.props.onRegister(userObj)
+                    .then(() => userData.getAllUsers())
+                    .then(userList => {
+                        return userList.find(user => 
+                            user.username.toLowerCase() === this.state.username.toLowerCase())
+                }).then(matchedUser => sessionStorage.setItem("userID", matchedUser.id))
+                .then(() => this.props.history.push("/new-entry"))
                 }
             })
     }
