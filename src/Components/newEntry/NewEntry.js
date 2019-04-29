@@ -1,5 +1,7 @@
 import React, {Component} from "react"
 
+import entryData from "../../modules/entryData"
+
 import { Card, CardBody, CardHeader, CardText, CardTitle, Button, Form, FormGroup, Label, Input, FormText } from "reactstrap"
 
 
@@ -18,14 +20,33 @@ export default class NewEntry extends Component {
 
     handleAnalyze = (event) => {
         event.preventDefault()
+        entryData.getUserEntries()
+        .then(entryList => {
+            return entryList.find(entry => entry.title.toLowerCase() === this.state.title.toLowerCase())
+        })
 
-        let entryObj = {
-            title: this.state.title,
-            body: this.state.body,
-            userId: Number(sessionStorage.getItem("userID"))
-        }
+        .then(matchedTitle => {
+            if(matchedTitle){
 
-        this.props.onAnalyze(entryObj)
+                return window.alert("An entry with this title already exists for your account! Please use another title.")
+
+            } else {
+                
+                let entryObj = {
+                    title: this.state.title,
+                    body: this.state.body,
+                    userId: Number(sessionStorage.getItem("userID"))
+                }
+                 
+                return this.props.onAnalyze(entryObj)
+
+                    .then(() => entryData.getUserEntries())
+                    .then(entries => {
+                            return entries.find(entry => entry.title.toLowerCase() === this.state.title.toLowerCase())
+                            })
+                    .then(matchedEntry => this.props.history.push(`/results/${matchedEntry.id}`))
+                }
+            })
     }
 
     render() {

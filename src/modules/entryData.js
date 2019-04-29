@@ -1,5 +1,7 @@
 const baseURL = "http://localhost:5002/entries"
 
+const currentUserId = Number(sessionStorage.getItem("userID"))
+
 const entryData = {
     postNewEntry:(entryObj) => {
         return fetch(baseURL, {
@@ -9,6 +11,10 @@ const entryData = {
             },
             body: JSON.stringify(entryObj)
         }).then(response => response.json())
+    },
+    getUserEntries: () => {
+        return fetch(`${baseURL}?userId=${currentUserId}`)
+            .then(response => response.json())
     }
 }
 

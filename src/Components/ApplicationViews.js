@@ -52,7 +52,7 @@ class ApplicationViews extends Component {
             sentenceArray: filtering.removeEmptyStrings((entryObj.body).split("."))
         }
         this.setState(stateToChange)
-        entryData.postNewEntry(entryObj)
+        return entryData.postNewEntry(entryObj)
     }
 
     render(){
