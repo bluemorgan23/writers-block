@@ -1,23 +1,24 @@
+// React Imports
 import React, {Component} from 'react'
 import {Route, Redirect} from "react-router-dom"
 
+// Module Imports
+import userData from '../modules/userData';
+import entryData from "../modules/entryData"
+import filtering from "../modules/filter"
+
+// Component Imports
 import Register from "./register/Register"
 import Login from "./login/Login"
-import userData from '../modules/userData';
+import NewEntry from './newEntry/NewEntry';
+
 
 class ApplicationViews extends Component {
 
     state = {
-        userID: 0
-    }
-
-    isAuthenticated = () => sessionStorage.getItem("userID") !== null
-    
-
-    onLogin = () => {
-        this.setState({
-            userID: sessionStorage.getItem("userID")
-        })
+        userID: 0,
+        body: "",
+        sentenceArray: []
     }
 
     componentDidMount(){
@@ -25,6 +26,8 @@ class ApplicationViews extends Component {
             userID: sessionStorage.getItem("userID")
         })
     }
+
+    isAuthenticated = () => sessionStorage.getItem("userID") !== null
 
     onRegister = (userToRegister) => {
         return userData.postUser(userToRegister)
@@ -35,6 +38,21 @@ class ApplicationViews extends Component {
             .then(matchedUser => this.setState({
                 userID: matchedUser.id
             }))
+    }
+
+    onLogin = () => {
+        this.setState({
+            userID: sessionStorage.getItem("userID")
+        })
+    }
+
+    onAnalyze = (entryObj) => {
+        let stateToChange = {
+            body: entryObj.body,
+            sentenceArray: filtering.removeEmptyStrings((entryObj.body).split("."))
+        }
+        this.setState(stateToChange)
+        return entryData.postNewEntry(entryObj)
     }
 
     render(){
@@ -53,6 +71,14 @@ class ApplicationViews extends Component {
                     return <Redirect to="/stats" />
                 } else {
                     return <Register onRegister={this.onRegister} {...props} />
+                }
+                
+            }} />
+            <Route path="/new-entry" render={ props => {
+                if(this.isAuthenticated()){
+                    return <NewEntry onAnalyze={this.onAnalyze} {...props} />
+                } else {
+                    return <Redirect to="/" />
                 }
                 
             }} />

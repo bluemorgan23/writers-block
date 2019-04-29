@@ -1,0 +1,17 @@
+{
+  "users": [
+    {
+        "id": 1,
+        "username": "chrism",
+        "password": "chris"
+    }
+  ],
+  "entries": [
+    {
+        "id": 1,
+        "title": "Test",
+        "body": "This is a test. I am making sure that i can make a post and put.",
+        "userId": 1
+    }
+  ]
+}
