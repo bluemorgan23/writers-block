@@ -6,6 +6,7 @@ import userData from "../../modules/userData"
 
 // Styling Imports
 import { Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CardTitle } from "reactstrap"
+import "./register.css"
 
 export default class Register extends Component {
     
@@ -48,7 +49,6 @@ export default class Register extends Component {
         return (
             <Card className="registerCard">
                 <CardHeader className="registerCard-header">Register a New Account</CardHeader>
-                <Button>Go Back</Button>
                 <CardBody>
                     <CardTitle className="registerMessage">Please enter your preferred username and password to register.</CardTitle>
                     <hr></hr>
@@ -76,8 +76,9 @@ export default class Register extends Component {
                                 value={this.state.password} />
                         </FormGroup>
                         <hr></hr>
-                        <div className="buttonLink-container">
-                            <Button className="mb-2">Register</Button>
+                        <div className="registerButtons-container">
+                            <Button>Register</Button>
+                            <Button onClick={() => this.props.history.push("/")} >Go Back</Button>
                         </div>
                     </Form> 
                 </CardBody>
