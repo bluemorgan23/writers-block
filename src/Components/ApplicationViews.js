@@ -19,6 +19,7 @@ class ApplicationViews extends Component {
     state = {
         userID: 0,
         body: "",
+        title: "",
         sentenceArray: []
     }
 
@@ -49,6 +50,7 @@ class ApplicationViews extends Component {
 
     onAnalyze = (entryObj) => {
         let stateToChange = {
+            title: entryObj.title,
             body: entryObj.body,
             sentenceArray: filtering.removeEmptyStrings((entryObj.body).split("."))
         }
@@ -85,7 +87,7 @@ class ApplicationViews extends Component {
             }} />
             <Route path="/results" render={ props => {
                 if(this.isAuthenticated()){
-                    return <Results {...props} />
+                    return <Results body={this.state.body} title={this.state.title} sentenceArray={this.state.sentenceArray} {...props} />
                 } else {
                     return <Redirect to="/" />
                 }
