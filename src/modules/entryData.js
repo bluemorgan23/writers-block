@@ -11,3 +11,5 @@ const entryData = {
         }).then(response => response.json())
     }
 }
+
+export default entryData

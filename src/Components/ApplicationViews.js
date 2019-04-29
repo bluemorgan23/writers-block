@@ -4,6 +4,7 @@ import {Route, Redirect} from "react-router-dom"
 
 // Module Imports
 import userData from '../modules/userData';
+import entryData from "../modules/entryData"
 
 // Component Imports
 import Register from "./register/Register"
@@ -15,7 +16,7 @@ class ApplicationViews extends Component {
 
     state = {
         userID: 0,
-        entry: "",
+        body: "",
         sentenceArray: []
     }
 
@@ -44,6 +45,14 @@ class ApplicationViews extends Component {
         })
     }
 
+    onAnalyze = (entryObj) => {
+        let stateToChange = {
+            body: entryObj.body
+        }
+        this.setState(stateToChange)
+        entryData.postNewEntry(entryObj)
+    }
+
     render(){
         return (
         <React.Fragment>
@@ -65,7 +74,7 @@ class ApplicationViews extends Component {
             }} />
             <Route path="/new-entry" render={ props => {
                 if(this.isAuthenticated()){
-                    return <NewEntry {...props} />
+                    return <NewEntry onAnalyze={this.onAnalyze} {...props} />
                 } else {
                     return <Redirect to="/" />
                 }
