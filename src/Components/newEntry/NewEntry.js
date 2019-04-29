@@ -44,7 +44,10 @@ export default class NewEntry extends Component {
                     .then(entries => {
                             return entries.find(entry => entry.title.toLowerCase() === this.state.title.toLowerCase())
                             })
-                    .then(matchedEntry => this.props.history.push(`/results/${matchedEntry.id}`))
+                    .then(matchedEntry => {
+                        this.props.history.push(`/results/${matchedEntry.id}`)
+                        sessionStorage.setItem("currentEntryID", matchedEntry.id)
+                    })
                 }
             })
     }
