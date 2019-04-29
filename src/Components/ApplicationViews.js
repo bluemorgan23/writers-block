@@ -19,20 +19,13 @@ class ApplicationViews extends Component {
         sentenceArray: []
     }
 
-    isAuthenticated = () => sessionStorage.getItem("userID") !== null
-    
-
-    onLogin = () => {
-        this.setState({
-            userID: sessionStorage.getItem("userID")
-        })
-    }
-
     componentDidMount(){
         this.setState({
             userID: sessionStorage.getItem("userID")
         })
     }
+
+    isAuthenticated = () => sessionStorage.getItem("userID") !== null
 
     onRegister = (userToRegister) => {
         return userData.postUser(userToRegister)
@@ -43,6 +36,12 @@ class ApplicationViews extends Component {
             .then(matchedUser => this.setState({
                 userID: matchedUser.id
             }))
+    }
+
+    onLogin = () => {
+        this.setState({
+            userID: sessionStorage.getItem("userID")
+        })
     }
 
     render(){
