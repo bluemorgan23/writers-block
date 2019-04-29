@@ -1,14 +1,22 @@
+// React Imports
 import React, {Component} from 'react'
 import {Route, Redirect} from "react-router-dom"
 
+// Module Imports
+import userData from '../modules/userData';
+
+// Component Imports
 import Register from "./register/Register"
 import Login from "./login/Login"
-import userData from '../modules/userData';
+import NewEntry from './newEntry/NewEntry';
+
 
 class ApplicationViews extends Component {
 
     state = {
-        userID: 0
+        userID: 0,
+        entry: "",
+        sentenceArray: []
     }
 
     isAuthenticated = () => sessionStorage.getItem("userID") !== null
@@ -53,6 +61,14 @@ class ApplicationViews extends Component {
                     return <Redirect to="/stats" />
                 } else {
                     return <Register onRegister={this.onRegister} {...props} />
+                }
+                
+            }} />
+            <Route path="/new-entry" render={ props => {
+                if(this.isAuthenticated()){
+                    return <NewEntry {...props} />
+                } else {
+                    return <Redirect to="/" />
                 }
                 
             }} />
