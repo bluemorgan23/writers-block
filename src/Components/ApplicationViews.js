@@ -11,6 +11,7 @@ import filtering from "../modules/filter"
 import Register from "./register/Register"
 import Login from "./login/Login"
 import NewEntry from './newEntry/NewEntry';
+import Results from "./results/Results"
 
 
 class ApplicationViews extends Component {
@@ -77,6 +78,14 @@ class ApplicationViews extends Component {
             <Route path="/new-entry" render={ props => {
                 if(this.isAuthenticated()){
                     return <NewEntry onAnalyze={this.onAnalyze} {...props} />
+                } else {
+                    return <Redirect to="/" />
+                }
+                
+            }} />
+            <Route path="/results" render={ props => {
+                if(this.isAuthenticated()){
+                    return <Results {...props} />
                 } else {
                     return <Redirect to="/" />
                 }
