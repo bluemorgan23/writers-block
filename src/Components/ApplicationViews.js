@@ -6,6 +6,7 @@ import {Route, Redirect} from "react-router-dom"
 import userData from '../modules/userData';
 import entryData from "../modules/entryData"
 import filtering from "../modules/filter"
+import logout from "../modules/logout"
 
 // Component Imports
 import Register from "./register/Register"
