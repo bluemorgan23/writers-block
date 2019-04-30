@@ -1,7 +1,6 @@
 import React, {Component} from "react"
 
 import EditResults from "./EditResults"
-import entryData from "../../modules/entryData"
 
 import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup } from "reactstrap"
 import "./results.css"

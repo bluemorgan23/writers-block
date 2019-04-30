@@ -3,7 +3,7 @@ import React, {Component} from "react"
 import entryData from "../../modules/entryData"
 
 import { Card, CardHeader, CardTitle, CardBody, CardText, CardLink, Button } from "reactstrap"
-// import "./stats.css"
+import "./stats.css"
 
 export default class Stats extends Component {
 
@@ -13,6 +13,15 @@ export default class Stats extends Component {
 
     componentDidMount() {
         entryData.getUserEntries()
+        .then(response => this.setState({
+            currentUserEntries: response
+        }))
+    }
+
+    handleDiscard = (event) => {
+        this.props.delete(event.target.id)
+        .then(() => sessionStorage.removeItem("currentEntryID"))
+        .then(() => entryData.getUserEntries())
         .then(response => this.setState({
             currentUserEntries: response
         }))
@@ -42,7 +51,9 @@ export default class Stats extends Component {
                                         </CardLink>
                                         <CardText>Average Score</CardText>
                                         <CardText>Date: 09/27/1994</CardText>
-                                        <Button>Discard Entry</Button> 
+                                        <Button 
+                                        onClick={this.handleDiscard}
+                                        id={entry.id}>Discard Entry</Button> 
                                     </div>   
                         })
                     
