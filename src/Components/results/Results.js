@@ -32,6 +32,12 @@ export default class Results extends Component {
         })
     }
 
+    goBackToResults = () => {
+        this.setState({
+            editButtonClicked: false
+        })
+    }
+
 
     render() {
         return (
@@ -47,7 +53,9 @@ export default class Results extends Component {
                                         <EditResults
                                         onSave = {this.savingEditedEntry}
                                         body={this.props.body}
-                                        title={this.props.title} />
+                                        title={this.props.title}
+                                        goBack={this.goBackToResults}
+                                        />
                                     </CardBody>
                                 </Card>
                             </React.Fragment>
