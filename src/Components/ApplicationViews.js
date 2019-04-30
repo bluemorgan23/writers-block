@@ -18,13 +18,13 @@ import Stats from "./stats/Stats"
 class ApplicationViews extends Component {
 
     state = {
-        userID: sessionStorage.getItem("userID"),
         body: "",
         title: "",
         sentenceArray: []
     }
 
     componentDidMount() {
+
 
         if(this.isEntrySaved()){
            return entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
@@ -38,13 +38,6 @@ class ApplicationViews extends Component {
         }
     }
 
-    // componentWillUnmount() {
-    //     this.setState({
-    //         body: "",
-    //         title: "",
-    //         sentenceArray: []
-    //     })
-    // }
 
     isAuthenticated = () => sessionStorage.getItem("userID") !== null
 
@@ -59,12 +52,6 @@ class ApplicationViews extends Component {
             .then(matchedUser => this.setState({
                 userID: matchedUser.id
             }))
-    }
-
-    onLogin = () => {
-        this.setState({
-            userID: sessionStorage.getItem("userID")
-        })
     }
 
     onAnalyze = (entryObj) => {
@@ -110,7 +97,7 @@ class ApplicationViews extends Component {
                 if(this.isAuthenticated()){
                     return <Redirect to="/stats" />
                 } else {
-                    return <Login onLogin={this.onLogin} {...props} />
+                    return <Login  {...props} />
                 }
                 
             }} />
