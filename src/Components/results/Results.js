@@ -15,6 +15,7 @@ export default class Results extends Component {
     handleDelete = (event) => {
         this.props.onDelete(sessionStorage.getItem("currentEntryID"))
         .then(() => sessionStorage.removeItem("currentEntryID"))
+        .then(() => this.props.history.push("/new-entry"))
     }
 
     handleEdit = () => {
@@ -36,6 +37,10 @@ export default class Results extends Component {
         this.setState({
             editButtonClicked: false
         })
+    }
+
+    handleFindSynonyms = () => {
+        this.props.history.push("/synonyms")
     }
 
 
@@ -82,7 +87,9 @@ export default class Results extends Component {
                                     <Card>
                                         <CardBody>
                                             <ButtonGroup className="resultsButtons">
-                                                <Button>Find Synonyms</Button>
+                                                <Button
+                                                onClick={this.handleFindSynonyms}
+                                                >Find Synonyms</Button>
                                                 <Button onClick={this.handleEdit}>Edit Entry</Button>
                                                 <Button onClick={this.handleDelete}
                                                 >Discard Entry</Button>

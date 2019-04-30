@@ -12,6 +12,7 @@ import Register from "./register/Register"
 import Login from "./login/Login"
 import NewEntry from './newEntry/NewEntry';
 import Results from "./results/Results"
+import Synonyms from "./synonyms/Synonyms"
 
 
 class ApplicationViews extends Component {
@@ -135,6 +136,13 @@ class ApplicationViews extends Component {
                     return <Redirect to="/" />
                 }
                 
+            }} />
+            <Route path="/synonyms" render={ props => {
+                if(this.isAuthenticated()){
+                    return <Synonyms {...props} />
+                } else {
+                    return <Redirect to="/" />
+                }
             }} />
         </React.Fragment>
             
