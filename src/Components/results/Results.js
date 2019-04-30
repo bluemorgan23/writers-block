@@ -22,6 +22,12 @@ export default class Results extends Component {
         })
     }
 
+    onSavingEdit = () => {
+        this.setState({
+            editButtonClicked: false
+        })
+    }
+
     render() {
         return (
             <Card>
@@ -33,7 +39,8 @@ export default class Results extends Component {
                             <React.Fragment>
                                 <Card className="resultsEntry-edit">
                                     <CardBody className="resultsEntry-body"> 
-                                        <EditResults 
+                                        <EditResults
+                                        onSave = {this.onSavingEdit}
                                         body={this.props.body}
                                         title={this.props.title} />
                                     </CardBody>

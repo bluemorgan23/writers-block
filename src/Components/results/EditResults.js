@@ -16,10 +16,15 @@ export default class EditResults extends Component {
         this.setState(stateToChange)
     }
 
+    handleSave = (event) => {
+        event.preventDefault()
+        this.props.onSave()
+    }
+
     render() {
         return (
           <React.Fragment>
-            <Form>
+            <Form onSubmit={this.handleSave}>
                 <FormGroup>
                     <Label for="title">Title</Label>
                     <Input 
