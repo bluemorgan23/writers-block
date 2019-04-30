@@ -18,9 +18,15 @@ export default class Stats extends Component {
         }))
     }
 
+    componentWillUnmount() {
+        this.setState({
+            currentUserEntries: []
+        })
+    }
+
     handleDiscard = (event) => {
-        this.props.delete(event.target.id)
-        .then(() => sessionStorage.removeItem("currentEntryID"))
+        
+        this.props.delete(Number(event.target.id))
         .then(() => entryData.getUserEntries())
         .then(response => this.setState({
             currentUserEntries: response

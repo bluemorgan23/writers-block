@@ -38,13 +38,13 @@ class ApplicationViews extends Component {
         }
     }
 
-    componentWillUnmount() {
-        this.setState({
-            body: "",
-            title: "",
-            sentenceArray: ""
-        })
-    }
+    // componentWillUnmount() {
+    //     this.setState({
+    //         body: "",
+    //         title: "",
+    //         sentenceArray: []
+    //     })
+    // }
 
     isAuthenticated = () => sessionStorage.getItem("userID") !== null
 
@@ -78,12 +78,18 @@ class ApplicationViews extends Component {
     }
 
     onDelete = (id) => {
-        return entryData.deleteEntry(id)
-        .then(() => this.setState({
-            body: "",
-            title: "",
-            sentenceArray: []
-        }))
+        if(id === Number(sessionStorage.getItem("currentEntryID"))){
+            sessionStorage.removeItem("currentEntryID")
+            return entryData.deleteEntry(id)
+            .then(() => this.setState({
+                body: "",
+                title: "",
+                sentenceArray: []
+            }))
+        } else {
+            return entryData.deleteEntry(id)
+        }
+        
     }
 
     saveEditedEntry = (edit) => {
