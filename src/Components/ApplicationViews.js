@@ -35,8 +35,14 @@ class ApplicationViews extends Component {
             }) 
         }) 
         }
-        
-        
+    }
+
+    componentWillUnmount() {
+        this.setState({
+            body: "",
+            title: "",
+            sentenceArray: ""
+        })
     }
 
     isAuthenticated = () => sessionStorage.getItem("userID") !== null
@@ -70,6 +76,15 @@ class ApplicationViews extends Component {
         return entryData.postNewEntry(entryObj)
     }
 
+    onDelete = (id) => {
+        return entryData.deleteEntry(id)
+        .then(() => this.setState({
+            body: "",
+            title: "",
+            sentenceArray: []
+        }))
+    }
+
     render(){
         return (
         <React.Fragment>
@@ -99,7 +114,11 @@ class ApplicationViews extends Component {
             }} />
             <Route path="/results" render={ props => {
                 if(this.isAuthenticated()){
-                    return <Results body={this.state.body} title={this.state.title} sentenceArray={this.state.sentenceArray} {...props} />
+                    return <Results body={this.state.body}
+                     title={this.state.title} 
+                     sentenceArray={this.state.sentenceArray}
+                     onDelete={this.onDelete}
+                     {...props} />
                 } else {
                     return <Redirect to="/" />
                 }

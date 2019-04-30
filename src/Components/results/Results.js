@@ -5,6 +5,10 @@ import "./results.css"
 
 export default class Results extends Component {
 
+    handleDelete = (event) => {
+        this.props.onDelete(sessionStorage.getItem("currentEntryID"))
+        .then(() => sessionStorage.removeItem("currentEntryID"))
+    }
 
     render() {
         return (
@@ -30,7 +34,8 @@ export default class Results extends Component {
                                 <ButtonGroup className="resultsButtons">
                                     <Button>Find Synonyms</Button>
                                     <Button>Edit Entry</Button>
-                                    <Button>Discard Entry</Button>
+                                    <Button onClick={this.handleDelete}
+                                    >Discard Entry</Button>
                                 </ButtonGroup>
                             </CardBody>
                         </Card>
