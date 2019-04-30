@@ -9,8 +9,22 @@ import "./results.css"
 export default class Results extends Component {
 
     state = {
-        editButtonClicked: false
+        editButtonClicked: false,
+        title: "",
+        body: ""
     }
+
+    componentDidMount() {
+        if(sessionStorage.getItem("currentEntryID")){
+            return entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
+         .then(currentEntry => {
+            this.setState({
+             body: currentEntry.body,
+             title: currentEntry.title,
+             }) 
+         }) 
+    }
+}
 
     handleDelete = (event) => {
         this.props.onDelete(sessionStorage.getItem("currentEntryID"))
@@ -57,8 +71,8 @@ export default class Results extends Component {
                                     <CardBody className="resultsEntry-body"> 
                                         <EditResults
                                         onSave = {this.savingEditedEntry}
-                                        body={this.props.body}
-                                        title={this.props.title}
+                                        body={this.state.body}
+                                        title={this.state.title}
                                         goBack={this.goBackToResults}
                                         />
                                     </CardBody>

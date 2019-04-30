@@ -25,7 +25,7 @@ const entryData = {
     deleteEntry: (id) => {
         return fetch(`${baseURL}/${id}`, {
             method: "DELETE"
-        })
+        }).then(response => response.json())
     },
     putEntry: (edit) => {
         return fetch(`${baseURL}/${edit.id}`, {

@@ -2,7 +2,7 @@ import React, {Component} from "react"
 
 import entryData from "../../modules/entryData"
 
-import { Card, CardBody, CardHeader, CardText, CardTitle, Button, Form, FormGroup, Label, Input, FormText } from "reactstrap"
+import { Card, CardBody, CardHeader, CardTitle, Button, Form, FormGroup, Label, Input } from "reactstrap"
 
 
 export default class NewEntry extends Component {

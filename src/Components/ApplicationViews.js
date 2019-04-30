@@ -6,7 +6,6 @@ import {Route, Redirect} from "react-router-dom"
 import userData from '../modules/userData';
 import entryData from "../modules/entryData"
 import filtering from "../modules/filter"
-import logout from "../modules/logout"
 
 // Component Imports
 import Register from "./register/Register"
@@ -14,18 +13,18 @@ import Login from "./login/Login"
 import NewEntry from './newEntry/NewEntry';
 import Results from "./results/Results"
 import Synonyms from "./synonyms/Synonyms"
-
+import Stats from "./stats/Stats"
 
 class ApplicationViews extends Component {
 
     state = {
-        userID: sessionStorage.getItem("userID"),
         body: "",
         title: "",
         sentenceArray: []
     }
 
     componentDidMount() {
+
 
         if(this.isEntrySaved()){
            return entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
@@ -39,13 +38,6 @@ class ApplicationViews extends Component {
         }
     }
 
-    componentWillUnmount() {
-        this.setState({
-            body: "",
-            title: "",
-            sentenceArray: ""
-        })
-    }
 
     isAuthenticated = () => sessionStorage.getItem("userID") !== null
 
@@ -62,12 +54,6 @@ class ApplicationViews extends Component {
             }))
     }
 
-    onLogin = () => {
-        this.setState({
-            userID: sessionStorage.getItem("userID")
-        })
-    }
-
     onAnalyze = (entryObj) => {
         let stateToChange = {
             title: entryObj.title,
@@ -79,12 +65,18 @@ class ApplicationViews extends Component {
     }
 
     onDelete = (id) => {
-        return entryData.deleteEntry(id)
-        .then(() => this.setState({
-            body: "",
-            title: "",
-            sentenceArray: []
-        }))
+        if(id === Number(sessionStorage.getItem("currentEntryID"))){
+            sessionStorage.removeItem("currentEntryID")
+            return entryData.deleteEntry(id)
+            .then(() => this.setState({
+                body: "",
+                title: "",
+                sentenceArray: []
+            }))
+        } else {
+            return entryData.deleteEntry(id)
+        }
+        
     }
 
     saveEditedEntry = (edit) => {
@@ -105,7 +97,7 @@ class ApplicationViews extends Component {
                 if(this.isAuthenticated()){
                     return <Redirect to="/stats" />
                 } else {
-                    return <Login onLogin={this.onLogin} {...props} />
+                    return <Login  {...props} />
                 }
                 
             }} />
@@ -144,6 +136,14 @@ class ApplicationViews extends Component {
                 } else {
                     return <Redirect to="/" />
                 }
+            }} />
+            <Route path="/stats" render={ props => {
+                if(this.isAuthenticated()){
+                    return <Stats  delete={this.onDelete}{...props} />
+                } else {
+                    return <Redirect to="/" />
+                }
+                
             }} />
         </React.Fragment>
             
