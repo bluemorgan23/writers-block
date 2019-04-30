@@ -1,6 +1,7 @@
 .resultsBody {
     display: flex;
     flex-flow: row nowrap;
+    justify-content: center
 }
 
 .resultsBody-right {
@@ -17,4 +18,9 @@
 
 .resultsAnalysis {
     min-height: 60%
+}
+
+.resultsEntry-edit {
+    display: flex;
+    align-items: center
 }

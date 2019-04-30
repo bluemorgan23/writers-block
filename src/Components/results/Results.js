@@ -27,43 +27,55 @@ export default class Results extends Component {
             <Card>
                 <CardHeader>Results</CardHeader>
                 <CardBody className="resultsBody">
-                    <Card className="resultsEntry">
-                        <CardBody>
-                            { this.state.editButtonClicked ? 
+                    
+                            { this.state.editButtonClicked ?
                             
-                            <EditResults 
-                            body={this.props.body}
-                            title={this.props.title} />
+                            <React.Fragment>
+                                <Card className="resultsEntry-edit">
+                                    <CardBody> 
+                                        <EditResults 
+                                        body={this.props.body}
+                                        title={this.props.title} />
+                                    </CardBody>
+                                </Card>
+                            </React.Fragment>
+                           
                              
                             :
 
                             <React.Fragment>
-                                <CardTitle>{this.props.title}</CardTitle>
-                                <CardText>{this.props.body}</CardText> 
+                                
+                                <Card className="resultsEntry">
+                                    <CardBody>
+                                        <CardTitle>{this.props.title}</CardTitle>
+                                        <CardText>{this.props.body}</CardText>  
+                                    </CardBody>
+                                </Card>
+                                <div className="resultsBody-right">
+                                    <Card className="resultsAnalysis">
+                                        <CardBody>
+                                            <CardTitle>Analysis</CardTitle>
+                                            <CardText>The readability level is casual</CardText>
+                                            <CardText>The highest scoring word is: </CardText>
+                                        </CardBody>
+                                    </Card>
+                                    <Card>
+                                        <CardBody>
+                                            <ButtonGroup className="resultsButtons">
+                                                <Button>Find Synonyms</Button>
+                                                <Button onClick={this.handleEdit}>Edit Entry</Button>
+                                                <Button onClick={this.handleDelete}
+                                                >Discard Entry</Button>
+                                            </ButtonGroup>
+                                        </CardBody>
+                                    </Card>
+                                    </div>
+
                             </React.Fragment> 
                             }
                             
-                        </CardBody>
-                    </Card>
-                    <div className="resultsBody-right">
-                        <Card className="resultsAnalysis">
-                            <CardBody>
-                                <CardTitle>Analysis</CardTitle>
-                                <CardText>The readability level is casual</CardText>
-                                <CardText>The highest scoring word is: </CardText>
-                            </CardBody>
-                        </Card>
-                        <Card>
-                            <CardBody>
-                                <ButtonGroup className="resultsButtons">
-                                    <Button>Find Synonyms</Button>
-                                    <Button onClick={this.handleEdit}>Edit Entry</Button>
-                                    <Button onClick={this.handleDelete}
-                                    >Discard Entry</Button>
-                                </ButtonGroup>
-                            </CardBody>
-                        </Card>
-                    </div>
+                        
+                    
                 </CardBody>
             </Card>
         )
