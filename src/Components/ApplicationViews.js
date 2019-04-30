@@ -11,23 +11,43 @@ import filtering from "../modules/filter"
 import Register from "./register/Register"
 import Login from "./login/Login"
 import NewEntry from './newEntry/NewEntry';
+import Results from "./results/Results"
 
 
 class ApplicationViews extends Component {
 
     state = {
-        userID: 0,
+        userID: sessionStorage.getItem("userID"),
         body: "",
+        title: "",
         sentenceArray: []
     }
 
     componentDidMount(){
+
+        if(this.isEntrySaved()){
+           entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
+        .then(currentEntry => {
+           this.setState({
+            body: currentEntry.body,
+            title: currentEntry.title,
+            sentenceArray: filtering.removeEmptyStrings(currentEntry.body.split(".")) 
+            }) 
+        }) 
+        }
+    }
+
+    componentWillUnmount() {
         this.setState({
-            userID: sessionStorage.getItem("userID")
+            body: "",
+            title: "",
+            sentenceArray: ""
         })
     }
 
     isAuthenticated = () => sessionStorage.getItem("userID") !== null
+
+    isEntrySaved = () => sessionStorage.getItem("currentEntryID") !== null
 
     onRegister = (userToRegister) => {
         return userData.postUser(userToRegister)
@@ -48,11 +68,21 @@ class ApplicationViews extends Component {
 
     onAnalyze = (entryObj) => {
         let stateToChange = {
+            title: entryObj.title,
             body: entryObj.body,
             sentenceArray: filtering.removeEmptyStrings((entryObj.body).split("."))
         }
         this.setState(stateToChange)
         return entryData.postNewEntry(entryObj)
+    }
+
+    onDelete = (id) => {
+        return entryData.deleteEntry(id)
+        .then(() => this.setState({
+            body: "",
+            title: "",
+            sentenceArray: []
+        }))
     }
 
     render(){
@@ -77,6 +107,18 @@ class ApplicationViews extends Component {
             <Route path="/new-entry" render={ props => {
                 if(this.isAuthenticated()){
                     return <NewEntry onAnalyze={this.onAnalyze} {...props} />
+                } else {
+                    return <Redirect to="/" />
+                }
+                
+            }} />
+            <Route path="/results" render={ props => {
+                if(this.isAuthenticated()){
+                    return <Results body={this.state.body}
+                     title={this.state.title} 
+                     sentenceArray={this.state.sentenceArray}
+                     onDelete={this.onDelete}
+                     {...props} />
                 } else {
                     return <Redirect to="/" />
                 }

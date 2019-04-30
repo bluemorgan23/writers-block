@@ -45,7 +45,7 @@ export default class NewEntry extends Component {
                             return entries.find(entry => entry.title.toLowerCase() === this.state.title.toLowerCase())
                             })
                     .then(matchedEntry => {
-                        this.props.history.push(`/results/${matchedEntry.id}`)
+                        this.props.history.push("/results")
                         sessionStorage.setItem("currentEntryID", matchedEntry.id)
                     })
                 }

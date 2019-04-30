@@ -1,0 +1,20 @@
+.resultsBody {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.resultsBody-right {
+    max-width: 50%;
+}
+
+.resultsEntry {
+    max-width: 50%;
+}
+
+.resultsButtons {
+    display: flex;
+}
+
+.resultsAnalysis {
+    min-height: 60%
+}
