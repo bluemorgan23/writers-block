@@ -31,7 +31,8 @@ class ApplicationViews extends Component {
         .then(currentEntry => {
            this.setState({
             body: currentEntry.body,
-            title: currentEntry.title 
+            title: currentEntry.title,
+            sentenceArray: filtering.removeEmptyStrings(currentEntry.body.split(".")) 
             }) 
         })
         
