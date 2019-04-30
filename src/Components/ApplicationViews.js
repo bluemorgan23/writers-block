@@ -25,16 +25,17 @@ class ApplicationViews extends Component {
 
     componentDidMount(){
 
-       
-        
-        entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
+        if(this.isEntrySaved()){
+           entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
         .then(currentEntry => {
            this.setState({
             body: currentEntry.body,
             title: currentEntry.title,
             sentenceArray: filtering.removeEmptyStrings(currentEntry.body.split(".")) 
             }) 
-        })
+        }) 
+        }
+        
         
     }
 
