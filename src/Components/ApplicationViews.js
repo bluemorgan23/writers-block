@@ -14,7 +14,7 @@ import Login from "./login/Login"
 import NewEntry from './newEntry/NewEntry';
 import Results from "./results/Results"
 import Synonyms from "./synonyms/Synonyms"
-
+import Stats from "./stats/Stats"
 
 class ApplicationViews extends Component {
 
@@ -144,6 +144,14 @@ class ApplicationViews extends Component {
                 } else {
                     return <Redirect to="/" />
                 }
+            }} />
+            <Route path="/stats" render={ props => {
+                if(this.isAuthenticated()){
+                    return <Stats  {...props} />
+                } else {
+                    return <Redirect to="/" />
+                }
+                
             }} />
         </React.Fragment>
             
