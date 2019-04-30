@@ -39,6 +39,10 @@ export default class Results extends Component {
         })
     }
 
+    handleFindSynonyms = () => {
+        this.props.history.push("/synonyms")
+    }
+
 
     render() {
         return (
@@ -83,7 +87,9 @@ export default class Results extends Component {
                                     <Card>
                                         <CardBody>
                                             <ButtonGroup className="resultsButtons">
-                                                <Button>Find Synonyms</Button>
+                                                <Button
+                                                onClick={this.handleFindSynonyms}
+                                                >Find Synonyms</Button>
                                                 <Button onClick={this.handleEdit}>Edit Entry</Button>
                                                 <Button onClick={this.handleDelete}
                                                 >Discard Entry</Button>
