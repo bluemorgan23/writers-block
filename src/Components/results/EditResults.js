@@ -2,17 +2,38 @@ import React, {Component} from "react"
 
 import {Form, FormGroup, Input, Label, Button, ButtonGroup} from "reactstrap"
 
+import "./results.css"
+
 export default class EditResults extends Component {
 
     state = {
-        body: this.props.body,
-        title: this.props.title
+        body: "",
+        title: ""
+    }
+
+    componentDidMount(){
+        this.setState({
+            body: this.props.body,
+            title: this.props.title
+        })
     }
 
     handleFieldChange = (event) => {
         const stateToChange = {}
         stateToChange[event.target.id] = event.target.value
         this.setState(stateToChange)
+    }
+
+
+    handleSave = (event) => {
+        event.preventDefault()
+        let edit = {
+            id: Number(sessionStorage.getItem("currentEntryID")),
+            userId: Number(sessionStorage.getItem("userID")),
+            body: this.state.body,
+            title: this.state.title
+        }
+        this.props.onSave(edit)
     }
 
     render() {
@@ -26,7 +47,7 @@ export default class EditResults extends Component {
                     id="title"
                     name="title"
                     onChange={this.handleFieldChange}
-                    value={this.props.title}
+                    value={this.state.title}
                     />
                 </FormGroup>
                 <FormGroup>
@@ -36,11 +57,12 @@ export default class EditResults extends Component {
                     id="body"
                     name="body"
                     onChange={this.handleFieldChange}
-                    value={this.props.body}
+                    value={this.state.body}
+                    className="editTextarea"
                     />
                 </FormGroup>
                 <ButtonGroup>
-                    <Button>Save Edits</Button>
+                    <Button onClick={this.handleSave}>Save Edits</Button>
                     <Button>Discard Edits</Button> 
                 </ButtonGroup>
             </Form>

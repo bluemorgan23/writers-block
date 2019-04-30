@@ -1,6 +1,7 @@
 .resultsBody {
     display: flex;
     flex-flow: row nowrap;
+    justify-content: center
 }
 
 .resultsBody-right {
@@ -15,6 +16,18 @@
     display: flex;
 }
 
-.resultsAnalysis {
-    min-height: 60%
+.resultsEntry-edit{
+    width: 80%;
+    display: flex;
+    align-items: center
 }
+
+.resultsEntry-body{
+    width: 80%;
+}
+
+.editTextarea {
+    min-height: 200px
+}
+
+

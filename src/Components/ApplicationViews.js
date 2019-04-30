@@ -23,10 +23,10 @@ class ApplicationViews extends Component {
         sentenceArray: []
     }
 
-    componentDidMount(){
+    componentDidMount() {
 
         if(this.isEntrySaved()){
-           entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
+           return entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
         .then(currentEntry => {
            this.setState({
             body: currentEntry.body,
@@ -85,6 +85,17 @@ class ApplicationViews extends Component {
         }))
     }
 
+    saveEditedEntry = (edit) => {
+        console.log(edit)
+        return entryData.putEntry(edit)
+        .then(() => entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID")))
+        .then(matchedEntry => this.setState({
+            body: matchedEntry.body,
+            title: matchedEntry.title,
+            sentenceArray: filtering.removeEmptyStrings(matchedEntry.body.split("."))
+        }))
+    }
+
     render(){
         return (
         <React.Fragment>
@@ -118,6 +129,7 @@ class ApplicationViews extends Component {
                      title={this.state.title} 
                      sentenceArray={this.state.sentenceArray}
                      onDelete={this.onDelete}
+                     saveEditedEntry = {this.saveEditedEntry}
                      {...props} />
                 } else {
                     return <Redirect to="/" />
