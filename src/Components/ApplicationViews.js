@@ -65,7 +65,7 @@ class ApplicationViews extends Component {
     }
 
     onDelete = (id) => {
-        if(id === Number(sessionStorage.getItem("currentEntryID"))){
+        if(Number(id) === Number(sessionStorage.getItem("currentEntryID"))){
             sessionStorage.removeItem("currentEntryID")
             return entryData.deleteEntry(id)
             .then(() => this.setState({

@@ -26,9 +26,10 @@ export default class Results extends Component {
     }
 }
 
-    handleDelete = (event) => {
+    handleDelete = () => {
+
         this.props.onDelete(sessionStorage.getItem("currentEntryID"))
-        .then(() => sessionStorage.removeItem("currentEntryID"))
+        // .then(() => sessionStorage.removeItem("currentEntryID"))
         .then(() => this.props.history.push("/new-entry"))
     }
 
