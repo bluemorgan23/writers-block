@@ -36,6 +36,11 @@ export default class EditResults extends Component {
         this.props.onSave(edit)
     }
 
+    handleGoBack = (event) => {
+        event.preventDefault()
+        this.props.goBack();
+    }
+
     render() {
         return (
           <React.Fragment>
@@ -63,7 +68,7 @@ export default class EditResults extends Component {
                 </FormGroup>
                 <ButtonGroup>
                     <Button onClick={this.handleSave}>Save Edits</Button>
-                    <Button>Discard Edits</Button> 
+                    <Button onClick={this.handleGoBack}>Discard Edits</Button> 
                 </ButtonGroup>
             </Form>
         </React.Fragment>  
