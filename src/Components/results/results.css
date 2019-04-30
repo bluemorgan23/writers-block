@@ -16,11 +16,18 @@
     display: flex;
 }
 
-.resultsAnalysis {
-    min-height: 60%
-}
-
-.resultsEntry-edit {
+.resultsEntry-edit{
+    width: 80%;
     display: flex;
     align-items: center
 }
+
+.resultsEntry-body{
+    width: 80%;
+}
+
+.editTextarea {
+    min-height: 200px
+}
+
+

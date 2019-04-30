@@ -32,7 +32,7 @@ export default class Results extends Component {
                             
                             <React.Fragment>
                                 <Card className="resultsEntry-edit">
-                                    <CardBody> 
+                                    <CardBody className="resultsEntry-body"> 
                                         <EditResults 
                                         body={this.props.body}
                                         title={this.props.title} />

@@ -1,6 +1,7 @@
 import React, {Component} from "react"
 
 import {Form, FormGroup, Input, Label, Button, ButtonGroup} from "reactstrap"
+import "./results.css"
 
 export default class EditResults extends Component {
 
@@ -37,6 +38,7 @@ export default class EditResults extends Component {
                     name="body"
                     onChange={this.handleFieldChange}
                     value={this.props.body}
+                    className="editTextarea"
                     />
                 </FormGroup>
                 <ButtonGroup>
