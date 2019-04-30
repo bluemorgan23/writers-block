@@ -1,6 +1,7 @@
 import React, {Component} from "react"
 
 import EditResults from "./EditResults"
+import entryData from "../../modules/entryData"
 
 import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup } from "reactstrap"
 import "./results.css"
@@ -22,11 +23,15 @@ export default class Results extends Component {
         })
     }
 
-    onSavingEdit = () => {
+    savingEditedEntry = (edit) => {
+        
+        this.props.saveEditedEntry(edit)
+
         this.setState({
             editButtonClicked: false
         })
     }
+
 
     render() {
         return (
@@ -40,7 +45,7 @@ export default class Results extends Component {
                                 <Card className="resultsEntry-edit">
                                     <CardBody className="resultsEntry-body"> 
                                         <EditResults
-                                        onSave = {this.onSavingEdit}
+                                        onSave = {this.savingEditedEntry}
                                         body={this.props.body}
                                         title={this.props.title} />
                                     </CardBody>

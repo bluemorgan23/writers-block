@@ -26,6 +26,15 @@ const entryData = {
         return fetch(`${baseURL}/${id}`, {
             method: "DELETE"
         })
+    },
+    putEntry: (edit) => {
+        return fetch(`${baseURL}/${edit.id}`, {
+            method: "PUT",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(edit)
+        }).then(response => response.json())
     }
 }
 
