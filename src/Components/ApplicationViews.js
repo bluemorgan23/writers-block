@@ -17,7 +17,7 @@ import Results from "./results/Results"
 class ApplicationViews extends Component {
 
     state = {
-        userID: 0,
+        userID: sessionStorage.getItem("userID"),
         body: "",
         title: "",
         sentenceArray: []
@@ -25,17 +25,21 @@ class ApplicationViews extends Component {
 
     componentDidMount(){
 
+       
+        
         entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
         .then(currentEntry => {
            this.setState({
-            userID: sessionStorage.getItem("userID"),
-            body: currentEntry 
+            body: currentEntry.body,
+            title: currentEntry.title 
             }) 
         })
         
     }
 
     isAuthenticated = () => sessionStorage.getItem("userID") !== null
+
+    isEntrySaved = () => sessionStorage.getItem("currentEntryID") !== null
 
     onRegister = (userToRegister) => {
         return userData.postUser(userToRegister)
@@ -65,7 +69,6 @@ class ApplicationViews extends Component {
     }
 
     render(){
-        console.log(entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID")))
         return (
         <React.Fragment>
             <Route exact path="/" render={ props => {

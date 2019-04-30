@@ -21,7 +21,11 @@ const entryData = {
 
         return fetch(`${baseURL}/${id}`)
             .then(response => response.json())
-            .then(response => response.body)
+    },
+    deleteEntry: (id) => {
+        return fetch(`${baseURL}/${id}`, {
+            method: "DELETE"
+        })
     }
 }
 

@@ -6,7 +6,6 @@ import "./results.css"
 export default class Results extends Component {
 
 
-
     render() {
         return (
             <Card>
