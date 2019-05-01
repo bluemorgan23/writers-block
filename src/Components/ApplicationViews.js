@@ -45,6 +45,40 @@ class ApplicationViews extends Component {
         })
     }
 
+    updateSentence = (updatedSentece, index) => {
+
+        let removeWhitespace = updatedSentece.trim()
+        let finalProduct = removeWhitespace
+        
+    
+        return this.setState(state => {
+            const sentenceArray = state.sentenceArray.map((sentence, j) => 
+            
+            {
+                if(index !== 0){
+                finalProduct = ` ${removeWhitespace}`
+                } 
+                if(j === index){
+                    return finalProduct
+                } else {
+                    return sentence
+                }
+            })
+    
+            const joinedArray = sentenceArray.join("")
+
+            let editedEntry = {
+                id: sessionStorage.getItem("currentEntryID"),
+                userId: sessionStorage.getItem("userID"),
+                body: joinedArray,
+                title: this.state.title
+            }
+    
+            entryData.putEntry(editedEntry)
+            
+            return {sentenceArray: sentenceArray, entry: joinedArray}
+        })
+    }
 
     isAuthenticated = () => sessionStorage.getItem("userID") !== null
 
@@ -141,7 +175,9 @@ class ApplicationViews extends Component {
             }} />
             <Route path="/synonyms" render={ props => {
                 if(this.isAuthenticated()){
-                    return <Synonyms {...props} />
+                    return <Synonyms sentenceArray={this.state.sentenceArray} entry={this.state.body}
+                    updateSentence={this.updateSentence}
+                    {...props} />
                 } else {
                     return <Redirect to="/" />
                 }

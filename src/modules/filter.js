@@ -32,7 +32,8 @@ const filtering = {
                 filter4,
                 filter5,
                 filter6,
-                filter7
+                filter7,
+                filter8
             ]
 
         const filteredWords = array.filter(word => !filters.includes(word))

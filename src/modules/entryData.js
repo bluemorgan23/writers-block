@@ -28,7 +28,7 @@ const entryData = {
         }).then(response => response.json())
     },
     putEntry: (edit) => {
-        return fetch(`${baseURL}/${edit.id}`, {
+        return fetch(`${baseURL}/${sessionStorage.getItem("currentEntryID")}`, {
             method: "PUT",
             headers: {
                 "content-type": "application/json"

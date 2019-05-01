@@ -21,7 +21,6 @@ const eachScoreStored = () => {
 
 
     let wordsAndScore = []
-    let wordObj = {}
 
     if(JSON.parse(localStorage.getItem("eachScore"))){
         return null
