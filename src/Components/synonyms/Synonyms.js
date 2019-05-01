@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 
-import {Card, CardBody, CardText, Input, CardHeader, Button } from "reactstrap"
+import {Card, CardBody, CardText, Input, CardHeader, Button, ButtonGroup, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from "reactstrap"
 import cache from "../../modules/cache"
 
 import "./synonyms.css"
@@ -14,7 +14,14 @@ class Synonyms extends Component {
         entryToEdit: "",
         allEntries: this.props.sentenceArray,
         indexToShow: 0,
-        lowScoringWords: []
+        lowScoringWords: [],
+        dropdownOpen: false
+    }
+
+    toggle = () => {
+        this.setState({
+            dropdownOpen: !this.state.dropdownOpen
+        })
     }
 
     componentDidMount() {
@@ -23,7 +30,9 @@ class Synonyms extends Component {
 
         let lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < cache.avg.ten_degree)
 
-        console.log(lowScoringWords)
+        let justWord = lowScoringWords.map(word => word.response.entry)
+
+        console.log(justWord)
 
     }
 
@@ -108,7 +117,22 @@ class Synonyms extends Component {
                             className="mb-2"
                             >Next</Button>
                             <CardText id={this.state.indexToShow}>{this.props.sentenceArray[this.state.indexToShow]}</CardText>
-                            <Button id={this.state.indexToShow} onClick={this.toggleChange}>Edit</Button>
+                            <ButtonGroup>
+                               <Button id={this.state.indexToShow} onClick={this.toggleChange}>Edit</Button>
+                               <ButtonDropdown
+                                id={this.state.indexToShow}
+                                isOpen={this.state.dropdownOpen} 
+                                toggle={this.toggle}>
+                                    <DropdownToggle caret size="sm">
+                                        Word To Replace
+                                    </DropdownToggle>
+                                    <DropdownMenu>
+                                        <DropdownItem>Another Action</DropdownItem>
+                                        <DropdownItem>Another Action</DropdownItem>
+                                    </DropdownMenu>
+                                </ButtonDropdown>
+                            </ButtonGroup>
+                            
                         </CardBody>
                 }
             </Card>
