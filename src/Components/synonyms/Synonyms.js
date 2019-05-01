@@ -1,8 +1,10 @@
 import React, { Component } from "react"
 
 import {Card, CardBody, CardText, Input, CardHeader, Button } from "reactstrap"
+import cache from "../../modules/cache"
 
 import "./synonyms.css"
+import { finished } from "stream";
 
 class Synonyms extends Component {
 
@@ -11,7 +13,18 @@ class Synonyms extends Component {
         articleToGrab: 0,
         entryToEdit: "",
         allEntries: this.props.sentenceArray,
-        indexToShow: 0
+        indexToShow: 0,
+        lowScoringWords: []
+    }
+
+    componentDidMount() {
+        console.log(cache.eachScore)
+        console.log(cache.avg.ten_degree)
+
+        let lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < cache.avg.ten_degree)
+
+        console.log(lowScoringWords)
+
     }
 
     toggleChange = (event) => {

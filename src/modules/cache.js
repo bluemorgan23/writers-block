@@ -5,8 +5,7 @@ let string = "The Writer’s Block can be used by anyone who wants to have a sec
 
 const wordArray = filtering.getRidOfPunctuation(string)
 let filteredArray = filtering.filterOutWeakWords(wordArray)
-console.log(filteredArray)
-
+console.log(wordArray.length)
 
 
 const isAvgStored = () => {
@@ -29,7 +28,7 @@ const eachScoreStored = () => {
         return filteredArray.forEach(word => api.getIndividualWordScore(word)
             .then(response => { 
                 if(response.ten_degree){
-                  wordsAndScore.push({[word] : response.ten_degree})  
+                  wordsAndScore.push({response})  
                 }
             })
             .then(() => localStorage.setItem("eachScore", JSON.stringify(wordsAndScore))))

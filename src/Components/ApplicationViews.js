@@ -132,8 +132,6 @@ class ApplicationViews extends Component {
     }
 
     render(){
-        console.log(cache)
-        console.log()
         return (
         <React.Fragment>
             <Route exact path="/" render={ props => {
