@@ -9,22 +9,20 @@ import "./results.css"
 export default class Results extends Component {
 
     state = {
-        editButtonClicked: false,
-        title: "",
-        body: ""
+        editButtonClicked: false
     }
 
-    componentDidMount() {
-        if(sessionStorage.getItem("currentEntryID")){
-            return entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
-         .then(currentEntry => {
-            this.setState({
-             body: currentEntry.body,
-             title: currentEntry.title,
-             }) 
-         }) 
-    }
-}
+//     componentDidMount() {
+//         if(sessionStorage.getItem("currentEntryID")){
+//             return entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
+//          .then(currentEntry => {
+//             this.setState({
+//              body: currentEntry.body,
+//              title: currentEntry.title,
+//              }) 
+//          }) 
+//     }
+// }
 
     handleDelete = () => {
 
@@ -72,8 +70,8 @@ export default class Results extends Component {
                                     <CardBody className="resultsEntry-body"> 
                                         <EditResults
                                         onSave = {this.savingEditedEntry}
-                                        body={this.state.body}
-                                        title={this.state.title}
+                                        body={this.props.body}
+                                        title={this.props.title}
                                         goBack={this.goBackToResults}
                                         />
                                     </CardBody>
