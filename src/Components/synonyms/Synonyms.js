@@ -32,7 +32,9 @@ class Synonyms extends Component {
 
         let justWord = lowScoringWords.map(word => word.response.entry)
 
-        console.log(justWord)
+        this.setState({
+            lowScoringWords: justWord
+        })
 
     }
 
@@ -41,7 +43,7 @@ class Synonyms extends Component {
         const stateChange = {
             buttonClicked: true,
             articleToGrab: Number(event.target.id),
-            entryToEdit: event.target.parentNode.firstChild.nextSibling.textContent
+            entryToEdit: event.target.parentNode.parentNode.firstChild.nextSibling.textContent
         }
         this.setState(stateChange)
 
