@@ -1,4 +1,4 @@
-
+import synAPI from "./synAPI"
 
 const filtering = {
     
@@ -38,17 +38,6 @@ const filtering = {
         const filteredWords = array.filter(word => !filters.includes(word))
 
         return filteredWords
-    },
-    sentencesContainWords: (sentenceArray, word) => {
-        
-        
-
-        let string = sentenceArray.find(sentence => {
-            return sentence.toLowerCase().includes(word.toLowerCase())
-        })
-
-        return {sentence: string, word: word, index: sentenceArray.indexOf(string)}
-
     }
 }
 

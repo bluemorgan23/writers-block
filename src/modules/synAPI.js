@@ -8,8 +8,17 @@ const synAPI = {
         .then(response => response.json())
         .then(parsedResponse => parsedResponse.filter(words => {
             return words.score > 1000
-        } ))
+        } )).then(response => response.map(word => word.word))
     }
 }
 
 export default synAPI
+
+
+// getSynonymsForWord: (word) => {
+//     return fetch(`${baseURL}${word}&max=5`)
+//     .then(response => response.json())
+//     .then(parsedResponse => parsedResponse.filter(words => {
+//         return words.score > 1000
+//     } )).then(response => response.map(word => word.word))
+// }

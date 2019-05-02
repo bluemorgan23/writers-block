@@ -9,6 +9,7 @@ import "./synonyms.css"
 
 import filtering from "../../modules/filter";
 
+
 class Synonyms extends Component {
 
     state = {
@@ -18,48 +19,79 @@ class Synonyms extends Component {
         originalSentenceArray: [],
         sentencesAndWords: [],
         indexToShow: 0,
-        lowScoringWords: [],
-        dropdownOpen: false
+        dropdownOpen: false,
     }
 
     // Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
     // Was receiving this error above when i tried to set state in componentDidMount and componentWillUpdate with shouldComponentUpdate
 
-    static getDerivedStateFromProps(props) {
+    // static getDerivedStateFromProps(props) {
+
+    //     // const lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < cache.avg.ten_degree)
+
+    //     // const justWord = lowScoringWords.map(word => word.response.entry)
+
+    //     // const arrayOfSentences = []
+    //     //  justWord.forEach(word => arrayOfSentences.push( filtering.sentencesContainWords(props.sentenceArray, word)
+    //     //     .then(response => console.log(response))))
+
+    //     //     let obj = await 
+
+
+    //     // return {
+    //     //     originalSentenceArray: props.sentenceArray,
+    //     //     sentencesAndWords: arrayOfSentences
+    //     // }
+    // }
+
+    componentDidMount(){
+
+        
+           
 
         const lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < cache.avg.ten_degree)
 
         const justWord = lowScoringWords.map(word => word.response.entry)
 
-        const arrayOfSentences = []
-            justWord.forEach(word => arrayOfSentences.push(filtering.sentencesContainWords(props.sentenceArray, word)))
+        const arrayOfSentences = justWord.map(word => this.sentencesContainWords(this.props.sentenceArray, word))
+
+         Promise.all(arrayOfSentences)
+         .then(response => {
+           let newArray = response.filter(response => response !== undefined)
+           this.setState({
+               sentencesAndWords: newArray
+           })
+         })
         
-        return {
-            originalSentenceArray: props.sentenceArray,
-            sentencesAndWords: arrayOfSentences,
-            lowScoringWords: justWord
-        }
     }
 
-    componentDidMount() {
-        let lowWords = this.state.lowScoringWords;
-        let wordWithSynonyms = []
+    sentencesContainWords = (sentenceArray, word) => {
+        
+       
 
-        lowWords.forEach( function(word, index) {
-
-         synAPI.getSynonymsForWord(word)
-            .then(results => {
-                if(results.length !== 0){
-                    let wordObj = {word: word, results: results}
-                    wordWithSynonyms.push(wordObj)
-                    return wordWithSynonyms
-                }
-        })})
-
-        console.log(wordWithSynonyms)
-    }
+        let sentenceString = sentenceArray.find(sentence => {
+            return sentence.toLowerCase().includes(word.toLowerCase())
+        })
 
     
+
+        let newObj = {sentence: sentenceString, word: word, index: sentenceArray.indexOf(sentenceString), matches: []}
+
+        return synAPI.getSynonymsForWord(word)
+        .then(results => {
+            if(results.length > 0){
+                console.log(results)
+                newObj.matches = results
+                return newObj 
+            }
+            
+              
+        })
+
+        
+    }
+
+   
 
     toggle = () => {
         this.setState({
@@ -121,8 +153,9 @@ class Synonyms extends Component {
 
 
     render() {
-        
+        this.state.sentencesAndWords.length > 0 && console.log("matches", this.state.sentencesAndWords[0].matches, this.state.sentencesAndWords)
         return (
+            
             <React.Fragment>
             <Card className="synonymCard m-2">
             <CardHeader className="synonymCardHeader">Let's replace some words!</CardHeader>
@@ -140,7 +173,7 @@ class Synonyms extends Component {
                                     return <React.Fragment>
                                         <CardText
                                         className="sentence"
-                                        id={this.state.indexToShow}>{this.props.sentenceArray[this.state.indexToShow]}</CardText>
+                                        id={this.state.indexToShow}>{this.state.sentencesAndWords[this.state.indexToShow]}</CardText>
                                         <Button id={this.state.indexToShow} onClick={this.toggleChange}>Edit</Button>
 
                                     </React.Fragment>
@@ -157,7 +190,8 @@ class Synonyms extends Component {
                             className="mb-2"
                             >Next</Button>
                             <CardText className="sentence"
-                            id={this.state.indexToShow}>{this.state.sentencesAndWords[this.state.indexToShow].sentence}</CardText>
+                            id={this.state.indexToShow}>{this.state.sentencesAndWords.length > 0 && this.state.sentencesAndWords[this.state.indexToShow].sentence}</CardText>
+                            
                             <ButtonGroup>
                                <Button size="sm"
                                id={this.state.indexToShow} onClick={this.toggleChange}>Edit</Button>
@@ -166,11 +200,15 @@ class Synonyms extends Component {
                                 isOpen={this.state.dropdownOpen} 
                                 toggle={this.toggle}>
                                     <DropdownToggle caret size="sm">
-                                        {this.state.sentencesAndWords[this.state.indexToShow].word}
+                                    {this.state.sentencesAndWords.length > 0 && 
+                                        this.state.sentencesAndWords[this.state.indexToShow].word}
                                     </DropdownToggle>
                                     <DropdownMenu>
-                                        <DropdownItem>Another Action</DropdownItem>
-                                        <DropdownItem>Another Action</DropdownItem>
+                                    {this.state.sentencesAndWords.length > 0 && 
+                                        
+                                    this.state.sentencesAndWords[this.state.indexToShow].matches.map(match => {
+                                        return <DropdownItem>{match}</DropdownItem>
+                                    })}
                                     </DropdownMenu>
                                 </ButtonDropdown>
                                 <Button size="sm">Save All Changes</Button>
