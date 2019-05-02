@@ -5,6 +5,7 @@ import cache from "../../modules/cache"
 
 import "./synonyms.css"
 import { finished } from "stream";
+import filtering from "../../modules/filter";
 
 class Synonyms extends Component {
 
@@ -12,11 +13,19 @@ class Synonyms extends Component {
         buttonClicked: false,
         articleToGrab: 0,
         entryToEdit: "",
-        allEntries: this.props.sentenceArray,
+        allEntries: [],
         indexToShow: 0,
         lowScoringWords: [],
         dropdownOpen: false
     }
+
+    static getDerivedStateFromProps(props) {
+        return {
+            allEntries: props.sentenceArray
+        }
+    }
+
+    
 
     toggle = () => {
         this.setState({
@@ -32,10 +41,17 @@ class Synonyms extends Component {
 
         let justWord = lowScoringWords.map(word => word.response.entry)
 
+        
         this.setState({
             lowScoringWords: justWord
         })
+    }
 
+    componentDidUpdate(prevProps, prevState) {
+        let justWord = this.state.lowScoringWords
+        let arrayOfSentences = []
+        justWord.forEach(word => arrayOfSentences.push(filtering.sentencesContainWords(this.state.allEntries, word)))
+        console.log(arrayOfSentences)
     }
 
     toggleChange = (event) => {
@@ -85,7 +101,7 @@ class Synonyms extends Component {
 
 
     render() {
-        // console.log(this.props.sentenceArray[this.state.indexToShow][0])
+        
         return (
             <React.Fragment>
             <Card className="synonymCard m-2">
@@ -103,6 +119,7 @@ class Synonyms extends Component {
                                 } else {
                                     return <React.Fragment>
                                         <CardText
+                                        className="sentence"
                                         id={this.state.indexToShow}>{this.props.sentenceArray[this.state.indexToShow]}</CardText>
                                         <Button id={this.state.indexToShow} onClick={this.toggleChange}>Edit</Button>
 
@@ -118,7 +135,8 @@ class Synonyms extends Component {
                             <Button onClick={this.toggleNext} id={this.state.indexToShow}
                             className="mb-2"
                             >Next</Button>
-                            <CardText id={this.state.indexToShow}>{this.props.sentenceArray[this.state.indexToShow]}</CardText>
+                            <CardText className="sentence"
+                            id={this.state.indexToShow}>{this.props.sentenceArray[this.state.indexToShow]}</CardText>
                             <ButtonGroup>
                                <Button id={this.state.indexToShow} onClick={this.toggleChange}>Edit</Button>
                                <ButtonDropdown

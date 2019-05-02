@@ -5,7 +5,7 @@ let string = "The Writer’s Block can be used by anyone who wants to have a sec
 
 const wordArray = filtering.getRidOfPunctuation(string)
 let filteredArray = filtering.filterOutWeakWords(wordArray)
-console.log(wordArray.length)
+
 
 
 const isAvgStored = () => {
