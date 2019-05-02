@@ -4,7 +4,7 @@ import {Card, CardBody, CardText, Input, CardHeader, Button, ButtonGroup, Button
 import cache from "../../modules/cache"
 
 import "./synonyms.css"
-import { finished } from "stream";
+
 import filtering from "../../modules/filter";
 
 class Synonyms extends Component {
@@ -43,14 +43,6 @@ class Synonyms extends Component {
             dropdownOpen: !this.state.dropdownOpen
         })
     }
-
-
-    // shouldComponentUpdate(nextProps, nextState){
-    //     return this.props.originalSentenceArray !== nextProps.originalSentenceArray
-    // }
-
-    
-    
 
     toggleChange = (event) => {
         event.preventDefault()
@@ -137,25 +129,28 @@ class Synonyms extends Component {
                     :
                     
                         <CardBody className="synonymCardBody">
-                            <Button onClick={this.toggleNext} id={this.state.indexToShow}
+                            <Button
+                            onClick={this.toggleNext} id={this.state.indexToShow}
                             className="mb-2"
                             >Next</Button>
                             <CardText className="sentence"
                             id={this.state.indexToShow}>{this.state.sentencesAndWords[this.state.indexToShow].sentence}</CardText>
                             <ButtonGroup>
-                               <Button id={this.state.indexToShow} onClick={this.toggleChange}>Edit</Button>
+                               <Button size="sm"
+                               id={this.state.indexToShow} onClick={this.toggleChange}>Edit</Button>
                                <ButtonDropdown
                                 id={this.state.indexToShow}
                                 isOpen={this.state.dropdownOpen} 
                                 toggle={this.toggle}>
                                     <DropdownToggle caret size="sm">
-                                        Word To Replace
+                                        {this.state.sentencesAndWords[this.state.indexToShow].word}
                                     </DropdownToggle>
                                     <DropdownMenu>
                                         <DropdownItem>Another Action</DropdownItem>
                                         <DropdownItem>Another Action</DropdownItem>
                                     </DropdownMenu>
                                 </ButtonDropdown>
+                                <Button size="sm">Save All Changes</Button>
                             </ButtonGroup>
                             
                         </CardBody>
