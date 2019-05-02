@@ -54,21 +54,28 @@ class Synonyms extends Component {
 
     toggleChange = (event) => {
         event.preventDefault()
+
         const stateChange = {
             buttonClicked: true,
             articleToGrab: Number(event.target.id),
             entryToEdit: event.target.parentNode.parentNode.firstChild.nextSibling.textContent
         }
+
         this.setState(stateChange)
 
     }
 
     toggleNext = (event) => {
         event.preventDefault()
-        let length = this.props.sentenceArray.length;
+
+        let length = this.state.sentencesAndWords.length
+
         if( this.state.indexToShow === (length - 1)){
+
             return this.setState({indexToShow: 0})
+
         } else {
+
             return this.setState(prevState => {
             return prevState.indexToShow += 1
             })
@@ -134,7 +141,7 @@ class Synonyms extends Component {
                             className="mb-2"
                             >Next</Button>
                             <CardText className="sentence"
-                            id={this.state.indexToShow}>{this.props.sentenceArray[this.state.indexToShow]}</CardText>
+                            id={this.state.indexToShow}>{this.state.sentencesAndWords[this.state.indexToShow].sentence}</CardText>
                             <ButtonGroup>
                                <Button id={this.state.indexToShow} onClick={this.toggleChange}>Edit</Button>
                                <ButtonDropdown

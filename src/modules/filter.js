@@ -47,7 +47,7 @@ const filtering = {
             return sentence.toLowerCase().includes(word.toLowerCase())
         })
 
-        return {[sentenceArray.indexOf(string)]: string, word: word}
+        return {sentence: string, word: word, index: sentenceArray.indexOf(string)}
 
     }
 }
