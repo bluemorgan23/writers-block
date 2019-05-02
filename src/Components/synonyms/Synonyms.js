@@ -3,6 +3,8 @@ import React, { Component } from "react"
 import {Card, CardBody, CardText, Input, CardHeader, Button, ButtonGroup, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from "reactstrap"
 import cache from "../../modules/cache"
 
+import synAPI from "../../modules/synAPI"
+
 import "./synonyms.css"
 
 import filtering from "../../modules/filter";
@@ -20,6 +22,9 @@ class Synonyms extends Component {
         dropdownOpen: false
     }
 
+    // Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
+    // Was receiving this error above when i tried to set state in componentDidMount and componentWillUpdate with shouldComponentUpdate
+
     static getDerivedStateFromProps(props) {
 
         const lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < cache.avg.ten_degree)
@@ -34,6 +39,24 @@ class Synonyms extends Component {
             sentencesAndWords: arrayOfSentences,
             lowScoringWords: justWord
         }
+    }
+
+    componentDidMount() {
+        let lowWords = this.state.lowScoringWords;
+        let wordWithSynonyms = []
+
+        lowWords.forEach( function(word, index) {
+
+         synAPI.getSynonymsForWord(word)
+            .then(results => {
+                if(results.length !== 0){
+                    let wordObj = {word: word, results: results}
+                    wordWithSynonyms.push(wordObj)
+                    return wordWithSynonyms
+                }
+        })})
+
+        console.log(wordWithSynonyms)
     }
 
     
