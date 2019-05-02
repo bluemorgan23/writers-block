@@ -13,15 +13,26 @@ class Synonyms extends Component {
         buttonClicked: false,
         articleToGrab: 0,
         entryToEdit: "",
-        allEntries: [],
+        originalSentenceArray: [],
+        sentencesAndWords: [],
         indexToShow: 0,
         lowScoringWords: [],
         dropdownOpen: false
     }
 
     static getDerivedStateFromProps(props) {
+
+        const lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < cache.avg.ten_degree)
+
+        const justWord = lowScoringWords.map(word => word.response.entry)
+
+        const arrayOfSentences = []
+            justWord.forEach(word => arrayOfSentences.push(filtering.sentencesContainWords(props.sentenceArray, word)))
+        
         return {
-            allEntries: props.sentenceArray
+            originalSentenceArray: props.sentenceArray,
+            sentencesAndWords: arrayOfSentences,
+            lowScoringWords: justWord
         }
     }
 
@@ -33,26 +44,13 @@ class Synonyms extends Component {
         })
     }
 
-    componentDidMount() {
-        console.log(cache.eachScore)
-        console.log(cache.avg.ten_degree)
 
-        let lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < cache.avg.ten_degree)
+    // shouldComponentUpdate(nextProps, nextState){
+    //     return this.props.originalSentenceArray !== nextProps.originalSentenceArray
+    // }
 
-        let justWord = lowScoringWords.map(word => word.response.entry)
-
-        
-        this.setState({
-            lowScoringWords: justWord
-        })
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        let justWord = this.state.lowScoringWords
-        let arrayOfSentences = []
-        justWord.forEach(word => arrayOfSentences.push(filtering.sentencesContainWords(this.state.allEntries, word)))
-        console.log(arrayOfSentences)
-    }
+    
+    
 
     toggleChange = (event) => {
         event.preventDefault()
@@ -89,7 +87,7 @@ class Synonyms extends Component {
             
         } 
 
-        this.setState({ buttonClicked: false, allEntries: this.props.sentenceArray })
+        this.setState({ buttonClicked: false, originalSentenceArray: this.props.sentenceArray })
     }
 
     handleChange = (event) => {
