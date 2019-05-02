@@ -45,6 +45,12 @@ class ApplicationViews extends Component {
         })
     }
 
+    updateEntry = (updatedEntry) => {
+        return this.setState({
+            body: updatedEntry
+        })
+    }
+
     updateSentence = (updatedSentece, index) => {
 
         let removeWhitespace = updatedSentece.trim()
@@ -175,6 +181,7 @@ class ApplicationViews extends Component {
                 if(this.isAuthenticated()){
                     return <Synonyms sentenceArray={this.state.sentenceArray} entry={this.state.body}
                     updateSentence={this.updateSentence}
+                    updateEntry={this.updateEntry}
                     {...props} />
                 } else {
                     return <Redirect to="/" />

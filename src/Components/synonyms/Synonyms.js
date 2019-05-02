@@ -22,28 +22,6 @@ class Synonyms extends Component {
         dropdownOpen: false,
     }
 
-    // Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
-    // Was receiving this error above when i tried to set state in componentDidMount and componentWillUpdate with shouldComponentUpdate
-
-    // static getDerivedStateFromProps(props) {
-
-    //     // const lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < cache.avg.ten_degree)
-
-    //     // const justWord = lowScoringWords.map(word => word.response.entry)
-
-    //     // const arrayOfSentences = []
-    //     //  justWord.forEach(word => arrayOfSentences.push( filtering.sentencesContainWords(props.sentenceArray, word)
-    //     //     .then(response => console.log(response))))
-
-    //     //     let obj = await 
-
-
-    //     // return {
-    //     //     originalSentenceArray: props.sentenceArray,
-    //     //     sentencesAndWords: arrayOfSentences
-    //     // }
-    // }
-
     componentDidMount(){
 
         
@@ -63,6 +41,12 @@ class Synonyms extends Component {
            })
          })
         
+    }
+
+    replaceWord = (event) => {
+        let updatedEntry = this.props.entry.replace(event.target.parentNode.parentNode.firstChild.innerHTML, event.target.value)
+
+        return this.props.updateEntry(updatedEntry)
     }
 
     sentencesContainWords = (sentenceArray, word) => {
@@ -207,7 +191,12 @@ class Synonyms extends Component {
                                     {this.state.sentencesAndWords.length > 0 && 
                                         
                                     this.state.sentencesAndWords[this.state.indexToShow].matches.map(match => {
-                                        return <DropdownItem>{match}</DropdownItem>
+                                        let sentence = this.props.entry.toLowerCase()
+                                        let word = this.state.sentencesAndWords[this.state.indexToShow].word.toLowerCase()
+                                        return <DropdownItem 
+                                        onClick={this.replaceWord}
+                                        value={match}
+                                        id={sentence.indexOf(word)}>{match}</DropdownItem>
                                     })}
                                     </DropdownMenu>
                                 </ButtonDropdown>
