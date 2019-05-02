@@ -1,0 +1,13 @@
+.synonymCardBody {
+    display: flex;
+    align-items: center;
+    flex-direction: column
+}
+
+.synonymCardHeader {
+    text-align: center
+}
+
+.sentence {
+    text-align: center
+}
