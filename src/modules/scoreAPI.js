@@ -1,7 +1,7 @@
 const apiKey = "19783159f2msh8d529c3b101051ep17b582jsn2a291563b2cd"
 const baseURL = "https://twinword-language-scoring.p.rapidapi.com"
 
-const API = {
+const scoreAPI = {
     getAverageVocabScore: (stringToAnalyze) => {
         return fetch(`${baseURL}/text/?text=${stringToAnalyze}`, {
             method: "GET",
@@ -22,4 +22,4 @@ const API = {
     }
 }
 
-export default API
+export default scoreAPI

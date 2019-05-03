@@ -1,4 +1,4 @@
-
+import synAPI from "./synAPI"
 
 const filtering = {
     
@@ -38,24 +38,8 @@ const filtering = {
         const filteredWords = array.filter(word => !filters.includes(word))
 
         return filteredWords
-    },
-    sentencesContainWords: (sentenceArray, word) => {
-        
-        
-
-        let string = sentenceArray.find(sentence => {
-            return sentence.toLowerCase().includes(word.toLowerCase())
-        })
-
-        return {[sentenceArray.indexOf(string)]: string}
-
     }
 }
 
-let sentenceArray = ["This sentence contains lots of words." , "This sentence does not have to be a real sentence.", "This sentence is just a filler.", "I need more content"]
-
-let justWords = ["not", "content", "filler"]
-
-justWords.forEach(word => console.log(filtering.sentencesContainWords(sentenceArray, word)))
 
 export default filtering

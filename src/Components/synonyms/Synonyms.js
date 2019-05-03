@@ -3,9 +3,12 @@ import React, { Component } from "react"
 import {Card, CardBody, CardText, Input, CardHeader, Button, ButtonGroup, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from "reactstrap"
 import cache from "../../modules/cache"
 
+import synAPI from "../../modules/synAPI"
+
 import "./synonyms.css"
-import { finished } from "stream";
+
 import filtering from "../../modules/filter";
+
 
 class Synonyms extends Component {
 
@@ -13,19 +16,61 @@ class Synonyms extends Component {
         buttonClicked: false,
         articleToGrab: 0,
         entryToEdit: "",
-        allEntries: [],
+        originalSentenceArray: [],
+        sentencesAndWords: [],
         indexToShow: 0,
-        lowScoringWords: [],
-        dropdownOpen: false
+        dropdownOpen: false,
     }
 
-    static getDerivedStateFromProps(props) {
-        return {
-            allEntries: props.sentenceArray
-        }
+    componentDidMount(){
+
+        const lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < cache.avg.ten_degree)
+
+        const justWord = lowScoringWords.map(word => word.response.entry)
+
+        const arrayOfSentences = justWord.map(word => this.sentencesContainWords(this.props.sentenceArray, word))
+
+         Promise.all(arrayOfSentences)
+         .then(response => {
+           let newArray = response.filter(response => response !== undefined)
+           this.setState({
+               sentencesAndWords: newArray
+           })
+         })
+        
     }
+
+    replaceWord = (event) => {
+        
+        let updatedEntry = this.props.entry.replace(event.target.parentNode.parentNode.firstChild.innerHTML, event.target.value)
+
+        return this.props.updateEntry(updatedEntry)
+    }
+
+    sentencesContainWords = (sentenceArray, word) => {
+        
+       
+
+        let sentenceString = sentenceArray.find(sentence => {
+            return sentence.toLowerCase().includes(word.toLowerCase())
+        })
 
     
+
+        let newObj = {sentence: sentenceString, word: word, index: sentenceArray.indexOf(sentenceString), matches: []}
+
+        return synAPI.getSynonymsForWord(word)
+        .then(results => {
+            if(results.length > 0){
+                newObj.matches = results
+                return newObj 
+            }
+            
+              
+        })
+
+        
+    }
 
     toggle = () => {
         this.setState({
@@ -33,44 +78,30 @@ class Synonyms extends Component {
         })
     }
 
-    componentDidMount() {
-        console.log(cache.eachScore)
-        console.log(cache.avg.ten_degree)
-
-        let lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < cache.avg.ten_degree)
-
-        let justWord = lowScoringWords.map(word => word.response.entry)
-
-        
-        this.setState({
-            lowScoringWords: justWord
-        })
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        let justWord = this.state.lowScoringWords
-        let arrayOfSentences = []
-        justWord.forEach(word => arrayOfSentences.push(filtering.sentencesContainWords(this.state.allEntries, word)))
-        console.log(arrayOfSentences)
-    }
-
     toggleChange = (event) => {
         event.preventDefault()
+
         const stateChange = {
             buttonClicked: true,
             articleToGrab: Number(event.target.id),
             entryToEdit: event.target.parentNode.parentNode.firstChild.nextSibling.textContent
         }
+
         this.setState(stateChange)
 
     }
 
     toggleNext = (event) => {
         event.preventDefault()
-        let length = this.props.sentenceArray.length;
+
+        let length = this.state.sentencesAndWords.length
+
         if( this.state.indexToShow === (length - 1)){
+
             return this.setState({indexToShow: 0})
+
         } else {
+
             return this.setState(prevState => {
             return prevState.indexToShow += 1
             })
@@ -89,7 +120,7 @@ class Synonyms extends Component {
             
         } 
 
-        this.setState({ buttonClicked: false, allEntries: this.props.sentenceArray })
+        this.setState({ buttonClicked: false, originalSentenceArray: this.props.sentenceArray })
     }
 
     handleChange = (event) => {
@@ -101,8 +132,9 @@ class Synonyms extends Component {
 
 
     render() {
-        
+        // this.state.sentencesAndWords.length > 0 && console.log("matches", this.state.sentencesAndWords[0].matches, this.state.sentencesAndWords)
         return (
+            
             <React.Fragment>
             <Card className="synonymCard m-2">
             <CardHeader className="synonymCardHeader">Let's replace some words!</CardHeader>
@@ -120,7 +152,7 @@ class Synonyms extends Component {
                                     return <React.Fragment>
                                         <CardText
                                         className="sentence"
-                                        id={this.state.indexToShow}>{this.props.sentenceArray[this.state.indexToShow]}</CardText>
+                                        id={this.state.indexToShow}>{this.state.sentencesAndWords[this.state.indexToShow]}</CardText>
                                         <Button id={this.state.indexToShow} onClick={this.toggleChange}>Edit</Button>
 
                                     </React.Fragment>
@@ -132,25 +164,39 @@ class Synonyms extends Component {
                     :
                     
                         <CardBody className="synonymCardBody">
-                            <Button onClick={this.toggleNext} id={this.state.indexToShow}
+                            <Button
+                            onClick={this.toggleNext} id={this.state.indexToShow}
                             className="mb-2"
                             >Next</Button>
                             <CardText className="sentence"
-                            id={this.state.indexToShow}>{this.props.sentenceArray[this.state.indexToShow]}</CardText>
+                            id={this.state.indexToShow}>{this.state.sentencesAndWords.length > 0 && this.state.sentencesAndWords[this.state.indexToShow].sentence}</CardText>
+                            
                             <ButtonGroup>
-                               <Button id={this.state.indexToShow} onClick={this.toggleChange}>Edit</Button>
+                               <Button size="sm"
+                               id={this.state.indexToShow} onClick={this.toggleChange}>Edit</Button>
                                <ButtonDropdown
                                 id={this.state.indexToShow}
                                 isOpen={this.state.dropdownOpen} 
                                 toggle={this.toggle}>
                                     <DropdownToggle caret size="sm">
-                                        Word To Replace
+                                    {this.state.sentencesAndWords.length > 0 && 
+                                        this.state.sentencesAndWords[this.state.indexToShow].word}
                                     </DropdownToggle>
                                     <DropdownMenu>
-                                        <DropdownItem>Another Action</DropdownItem>
-                                        <DropdownItem>Another Action</DropdownItem>
+                                    {this.state.sentencesAndWords.length > 0 && 
+                                        
+                                    this.state.sentencesAndWords[this.state.indexToShow].matches.map(match => {
+                                        let sentence = this.props.entry.toLowerCase()
+                                        let word = this.state.sentencesAndWords[this.state.indexToShow].word.toLowerCase()
+                                        return <DropdownItem 
+                                        onClick={this.replaceWord}
+                                        value={match}
+                                        id={sentence.indexOf(word)}
+                                        >{match}</DropdownItem>
+                                    })}
                                     </DropdownMenu>
                                 </ButtonDropdown>
+                                <Button size="sm">Save All Changes</Button>
                             </ButtonGroup>
                             
                         </CardBody>
