@@ -11,16 +11,18 @@ export default class Results extends Component {
 
     state = {
         editButtonClicked: false,
-        averageScore: null
+        averageScore: null,
+        scoreGroup: ""
     }
 
     componentDidMount() {
         if(sessionStorage.getItem("currentEntryID")){
+            let stateToChange = {}
            entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
-           .then(currentEntry => scoreAPI.getAverageVocabScoreNOSAVE(currentEntry.body))
-           .then(averageScore => this.setState({
-               averageScore: averageScore.ten_degree
-           }))
+           .then(currentEntry => stateToChange.scoreGroup = currentEntry.scoreGroup.name)
+           .then(() => scoreAPI.getAverageVocabScoreNOSAVE(stateToChange.scoreGroup))
+           .then(averageScore => stateToChange.averageScore = averageScore.ten_degree)
+           .then(() => this.setState(stateToChange))
         }
         
     }
@@ -98,6 +100,9 @@ export default class Results extends Component {
                                             <CardTitle>Analysis</CardTitle>
                                              
                                             <CardText>Average Score: {this.state.averageScore}
+                            
+                                            </CardText>
+                                            <CardText>The readability grade of this entry is {this.state.scoreGroup}
                             
                                             </CardText>
                                             {/* <CardText>The highest scoring word is: </CardText> */}
