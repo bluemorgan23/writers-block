@@ -11,21 +11,16 @@ export default class Results extends Component {
 
     state = {
         editButtonClicked: false,
-        averageScore: null,
+        averageScore: 0,
         scoreGroup: ""
     }
 
-    componentDidMount() {
-        if(sessionStorage.getItem("currentEntryID")){
-            let stateToChange = {}
-           entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
-           .then(currentEntry => stateToChange.scoreGroup = currentEntry.scoreGroup.name)
-           .then(() => scoreAPI.getAverageVocabScoreNOSAVE(this.props.body))
-           .then(averageScore => stateToChange.averageScore = averageScore.ten_degree)
-           .then(() => this.setState(stateToChange))
-        }
-        
-    }
+    // static getDerivedStateFromProps(props) {
+    //     this.setState({
+    //         averageScore: props.avgScore,
+    //         body: 
+    //     })
+    // }
 
 
     handleDelete = () => {
@@ -99,10 +94,10 @@ export default class Results extends Component {
                                             
                                             <CardTitle>Analysis</CardTitle>
                                              
-                                            <CardText>Average Score: {this.state.averageScore}
+                                            <CardText>Average Score: {this.props.avgScore}
                             
                                             </CardText>
-                                            <CardText>The readability grade of this entry is {this.state.scoreGroup}
+                                            <CardText>The readability grade of this entry is {this.props.scoreGroup}
                             
                                             </CardText>
                                             {/* <CardText>The highest scoring word is: </CardText> */}

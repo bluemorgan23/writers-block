@@ -24,26 +24,27 @@ class ApplicationViews extends Component {
         sentenceArray: []
     }
 
-    // componentDidMount() {
+    componentWillMount() {
+        
+        if(this.isEntrySaved()){
+           return entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
+        .then(currentEntry => {
+           this.setState({
+            body: currentEntry.body,
+            title: currentEntry.title,
+            sentenceArray: filtering.removeEmptyStrings(currentEntry.body.split(".")),
+             avgScore: currentEntry.avgScore,
+             scoreGroup: currentEntry.scoreGroup.name
+            }) 
+        }) 
+        }
+    }
 
-
-    //     if(this.isEntrySaved()){
-    //        return entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
-    //     .then(currentEntry => {
-    //        this.setState({
-    //         body: currentEntry.body,
-    //         title: currentEntry.title,
-    //         sentenceArray: filtering.removeEmptyStrings(currentEntry.body.split(".")) 
-    //         }) 
-    //     }) 
-    //     }
-    // }
-
-    // componentWillUnmount(){
-    //     this.setState({
-    //         body: "", title: "", sentenceArray: []
-    //     })
-    // }
+    componentWillUnmount(){
+        this.setState({
+            body: "", title: "", sentenceArray: [], avgScore: null, scoreGroup: ""
+        })
+    }
 
     updateEntry = (updatedEntry) => {
         return this.setState({
@@ -172,6 +173,8 @@ class ApplicationViews extends Component {
                     return <Results body={this.state.body}
                      title={this.state.title} 
                      sentenceArray={this.state.sentenceArray}
+                     avgScore={this.state.avgScore}
+                     scoreGroup={this.state.scoreGroup}
                      onDelete={this.onDelete}
                      saveEditedEntry = {this.saveEditedEntry}
                      {...props} />

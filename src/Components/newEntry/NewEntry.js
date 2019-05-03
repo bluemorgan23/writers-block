@@ -55,7 +55,6 @@ export default class NewEntry extends Component {
                     body: this.state.body,
                     userId: Number(sessionStorage.getItem("userID")),
                     scoreGroupId: 0,
-                    avgScore: 1 ,
                     scoreGroup: ""
                 }
 
