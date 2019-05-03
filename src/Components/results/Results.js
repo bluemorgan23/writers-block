@@ -100,7 +100,7 @@ export default class Results extends Component {
                                             <CardText>Average Score: {this.state.averageScore}
                             
                                             </CardText>
-                                            <CardText>The highest scoring word is: </CardText>
+                                            {/* <CardText>The highest scoring word is: </CardText> */}
                                             
                                         </CardBody>
                                     </Card>
