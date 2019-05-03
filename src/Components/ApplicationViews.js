@@ -25,7 +25,7 @@ class ApplicationViews extends Component {
     }
 
     componentWillMount() {
-        
+
         if(this.isEntrySaved()){
            return entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
         .then(currentEntry => {
@@ -34,7 +34,8 @@ class ApplicationViews extends Component {
             title: currentEntry.title,
             sentenceArray: filtering.removeEmptyStrings(currentEntry.body.split(".")),
              avgScore: currentEntry.avgScore,
-             scoreGroup: currentEntry.scoreGroup.name
+             scoreGroup: currentEntry.scoreGroup.name,
+             scoreGroupId: currentEntry.scoreGroupId
             }) 
         }) 
         }
@@ -177,6 +178,7 @@ class ApplicationViews extends Component {
                      scoreGroup={this.state.scoreGroup}
                      onDelete={this.onDelete}
                      saveEditedEntry = {this.saveEditedEntry}
+                     scoreGroupId = {this.state.scoreGroupId}
                      {...props} />
                 } else {
                     return <Redirect to="/" />

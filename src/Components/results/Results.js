@@ -72,6 +72,9 @@ export default class Results extends Component {
                                         body={this.props.body}
                                         title={this.props.title}
                                         goBack={this.goBackToResults}
+                                        averageScore={this.props.avgScore}
+                                        scoreGroup={this.props.scoreGroup}
+                                        scoreGroupId={this.props.scoreGroupId}
                                         />
                                     </CardBody>
                                 </Card>

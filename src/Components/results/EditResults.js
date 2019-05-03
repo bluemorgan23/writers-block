@@ -31,7 +31,10 @@ export default class EditResults extends Component {
             id: Number(sessionStorage.getItem("currentEntryID")),
             userId: Number(sessionStorage.getItem("userID")),
             body: this.state.body,
-            title: this.state.title
+            title: this.state.title,
+            scoreGroup: this.props.scoreGroup,
+            scoreGroupId: this.props.scoreGroupId,
+            avgScore: this.props.averageScore
         }
         this.props.onSave(edit)
     }
