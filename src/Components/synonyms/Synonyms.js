@@ -24,9 +24,6 @@ class Synonyms extends Component {
 
     componentDidMount(){
 
-        
-           
-
         const lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < cache.avg.ten_degree)
 
         const justWord = lowScoringWords.map(word => word.response.entry)
@@ -44,6 +41,7 @@ class Synonyms extends Component {
     }
 
     replaceWord = (event) => {
+        
         let updatedEntry = this.props.entry.replace(event.target.parentNode.parentNode.firstChild.innerHTML, event.target.value)
 
         return this.props.updateEntry(updatedEntry)
@@ -64,7 +62,6 @@ class Synonyms extends Component {
         return synAPI.getSynonymsForWord(word)
         .then(results => {
             if(results.length > 0){
-                console.log(results)
                 newObj.matches = results
                 return newObj 
             }
@@ -74,8 +71,6 @@ class Synonyms extends Component {
 
         
     }
-
-   
 
     toggle = () => {
         this.setState({
@@ -137,7 +132,7 @@ class Synonyms extends Component {
 
 
     render() {
-        this.state.sentencesAndWords.length > 0 && console.log("matches", this.state.sentencesAndWords[0].matches, this.state.sentencesAndWords)
+        // this.state.sentencesAndWords.length > 0 && console.log("matches", this.state.sentencesAndWords[0].matches, this.state.sentencesAndWords)
         return (
             
             <React.Fragment>
@@ -196,7 +191,8 @@ class Synonyms extends Component {
                                         return <DropdownItem 
                                         onClick={this.replaceWord}
                                         value={match}
-                                        id={sentence.indexOf(word)}>{match}</DropdownItem>
+                                        id={sentence.indexOf(word)}
+                                        >{match}</DropdownItem>
                                     })}
                                     </DropdownMenu>
                                 </ButtonDropdown>
