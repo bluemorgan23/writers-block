@@ -40,7 +40,7 @@ class Synonyms extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if(prevProps.sentenceArray !== this.props.sentenceArray && this.state.sentencesAndWords.length > 0){
+        if(prevProps.sentenceArray !== this.props.sentenceArray){
             const lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < cache.avg.ten_degree)
 
         const justWord = lowScoringWords.map(word => word.response.entry)
