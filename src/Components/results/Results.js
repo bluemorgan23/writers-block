@@ -2,6 +2,7 @@ import React, {Component} from "react"
 
 import EditResults from "./EditResults"
 import entryData from "../../modules/entryData"
+import scoreAPI from "../../modules/scoreAPI"
 
 import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup } from "reactstrap"
 import "./results.css"
@@ -9,20 +10,21 @@ import "./results.css"
 export default class Results extends Component {
 
     state = {
-        editButtonClicked: false
+        editButtonClicked: false,
+        averageScore: null
     }
 
-//     componentDidMount() {
-//         if(sessionStorage.getItem("currentEntryID")){
-//             return entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
-//          .then(currentEntry => {
-//             this.setState({
-//              body: currentEntry.body,
-//              title: currentEntry.title,
-//              }) 
-//          }) 
-//     }
-// }
+    componentDidMount() {
+        if(sessionStorage.getItem("currentEntryID")){
+           entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
+           .then(currentEntry => scoreAPI.getAverageVocabScoreNOSAVE(currentEntry.body))
+           .then(averageScore => this.setState({
+               averageScore: averageScore.ten_degree
+           }))
+        }
+        
+    }
+
 
     handleDelete = () => {
 
@@ -92,9 +94,14 @@ export default class Results extends Component {
                                 <div className="resultsBody-right">
                                     <Card className="resultsAnalysis">
                                         <CardBody>
+                                            
                                             <CardTitle>Analysis</CardTitle>
-                                            <CardText>The readability level is casual</CardText>
+                                             
+                                            <CardText>Average Score: {this.state.averageScore}
+                            
+                                            </CardText>
                                             <CardText>The highest scoring word is: </CardText>
+                                            
                                         </CardBody>
                                     </Card>
                                     <Card>

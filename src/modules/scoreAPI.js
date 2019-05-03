@@ -19,6 +19,15 @@ const scoreAPI = {
                 "X-RapidAPI-Key": apiKey
             }
         }).then(response => response.json())
+    },
+    getAverageVocabScoreNOSAVE: (stringToAnalyze) => {
+        return fetch(`${baseURL}/text/?text=${stringToAnalyze}`, {
+            method: "GET",
+            headers: {
+                "X-RapidAPI-Key": apiKey
+            }
+        })
+            .then(response => response.json())
     }
 }
 
