@@ -105,7 +105,7 @@ class ApplicationViews extends Component {
         let stateToChange = {
             title: entryObj.title,
             body: entryObj.body,
-            sentenceArray: filtering.removeEmptyStrings((entryObj.body).split("."))
+            sentenceArray: filtering.removeEmptyStrings((entryObj.body).split(".")),
         }
         this.setState(stateToChange)
         return entryData.postNewEntry(entryObj)

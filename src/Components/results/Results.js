@@ -20,7 +20,7 @@ export default class Results extends Component {
             let stateToChange = {}
            entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
            .then(currentEntry => stateToChange.scoreGroup = currentEntry.scoreGroup.name)
-           .then(() => scoreAPI.getAverageVocabScoreNOSAVE(stateToChange.scoreGroup))
+           .then(() => scoreAPI.getAverageVocabScoreNOSAVE(this.props.body))
            .then(averageScore => stateToChange.averageScore = averageScore.ten_degree)
            .then(() => this.setState(stateToChange))
         }
