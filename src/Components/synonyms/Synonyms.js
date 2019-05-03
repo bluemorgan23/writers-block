@@ -29,6 +29,8 @@ class Synonyms extends Component {
 
         const arrayOfSentences = justWord.map(word => this.sentencesContainWords(this.props.sentenceArray, word))
 
+        
+
          Promise.all(arrayOfSentences)
          .then(response => {
            let newArray = response.filter(response => response !== undefined)
@@ -47,9 +49,10 @@ class Synonyms extends Component {
 
         const arrayOfSentences = justWord.map(word => this.sentencesContainWords(this.props.sentenceArray, word))
 
+
          Promise.all(arrayOfSentences)
          .then(response => {
-           let newArray = response.filter(response => response !== undefined)
+           let newArray = response.filter(response => response !== undefined && response.sentence !== undefined)
            this.setState({
                sentencesAndWords: newArray
            })
@@ -61,6 +64,8 @@ class Synonyms extends Component {
     replaceWord = (event) => {
         
         let updatedEntry = this.props.entry.replace(event.target.parentNode.parentNode.firstChild.innerHTML, event.target.value)
+
+        const arrayOfSentences = this.state.sentencesAndWords
 
         return this.props.updateEntry(updatedEntry)
     }
