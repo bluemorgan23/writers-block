@@ -1,8 +1,7 @@
 import React, {Component} from "react"
 
 import EditResults from "./EditResults"
-import entryData from "../../modules/entryData"
-import scoreAPI from "../../modules/scoreAPI"
+
 
 import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup } from "reactstrap"
 import "./results.css"
@@ -15,14 +14,6 @@ export default class Results extends Component {
         scoreGroup: ""
     }
 
-    // static getDerivedStateFromProps(props) {
-    //     this.setState({
-    //         averageScore: props.avgScore,
-    //         body: 
-    //     })
-    // }
-
-
     handleDelete = () => {
 
         this.props.onDelete(sessionStorage.getItem("currentEntryID"))
@@ -32,7 +23,7 @@ export default class Results extends Component {
 
     handleEdit = () => {
         this.setState({
-            editButtonClicked: true
+            editButtonClicked: !this.state.editButtonClicked
         })
     }
 
@@ -45,11 +36,6 @@ export default class Results extends Component {
         })
     }
 
-    goBackToResults = () => {
-        this.setState({
-            editButtonClicked: false
-        })
-    }
 
     handleFindSynonyms = () => {
         this.props.history.push("/synonyms")
@@ -71,7 +57,7 @@ export default class Results extends Component {
                                         onSave = {this.savingEditedEntry}
                                         body={this.props.body}
                                         title={this.props.title}
-                                        goBack={this.goBackToResults}
+                                        goBack={this.handleEdit}
                                         averageScore={this.props.avgScore}
                                         scoreGroup={this.props.scoreGroup}
                                         scoreGroupId={this.props.scoreGroupId}

@@ -7,7 +7,6 @@ import synAPI from "../../modules/synAPI"
 
 import "./synonyms.css"
 
-import filtering from "../../modules/filter";
 
 
 class Synonyms extends Component {
@@ -16,11 +15,11 @@ class Synonyms extends Component {
         buttonClicked: false,
         articleToGrab: 0,
         entryToEdit: "",
-        originalSentenceArray: [],
         sentencesAndWords: [],
         indexToShow: 0,
         dropdownOpen: false,
     }
+
 
     componentDidMount(){
 
@@ -39,6 +38,25 @@ class Synonyms extends Component {
          })
         
     }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.sentenceArray !== this.props.sentenceArray && this.state.sentencesAndWords.length > 0){
+            const lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < cache.avg.ten_degree)
+
+        const justWord = lowScoringWords.map(word => word.response.entry)
+
+        const arrayOfSentences = justWord.map(word => this.sentencesContainWords(this.props.sentenceArray, word))
+
+         Promise.all(arrayOfSentences)
+         .then(response => {
+           let newArray = response.filter(response => response !== undefined)
+           this.setState({
+               sentencesAndWords: newArray
+           })
+         })
+        }
+    }
+    
 
     replaceWord = (event) => {
         
@@ -112,15 +130,15 @@ class Synonyms extends Component {
         event.preventDefault()
         if(this.state.indexToShow === 0){
 
-            this.props.updateSentence(this.state.entryToEdit, Number(event.target.id))
+            this.props.updateSentence(this.state.entryToEdit, this.state.sentencesAndWords[this.state.indexToShow].index)
 
         } else {
 
-            this.props.updateSentence(` ${this.state.entryToEdit}`, Number(event.target.id))
+            this.props.updateSentence(` ${this.state.entryToEdit}`, this.state.sentencesAndWords[this.state.indexToShow].index)
             
         } 
 
-        this.setState({ buttonClicked: false, originalSentenceArray: this.props.sentenceArray })
+        this.setState({ buttonClicked: false })
     }
 
     handleChange = (event) => {
