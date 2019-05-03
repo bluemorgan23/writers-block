@@ -23,13 +23,13 @@ export default class NewEntry extends Component {
     indentifyScoreGroup = (score) => {
        
        if(score <= 2) {
-           return 1
+           return [1, "Casual"]
        } else if(score <= 4 && score > 2) {
-           return 2
+           return [2, "Business Formal"]
        } else if (score <= 6 && score > 4) {
-           return 3
+           return [3, "Complex"]
        } else if (score <= 10 && score > 6) {
-           return 4
+           return [4, "Semantic Genius"]
        }
     }
 
@@ -55,13 +55,17 @@ export default class NewEntry extends Component {
                     body: this.state.body,
                     userId: Number(sessionStorage.getItem("userID")),
                     scoreGroupId: 0,
-                    avgScore: 1 
+                    avgScore: 1 ,
+                    scoreGroup: ""
                 }
 
                 return scoreAPI.getAverageVocabScoreNOSAVE(this.state.body).then(response => entryObj.avgScore = response.ten_degree)
                 .then(() => scoreAPI.getAverageVocabScoreNOSAVE(this.state.body))
                 .then(response => response.ten_degree)
-                .then(response => entryObj.scoreGroupId = this.indentifyScoreGroup(response))
+                .then(response => entryObj.scoreGroupId = this.indentifyScoreGroup(response)[0])
+                .then(() => scoreAPI.getAverageVocabScoreNOSAVE(this.state.body))
+                .then(response => response.ten_degree)
+                .then(response => entryObj.scoreGroup = this.indentifyScoreGroup(response)[1])
                 .then(() => this.props.onAnalyze(entryObj))
 
 

@@ -24,26 +24,26 @@ class ApplicationViews extends Component {
         sentenceArray: []
     }
 
-    componentDidMount() {
+    // componentDidMount() {
 
 
-        if(this.isEntrySaved()){
-           return entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
-        .then(currentEntry => {
-           this.setState({
-            body: currentEntry.body,
-            title: currentEntry.title,
-            sentenceArray: filtering.removeEmptyStrings(currentEntry.body.split(".")) 
-            }) 
-        }) 
-        }
-    }
+    //     if(this.isEntrySaved()){
+    //        return entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
+    //     .then(currentEntry => {
+    //        this.setState({
+    //         body: currentEntry.body,
+    //         title: currentEntry.title,
+    //         sentenceArray: filtering.removeEmptyStrings(currentEntry.body.split(".")) 
+    //         }) 
+    //     }) 
+    //     }
+    // }
 
-    componentWillUnmount(){
-        this.setState({
-            body: "", title: "", sentenceArray: []
-        })
-    }
+    // componentWillUnmount(){
+    //     this.setState({
+    //         body: "", title: "", sentenceArray: []
+    //     })
+    // }
 
     updateEntry = (updatedEntry) => {
         return this.setState({
@@ -106,6 +106,9 @@ class ApplicationViews extends Component {
             title: entryObj.title,
             body: entryObj.body,
             sentenceArray: filtering.removeEmptyStrings((entryObj.body).split(".")),
+            avgScore: entryObj.avgScore,
+            scoreGroupId: entryObj.scoreGroupId,
+            scoreGroup: entryObj.scoreGroup
         }
         this.setState(stateToChange)
         return entryData.postNewEntry(entryObj)
