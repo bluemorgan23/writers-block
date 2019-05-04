@@ -1,7 +1,8 @@
 import React, {Component} from "react"
 
 import EditResults from "./EditResults"
-
+import cache from "../../modules/cache"
+import filtering from "../../modules/filter"
 
 import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup } from "reactstrap"
 import "./results.css"
@@ -14,6 +15,7 @@ export default class Results extends Component {
         scoreGroup: ""
     }
 
+  
     handleDelete = () => {
 
         this.props.onDelete(sessionStorage.getItem("currentEntryID"))

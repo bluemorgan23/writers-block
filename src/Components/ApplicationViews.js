@@ -127,6 +127,7 @@ class ApplicationViews extends Component {
             scoreGroup: entryObj.scoreGroup
         }
         this.setState(stateToChange)
+        
         return entryData.postNewEntry(entryObj)
     }
 

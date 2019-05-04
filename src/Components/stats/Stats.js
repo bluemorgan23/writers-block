@@ -36,6 +36,7 @@ export default class Stats extends Component {
 
     onLinkClick = (event) => {
         sessionStorage.setItem("currentEntryID", event.target.id)
+        localStorage.removeItem("eachScore")
     } 
 
     render() {

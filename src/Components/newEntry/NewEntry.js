@@ -3,6 +3,9 @@ import React, {Component} from "react"
 import entryData from "../../modules/entryData"
 import scoreAPI from "../../modules/scoreAPI"
 
+import cache from "../../modules/cache"
+import filtering from "../../modules/filter"
+
 import { Card, CardBody, CardHeader, CardTitle, Button, Form, FormGroup, Label, Input } from "reactstrap"
 
 
@@ -18,6 +21,15 @@ export default class NewEntry extends Component {
         let stateToChange = {}
         stateToChange[event.target.id] = event.target.value
         this.setState(stateToChange)
+    }
+
+    componentWillUnmount() {
+       
+            const wordArray = filtering.getRidOfPunctuation(this.state.body)
+            let filteredArray = filtering.filterOutWeakWords(wordArray)
+            cache.locStr(filteredArray)
+           
+        
     }
 
     indentifyScoreGroup = (score) => {
