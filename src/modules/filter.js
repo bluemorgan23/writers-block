@@ -1,4 +1,4 @@
-import synAPI from "./synAPI"
+
 
 const filtering = {
     

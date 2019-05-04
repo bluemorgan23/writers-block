@@ -1,8 +1,10 @@
 import React, {Component} from "react"
 
 import entryData from "../../modules/entryData"
+import scoreAPI from "../../modules/scoreAPI"
 
 import { Card, CardBody, CardHeader, CardTitle, Button, Form, FormGroup, Label, Input } from "reactstrap"
+
 
 
 export default class NewEntry extends Component {
@@ -18,6 +20,19 @@ export default class NewEntry extends Component {
         this.setState(stateToChange)
     }
 
+    indentifyScoreGroup = (score) => {
+       
+       if(score <= 2) {
+           return [1, "Casual"]
+       } else if(score <= 4 && score > 2) {
+           return [2, "Business Formal"]
+       } else if (score <= 6 && score > 4) {
+           return [3, "Complex"]
+       } else if (score <= 10 && score > 6) {
+           return [4, "Semantic Genius"]
+       }
+    }
+
     handleAnalyze = (event) => {
         event.preventDefault()
         entryData.getUserEntries()
@@ -31,14 +46,27 @@ export default class NewEntry extends Component {
                 return window.alert("An entry with this title already exists for your account! Please use another title.")
 
             } else {
+
+                // let averageScore = scoreAPI.getAverageVocabScoreNOSAVE(this.state.body)
                 
+
                 let entryObj = {
                     title: this.state.title,
                     body: this.state.body,
-                    userId: Number(sessionStorage.getItem("userID"))
+                    userId: Number(sessionStorage.getItem("userID")),
+                    scoreGroupId: 0,
+                    scoreGroup: ""
                 }
-                 
-                return this.props.onAnalyze(entryObj)
+
+                return scoreAPI.getAverageVocabScoreNOSAVE(this.state.body).then(response => entryObj.avgScore = response.ten_degree)
+                .then(() => scoreAPI.getAverageVocabScoreNOSAVE(this.state.body))
+                .then(response => response.ten_degree)
+                .then(response => entryObj.scoreGroupId = this.indentifyScoreGroup(response)[0])
+                .then(() => scoreAPI.getAverageVocabScoreNOSAVE(this.state.body))
+                .then(response => response.ten_degree)
+                .then(response => entryObj.scoreGroup = this.indentifyScoreGroup(response)[1])
+                .then(() => this.props.onAnalyze(entryObj))
+
 
                     .then(() => entryData.getUserEntries())
                     .then(entries => {

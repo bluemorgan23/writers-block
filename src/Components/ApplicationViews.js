@@ -6,7 +6,7 @@ import {Route, Redirect} from "react-router-dom"
 import userData from '../modules/userData';
 import entryData from "../modules/entryData"
 import filtering from "../modules/filter"
-import cache from "../modules/cache"
+
 
 // Component Imports
 import Register from "./register/Register"
@@ -24,8 +24,7 @@ class ApplicationViews extends Component {
         sentenceArray: []
     }
 
-    componentDidMount() {
-
+    componentWillMount() {
 
         if(this.isEntrySaved()){
            return entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
@@ -33,7 +32,10 @@ class ApplicationViews extends Component {
            this.setState({
             body: currentEntry.body,
             title: currentEntry.title,
-            sentenceArray: filtering.removeEmptyStrings(currentEntry.body.split(".")) 
+            sentenceArray: filtering.removeEmptyStrings(currentEntry.body.split(".")),
+             avgScore: currentEntry.avgScore,
+             scoreGroup: currentEntry.scoreGroup.name,
+             scoreGroupId: currentEntry.scoreGroupId
             }) 
         }) 
         }
@@ -41,19 +43,19 @@ class ApplicationViews extends Component {
 
     componentWillUnmount(){
         this.setState({
-            body: "", title: "", sentenceArray: []
+            body: "", title: "", sentenceArray: [], avgScore: null, scoreGroup: ""
         })
     }
 
     updateEntry = (updatedEntry) => {
         return this.setState({
-            body: updatedEntry
+            body: updatedEntry, sentenceArray: filtering.removeEmptyStrings(updatedEntry.split("."))
         })
     }
 
-    updateSentence = (updatedSentece, index) => {
+    updateSentence = (updatedSentence, index) => {
 
-        let removeWhitespace = updatedSentece.trim()
+        let removeWhitespace = updatedSentence.trim()
         let finalProduct = removeWhitespace
         
     
@@ -75,14 +77,28 @@ class ApplicationViews extends Component {
 
             let editedEntry = {
                 id: sessionStorage.getItem("currentEntryID"),
-                userId: sessionStorage.getItem("userID"),
+                userId: Number(sessionStorage.getItem("userID")),
                 body: joinedArray,
-                title: this.state.title
+                title: this.state.title,
+                scoreGroup: this.state.scoreGroup,
+                scoreGroupId: this.state.scoreGroupId,
+                avgScore: this.state.avgScore
             }
     
             entryData.putEntry(editedEntry)
+            .then(() => entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
+            .then(currentEntry => {
+               this.setState({
+                body: currentEntry.body,
+                title: currentEntry.title,
+                sentenceArray: filtering.removeEmptyStrings(currentEntry.body.split(".")),
+                 avgScore: currentEntry.avgScore,
+                 scoreGroup: currentEntry.scoreGroup.name,
+                 scoreGroupId: currentEntry.scoreGroupId
+                }) 
+            }) )
             
-            return {sentenceArray: sentenceArray, entry: joinedArray}
+            // return {sentenceArray: sentenceArray, entry: joinedArray}
         })
     }
 
@@ -105,7 +121,10 @@ class ApplicationViews extends Component {
         let stateToChange = {
             title: entryObj.title,
             body: entryObj.body,
-            sentenceArray: filtering.removeEmptyStrings((entryObj.body).split("."))
+            sentenceArray: filtering.removeEmptyStrings((entryObj.body).split(".")),
+            avgScore: entryObj.avgScore,
+            scoreGroupId: entryObj.scoreGroupId,
+            scoreGroup: entryObj.scoreGroup
         }
         this.setState(stateToChange)
         return entryData.postNewEntry(entryObj)
@@ -169,8 +188,11 @@ class ApplicationViews extends Component {
                     return <Results body={this.state.body}
                      title={this.state.title} 
                      sentenceArray={this.state.sentenceArray}
+                     avgScore={this.state.avgScore}
+                     scoreGroup={this.state.scoreGroup}
                      onDelete={this.onDelete}
                      saveEditedEntry = {this.saveEditedEntry}
+                     scoreGroupId = {this.state.scoreGroupId}
                      {...props} />
                 } else {
                     return <Redirect to="/" />
@@ -182,6 +204,7 @@ class ApplicationViews extends Component {
                     return <Synonyms sentenceArray={this.state.sentenceArray} entry={this.state.body}
                     updateSentence={this.updateSentence}
                     updateEntry={this.updateEntry}
+                    avgScore={this.state.avgScore}
                     {...props} />
                 } else {
                     return <Redirect to="/" />

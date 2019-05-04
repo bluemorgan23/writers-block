@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 
 import EditResults from "./EditResults"
-import entryData from "../../modules/entryData"
+
 
 import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup } from "reactstrap"
 import "./results.css"
@@ -9,20 +9,10 @@ import "./results.css"
 export default class Results extends Component {
 
     state = {
-        editButtonClicked: false
+        editButtonClicked: false,
+        averageScore: 0,
+        scoreGroup: ""
     }
-
-//     componentDidMount() {
-//         if(sessionStorage.getItem("currentEntryID")){
-//             return entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
-//          .then(currentEntry => {
-//             this.setState({
-//              body: currentEntry.body,
-//              title: currentEntry.title,
-//              }) 
-//          }) 
-//     }
-// }
 
     handleDelete = () => {
 
@@ -33,7 +23,7 @@ export default class Results extends Component {
 
     handleEdit = () => {
         this.setState({
-            editButtonClicked: true
+            editButtonClicked: !this.state.editButtonClicked
         })
     }
 
@@ -46,11 +36,6 @@ export default class Results extends Component {
         })
     }
 
-    goBackToResults = () => {
-        this.setState({
-            editButtonClicked: false
-        })
-    }
 
     handleFindSynonyms = () => {
         this.props.history.push("/synonyms")
@@ -58,6 +43,7 @@ export default class Results extends Component {
 
 
     render() {
+
         return (
             <Card>
                 <CardHeader>Results</CardHeader>
@@ -72,7 +58,10 @@ export default class Results extends Component {
                                         onSave = {this.savingEditedEntry}
                                         body={this.props.body}
                                         title={this.props.title}
-                                        goBack={this.goBackToResults}
+                                        goBack={this.handleEdit}
+                                        averageScore={this.props.avgScore}
+                                        scoreGroup={this.props.scoreGroup}
+                                        scoreGroupId={this.props.scoreGroupId}
                                         />
                                     </CardBody>
                                 </Card>
@@ -92,9 +81,17 @@ export default class Results extends Component {
                                 <div className="resultsBody-right">
                                     <Card className="resultsAnalysis">
                                         <CardBody>
+                                            
                                             <CardTitle>Analysis</CardTitle>
-                                            <CardText>The readability level is casual</CardText>
-                                            <CardText>The highest scoring word is: </CardText>
+                                             
+                                            <CardText>Average Score: {this.props.avgScore}
+                            
+                                            </CardText>
+                                            <CardText>The readability grade of this entry is {this.props.scoreGroup}
+                            
+                                            </CardText>
+                                            {/* <CardText>The highest scoring word is: </CardText> */}
+                                            
                                         </CardBody>
                                     </Card>
                                     <Card>
