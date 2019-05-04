@@ -3,7 +3,9 @@ import React, { Component } from "react"
 import {Card, CardBody, CardText, Input, CardHeader, Button, ButtonGroup, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from "reactstrap"
 import cache from "../../modules/cache"
 
+import filtering from "../../modules/filter"
 import synAPI from "../../modules/synAPI"
+import scoreAPI from "../../modules/scoreAPI"
 
 import "./synonyms.css"
 
@@ -22,7 +24,7 @@ class Synonyms extends Component {
 
 
     componentDidMount(){
-
+        
         const lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < cache.avg.ten_degree)
 
         const justWord = lowScoringWords.map(word => word.response.entry)
@@ -33,7 +35,7 @@ class Synonyms extends Component {
 
          Promise.all(arrayOfSentences)
          .then(response => {
-           let newArray = response.filter(response => response !== undefined)
+           let newArray = response.filter(response => response !== undefined && response.sentence !== undefined)
            this.setState({
                sentencesAndWords: newArray
            })

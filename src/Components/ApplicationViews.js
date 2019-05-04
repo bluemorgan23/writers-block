@@ -204,6 +204,7 @@ class ApplicationViews extends Component {
                     return <Synonyms sentenceArray={this.state.sentenceArray} entry={this.state.body}
                     updateSentence={this.updateSentence}
                     updateEntry={this.updateEntry}
+                    avgScore={this.state.avgScore}
                     {...props} />
                 } else {
                     return <Redirect to="/" />
