@@ -21,13 +21,13 @@ export default class Loading extends PureComponent {
 
 
     async componentDidMount() {
-        debugger
+  
         const cachedData = await cache.eachScore
         if(cachedData){
             
             const lowScoringWords = cachedData.filter(word => word.response.ten_degree < this.props.avgScore)
 
-            console.log("lowScoring", lowScoringWords)
+            
 
             const justWord = lowScoringWords.map(word => word.response.entry)
 
@@ -44,13 +44,13 @@ export default class Loading extends PureComponent {
             const json = await response
             console.log(json.body)
             const wordArray = await filtering.getRidOfPunctuation(json.body)
-            console.log(wordArray)
+         
             const newArray = await filtering.filterOutWeakWords(wordArray)
 
             const cachedData = await cache.locStr(newArray)
             const lowScoringWords = cachedData.filter(word => word.response.ten_degree < this.props.avgScore)
 
-            console.log("lowScoring", lowScoringWords)
+         
 
             const justWord = lowScoringWords.map(word => word.response.entry)
 

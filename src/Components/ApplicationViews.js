@@ -6,7 +6,7 @@ import {Route, Redirect} from "react-router-dom"
 import userData from '../modules/userData';
 import entryData from "../modules/entryData"
 import filtering from "../modules/filter"
-
+import scoreAPI from "../modules/scoreAPI"
 
 // Component Imports
 import Register from "./register/Register"
@@ -42,16 +42,59 @@ class ApplicationViews extends Component {
         }
     }
 
+    componentWillUnmount() {
+        if(this.isAuthenticated() === false ){
+            let stateToChange = {}
+            this.setState(stateToChange)
+        }
+    }
+
     grabData = (data) => {
       this.setState({sentencesAndWords : data})
       return data
     }
+
+    indentifyScoreGroup = (score) => {
+       
+        if(score <= 2) {
+            return [1, "Casual"]
+        } else if(score <= 4 && score > 2) {
+            return [2, "Business Formal"]
+        } else if (score <= 6 && score > 4) {
+            return [3, "Complex"]
+        } else if (score <= 10 && score > 6) {
+            return [4, "Semantic Genius"]
+        }
+     }
     
 
-    updateEntry = (updatedEntry) => {
-        return this.setState({
+    updateEntry= async(updatedEntry) =>  {
+       this.setState({
             body: updatedEntry, sentenceArray: filtering.removeEmptyStrings(updatedEntry.split("."))
         })
+
+        let promise = scoreAPI.getAverageVocabScoreNOSAVE(updatedEntry)
+        let response = await promise
+
+        let editedEntry = {}
+        let currentEntryID = sessionStorage.getItem("currentEntryID")
+        entryData.getCurrentEntry(currentEntryID)
+        .then(entry => {
+
+            
+
+            editedEntry.id = currentEntryID
+            editedEntry.userId = entry.userId
+            editedEntry.body = updatedEntry
+            editedEntry.title = entry.title
+            editedEntry.avgScore = response.ten_degree
+            editedEntry.scoreGroupId = this.indentifyScoreGroup(response.ten_degree)[0]
+            editedEntry.scoreGroup = this.indentifyScoreGroup(response.ten_degree)[1]
+            
+
+            entryData.putEntry(editedEntry) 
+        })
+        // .then(response => entryData.putEntry(response))
     }
 
     updateSentence = (updatedSentence, index) => {
@@ -210,6 +253,7 @@ class ApplicationViews extends Component {
                     updateEntry={this.updateEntry}
                     avgScore={this.state.avgScore}
                     sentencesAndWords={this.state.sentencesAndWords}
+                    grabData={this.grabData}
                     {...props} />
                 } else {
                     return <Redirect to="/" />

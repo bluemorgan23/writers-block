@@ -1,13 +1,15 @@
 import React, { Component } from "react"
 
-import Loading from "../loading/Loading"
+
 
 import {Card, CardBody, CardText, Input, CardHeader, Button, ButtonGroup, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from "reactstrap"
 import cache from "../../modules/cache"
-
 import filtering from "../../modules/filter"
+import entryData from "../../modules/entryData"
+
+
 import synAPI from "../../modules/synAPI"
-import scoreAPI from "../../modules/scoreAPI"
+
 
 import "./synonyms.css"
 
@@ -35,54 +37,42 @@ class Synonyms extends Component {
             })
         }
        
-        // if(cache.eachScore !== null) {
-        //     const lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < this.props.avgScore)
-
-        //     const justWord = lowScoringWords.map(word => word.entry)
-
-        //     const arrayOfSentences = justWord.map(word => this.sentencesContainWords(this.props.sentenceArray, word))
-
-            
-
-        //     Promise.all(arrayOfSentences)
-        //     .then(response => {
-        //     let newArray = response.filter(response => response !== undefined && response.sentence !== undefined)
-        //     this.setState({
-        //         sentencesAndWords: newArray
-        //     })
-        //     }) 
-        // }
-        
-        
     }
 
 
-    componentDidUpdate(prevProps, prevState) {
-        console.log("update")
+    async componentDidUpdate(prevProps, prevState) {
+      
         
         if(prevProps.sentenceArray !== this.props.sentenceArray){
-            const lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < this.props.avgScore)
+            let idToGrab = Number(sessionStorage.getItem("currentEntryID"))
+            
+            const response = entryData.getCurrentEntry(idToGrab)
+            const json = await response
+            console.log(json.body)
+            const wordArray = await filtering.getRidOfPunctuation(json.body)
+         
+            const newArray = await filtering.filterOutWeakWords(wordArray)
 
-        const justWord = lowScoringWords.map(word => word.response.entry)
+            const cachedData = await cache.locStr(newArray)
+            const lowScoringWords = cachedData.filter(word => word.response.ten_degree < this.props.avgScore)
 
-        const arrayOfSentences = justWord.map(word => this.sentencesContainWords(this.props.sentenceArray, word))
+         
 
+            const justWord = lowScoringWords.map(word => word.response.entry)
 
-         Promise.all(arrayOfSentences)
-         .then(response => {
-           let newArray = response.filter(response => response !== undefined && response.sentence !== undefined)
-           this.setState({
-               sentencesAndWords: newArray
-           })
-         })
-        }
+            const arrayOfSentences = justWord.map(word => this.sentencesContainWords(this.props.sentenceArray, word))
+
+            Promise.all(arrayOfSentences)
+            .then(newArray => newArray.filter(response => response !== undefined && response.sentence !== undefined))
+            .then(response => this.props.grabData(response))
+            .then(response => this.setState({isLoading: false, data: response}))
     }
+}
     
     replaceWord = (event) => {
         
         let updatedEntry = this.props.entry.replace(event.target.parentNode.parentNode.firstChild.innerHTML, event.target.value)
 
-        const arrayOfSentences = this.state.sentencesAndWords
 
         return this.props.updateEntry(updatedEntry)
     }
@@ -164,13 +154,6 @@ class Synonyms extends Component {
 
 
     render() {
-        // this.state.sentencesAndWords.length > 0 && console.log("matches", this.state.sentencesAndWords[0].matches, this.state.sentencesAndWords)
-        // if(this.state.isLoading === true){
-        //     return <React.Fragment>
-        //         <Loading getSynData={this.getSynData}/>
-        //         <Button onClick={this.clickToContinue}>Continue</Button>
-        //     </React.Fragment>
-        // } else {
         return (
             
             <React.Fragment>
