@@ -22,7 +22,7 @@ const eachScoreStored = (wordArray) => {
     let wordsAndScore = []
 
     if(JSON.parse(localStorage.getItem("eachScore"))){
-        return null
+        return JSON.parse(localStorage.getItem("eachScore"))
     } else {
         debugger
         

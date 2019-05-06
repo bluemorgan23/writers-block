@@ -21,10 +21,11 @@ class ApplicationViews extends Component {
     state = {
         body: "",
         title: "",
-        sentenceArray: []
+        sentenceArray: [],
+        sentencesAndWords: []
     }
 
-    componentWillMount() {
+    componentDidMount() {
 
         if(this.isEntrySaved()){
            return entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
@@ -41,11 +42,10 @@ class ApplicationViews extends Component {
         }
     }
 
-    componentWillUnmount(){
-        this.setState({
-            body: "", title: "", sentenceArray: [], avgScore: null, scoreGroup: ""
-        })
+    grabData = (data) => {
+      this.setState({sentencesAndWords : data})
     }
+    
 
     updateEntry = (updatedEntry) => {
         return this.setState({
@@ -97,8 +97,7 @@ class ApplicationViews extends Component {
                  scoreGroupId: currentEntry.scoreGroupId
                 }) 
             }) )
-            
-            // return {sentenceArray: sentenceArray, entry: joinedArray}
+
         })
     }
 
@@ -184,7 +183,7 @@ class ApplicationViews extends Component {
                 }
                 
             }} />
-            <Route path="/results" render={ props => {
+            <Route exact path="/results" render={ props => {
                 if(this.isAuthenticated()){
                     return <Results body={this.state.body}
                      title={this.state.title} 
@@ -194,6 +193,9 @@ class ApplicationViews extends Component {
                      onDelete={this.onDelete}
                      saveEditedEntry = {this.saveEditedEntry}
                      scoreGroupId = {this.state.scoreGroupId}
+                     updateSentence={this.updateSentence}
+                     updateEntry={this.updateEntry}
+                     grabData={this.grabData}
                      {...props} />
                 } else {
                     return <Redirect to="/" />
@@ -206,6 +208,7 @@ class ApplicationViews extends Component {
                     updateSentence={this.updateSentence}
                     updateEntry={this.updateEntry}
                     avgScore={this.state.avgScore}
+                    sentencesAndWords={this.state.sentencesAndWords}
                     {...props} />
                 } else {
                     return <Redirect to="/" />

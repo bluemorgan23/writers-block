@@ -1,25 +1,50 @@
 import React, {Component} from "react"
 
+
+
 import EditResults from "./EditResults"
 import cache from "../../modules/cache"
 import filtering from "../../modules/filter"
+import synAPI from "../../modules/synAPI"
+import entryData from "../../modules/entryData"
+import Loading from "../loading/Loading"
 
 import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup } from "reactstrap"
 import "./results.css"
+
+
 
 export default class Results extends Component {
 
     state = {
         editButtonClicked: false,
         averageScore: 0,
-        scoreGroup: ""
+        scoreGroup: "",
+        isLoading: false,
+        sentencesAndWords: []
     }
+
+    componentDidMount() {
+        console.log("mount")
+        let idToGrab = Number(sessionStorage.getItem("currentEntryID"))
+      if(idToGrab){
+            entryData.getCurrentEntry(idToGrab)
+            .then(response => filtering.getRidOfPunctuation(response.body))
+            .then(wordArray => filtering.filterOutWeakWords(wordArray))
+            .then(response => cache.locStr(response))
+      }
+    }
+
+   switchToSyns = () => {
+        this.setState({
+           isLoading: !this.state.isLoading
+       })
+   }
 
   
     handleDelete = () => {
 
         this.props.onDelete(sessionStorage.getItem("currentEntryID"))
-        // .then(() => sessionStorage.removeItem("currentEntryID"))
         .then(() => this.props.history.push("/new-entry"))
     }
 
@@ -38,14 +63,20 @@ export default class Results extends Component {
         })
     }
 
-
-    handleFindSynonyms = () => {
-        this.props.history.push("/synonyms")
-    }
-
+    
 
     render() {
-
+        if(this.state.isLoading){
+            return <Loading
+            sentenceArray={this.props.sentenceArray} 
+            entry={this.props.body}
+            updateSentence={this.props.updateSentence}
+            updateEntry={this.props.updateEntry}
+            avgScore={this.props.avgScore}
+            history={this.props.history}
+            grabData={this.props.grabData}
+            />
+            }
         return (
             <Card>
                 <CardHeader>Results</CardHeader>
@@ -100,7 +131,7 @@ export default class Results extends Component {
                                         <CardBody>
                                             <ButtonGroup className="resultsButtons">
                                                 <Button
-                                                onClick={this.handleFindSynonyms}
+                                                onClick={this.switchToSyns}
                                                 >Find Synonyms</Button>
                                                 <Button onClick={this.handleEdit}>Edit Entry</Button>
                                                 <Button onClick={this.handleDelete}

@@ -1,5 +1,7 @@
 import React, { Component } from "react"
 
+import Loading from "../loading/Loading"
+
 import {Card, CardBody, CardText, Input, CardHeader, Button, ButtonGroup, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from "reactstrap"
 import cache from "../../modules/cache"
 
@@ -20,34 +22,44 @@ class Synonyms extends Component {
         sentencesAndWords: [],
         indexToShow: 0,
         dropdownOpen: false,
+        isLoading: true
     }
 
 
 
     componentDidMount(){
 
-        if(cache.eachScore !== null) {
-            const lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < this.props.avgScore)
+        if(this.props.sentencesAndWords){
+            this.setState({
+                sentencesAndWords: this.props.sentencesAndWords
+            })
+        }
+       
+        // if(cache.eachScore !== null) {
+        //     const lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < this.props.avgScore)
 
-            const justWord = lowScoringWords.map(word => word.entry)
+        //     const justWord = lowScoringWords.map(word => word.entry)
 
-            const arrayOfSentences = justWord.map(word => this.sentencesContainWords(this.props.sentenceArray, word))
+        //     const arrayOfSentences = justWord.map(word => this.sentencesContainWords(this.props.sentenceArray, word))
 
             
 
-            Promise.all(arrayOfSentences)
-            .then(response => {
-            let newArray = response.filter(response => response !== undefined && response.sentence !== undefined)
-            this.setState({
-                sentencesAndWords: newArray
-            })
-            }) 
-        }
+        //     Promise.all(arrayOfSentences)
+        //     .then(response => {
+        //     let newArray = response.filter(response => response !== undefined && response.sentence !== undefined)
+        //     this.setState({
+        //         sentencesAndWords: newArray
+        //     })
+        //     }) 
+        // }
         
         
     }
 
-    componentDidUpdate(prevProps) {
+
+    componentDidUpdate(prevProps, prevState) {
+        console.log("update")
+        
         if(prevProps.sentenceArray !== this.props.sentenceArray){
             const lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < this.props.avgScore)
 
@@ -66,7 +78,6 @@ class Synonyms extends Component {
         }
     }
     
-
     replaceWord = (event) => {
         
         let updatedEntry = this.props.entry.replace(event.target.parentNode.parentNode.firstChild.innerHTML, event.target.value)
@@ -78,13 +89,9 @@ class Synonyms extends Component {
 
     sentencesContainWords = (sentenceArray, word) => {
         
-       
-
         let sentenceString = sentenceArray.find(sentence => {
             return sentence.includes(word)
         })
-
-    
 
         let newObj = {sentence: sentenceString, word: word, index: sentenceArray.indexOf(sentenceString), matches: []}
 
@@ -93,12 +100,8 @@ class Synonyms extends Component {
             if(results.length > 0){
                 newObj.matches = results
                 return newObj 
-            }
-            
-              
+            }    
         })
-
-        
     }
 
     toggle = () => {
@@ -162,6 +165,12 @@ class Synonyms extends Component {
 
     render() {
         // this.state.sentencesAndWords.length > 0 && console.log("matches", this.state.sentencesAndWords[0].matches, this.state.sentencesAndWords)
+        // if(this.state.isLoading === true){
+        //     return <React.Fragment>
+        //         <Loading getSynData={this.getSynData}/>
+        //         <Button onClick={this.clickToContinue}>Continue</Button>
+        //     </React.Fragment>
+        // } else {
         return (
             
             <React.Fragment>

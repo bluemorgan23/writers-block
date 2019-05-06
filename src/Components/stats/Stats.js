@@ -51,7 +51,7 @@ export default class Stats extends Component {
                             return  <div className="statsContainer mb-3" key={entry.id}>
                                         <CardLink 
                                             id={entry.id} 
-                                            href={`/results/${entry.id}`}
+                                            href={`/results`}
                                             onClick={this.onLinkClick}
                                             >{entry.title}
                                         </CardLink>
