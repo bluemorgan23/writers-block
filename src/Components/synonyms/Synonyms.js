@@ -44,6 +44,7 @@ class Synonyms extends Component {
       
         
         if(prevProps.sentenceArray !== this.props.sentenceArray){
+        
             let idToGrab = Number(sessionStorage.getItem("currentEntryID"))
             
             const response = entryData.getCurrentEntry(idToGrab)
@@ -65,7 +66,7 @@ class Synonyms extends Component {
             Promise.all(arrayOfSentences)
             .then(newArray => newArray.filter(response => response !== undefined && response.sentence !== undefined))
             .then(response => this.props.grabData(response))
-            .then(response => this.setState({isLoading: false, data: response}))
+            .then(response => this.setState({isLoading: false, sentencesAndWords: response}))
     }
 }
     
@@ -116,6 +117,10 @@ class Synonyms extends Component {
     toggleNext = (event) => {
         event.preventDefault()
 
+        if(!this.state.sentencesAndWords){
+            window.alert("No more suggestions! Let's see how you did.")
+        }
+
         let length = this.state.sentencesAndWords.length
 
         if( this.state.indexToShow === (length - 1)){
@@ -125,7 +130,7 @@ class Synonyms extends Component {
         } else {
 
             return this.setState(prevState => {
-            return prevState.indexToShow += 1
+                return prevState.indexToShow += 1
             })
         }
     }
