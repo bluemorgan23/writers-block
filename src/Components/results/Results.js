@@ -24,14 +24,19 @@ export default class Results extends Component {
         sentencesAndWords: []
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         console.log("mount")
         let idToGrab = Number(sessionStorage.getItem("currentEntryID"))
       if(idToGrab){
-            entryData.getCurrentEntry(idToGrab)
-            .then(response => filtering.getRidOfPunctuation(response.body))
-            .then(wordArray => filtering.filterOutWeakWords(wordArray))
-            .then(response => cache.locStr(response))
+           const response = entryData.getCurrentEntry(idToGrab)
+            const json = await response
+            console.log(json.body)
+            const wordArray = filtering.getRidOfPunctuation(json.body)
+            console.log(wordArray)
+            const newArray = filtering.filterOutWeakWords(wordArray)
+
+            cache.locStr(newArray)
+            // .then(response => cache.locStr(response))
       }
     }
 

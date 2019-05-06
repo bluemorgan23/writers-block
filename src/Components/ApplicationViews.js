@@ -26,7 +26,7 @@ class ApplicationViews extends Component {
     }
 
     componentDidMount() {
-
+        
         if(this.isEntrySaved()){
            return entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
         .then(currentEntry => {
@@ -44,6 +44,7 @@ class ApplicationViews extends Component {
 
     grabData = (data) => {
       this.setState({sentencesAndWords : data})
+      return data
     }
     
 
