@@ -78,22 +78,23 @@ class ApplicationViews extends Component {
 
         let editedEntry = {}
         let currentEntryID = sessionStorage.getItem("currentEntryID")
-        entryData.getCurrentEntry(currentEntryID)
-        .then(entry => {
+        let grabEntry = entryData.getCurrentEntry(currentEntryID)
+        let newValue = await grabEntry
+        
 
             
 
             editedEntry.id = currentEntryID
-            editedEntry.userId = entry.userId
+            editedEntry.userId = newValue.userId
             editedEntry.body = updatedEntry
-            editedEntry.title = entry.title
+            editedEntry.title = newValue.title
             editedEntry.avgScore = response.ten_degree
             editedEntry.scoreGroupId = this.indentifyScoreGroup(response.ten_degree)[0]
             editedEntry.scoreGroup = this.indentifyScoreGroup(response.ten_degree)[1]
             
 
             entryData.putEntry(editedEntry) 
-        })
+       
         // .then(response => entryData.putEntry(response))
     }
 
