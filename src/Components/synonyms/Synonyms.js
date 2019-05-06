@@ -26,22 +26,24 @@ class Synonyms extends Component {
 
     componentDidMount(){
 
+        if(cache.eachScore !== null) {
+            const lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < this.props.avgScore)
+
+            const justWord = lowScoringWords.map(word => word.entry)
+
+            const arrayOfSentences = justWord.map(word => this.sentencesContainWords(this.props.sentenceArray, word))
+
+            
+
+            Promise.all(arrayOfSentences)
+            .then(response => {
+            let newArray = response.filter(response => response !== undefined && response.sentence !== undefined)
+            this.setState({
+                sentencesAndWords: newArray
+            })
+            }) 
+        }
         
-        const lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < this.props.avgScore)
-
-        const justWord = lowScoringWords.map(word => word.entry)
-
-        const arrayOfSentences = justWord.map(word => this.sentencesContainWords(this.props.sentenceArray, word))
-
-        
-
-         Promise.all(arrayOfSentences)
-         .then(response => {
-           let newArray = response.filter(response => response !== undefined && response.sentence !== undefined)
-           this.setState({
-               sentencesAndWords: newArray
-           })
-         })
         
     }
 
@@ -79,7 +81,7 @@ class Synonyms extends Component {
        
 
         let sentenceString = sentenceArray.find(sentence => {
-            return sentence.toLowerCase().includes(word.toLowerCase())
+            return sentence.includes(word)
         })
 
     
