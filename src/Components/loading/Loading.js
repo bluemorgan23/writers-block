@@ -10,7 +10,7 @@ import Synonyms from "../synonyms/Synonyms"
 import LoadingScreen from 'react-loading-screen';
 
 
-export default class Loading extends PureComponent {
+export default class LoadingSyns extends PureComponent {
 
     state = {
         data: null,
@@ -24,22 +24,23 @@ export default class Loading extends PureComponent {
 
     async componentDidMount() {
   
-        const cachedData = await cache.eachScore
-        if(cachedData){
+        // const cachedData = await cache.eachScore
+        // if(cachedData){
             
-            const lowScoringWords = cachedData.filter(word => word.response.ten_degree < this.props.avgScore)
+        //     const lowScoringWords = cachedData.filter(word => word.response.ten_degree < this.props.avgScore)
 
             
 
-            const justWord = lowScoringWords.map(word => word.response.entry)
+        //     const justWord = lowScoringWords.map(word => word.response.entry)
 
-            const arrayOfSentences = justWord.map(word => this.sentencesContainWords(this.props.sentenceArray, word))
+        //     const arrayOfSentences = justWord.map(word => this.sentencesContainWords(this.props.sentenceArray, word))
 
-            Promise.all(arrayOfSentences)
-            .then(newArray => newArray.filter(response => response !== undefined && response.sentence !== undefined))
-            .then(response => this.props.grabData(response))
-            .then(response => this.setState({isLoading: false, data: response}))
-        } else {
+        //     Promise.all(arrayOfSentences)
+        //     .then(newArray => newArray.filter(response => response !== undefined && response.sentence !== undefined))
+        //     .then(response => this.props.grabData(response))
+        //     .then(response => this.setState({loading: true, data: response}))
+        //     .then(() => setTimeout(this.onContinue, 2000))
+        // } else {
             let idToGrab = Number(sessionStorage.getItem("currentEntryID"))
             
             const response = entryData.getCurrentEntry(idToGrab)
@@ -65,7 +66,7 @@ export default class Loading extends PureComponent {
             .then(response => this.setState({ data: response, loading: true}))
             .then(() => setTimeout(this.onContinue, 2000))
       
-        }
+        
     }
 
     componentWillUnmount() {

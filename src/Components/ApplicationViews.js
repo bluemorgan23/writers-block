@@ -35,8 +35,7 @@ class ApplicationViews extends Component {
             title: currentEntry.title,
             sentenceArray: filtering.removeEmptyStrings(currentEntry.body.split(".")),
              avgScore: currentEntry.avgScore,
-             scoreGroup: currentEntry.scoreGroup.name,
-             scoreGroupId: currentEntry.scoreGroupId
+             scoreGroup: currentEntry.scoreGroup
             }) 
         }) 
         }
@@ -136,7 +135,7 @@ class ApplicationViews extends Component {
                 title: currentEntry.title,
                 sentenceArray: filtering.removeEmptyStrings(currentEntry.body.split(".")),
                  avgScore: currentEntry.avgScore,
-                 scoreGroup: currentEntry.scoreGroup.name
+                 scoreGroup: currentEntry.scoreGroup
                 }) 
             }) )
 

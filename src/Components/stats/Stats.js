@@ -70,7 +70,7 @@ export default class Stats extends Component {
                            
                             return  <ListGroup className="statsContainer mb-3" key={entry.id}>
                                         <Row className="statsRow">
-                                            <ListGroupItem className="statsListItem">
+                                            <ListGroupItem key={entry.id}className="statsListItem">
                                             
                                                 <Col>
                                                 <CardLink
@@ -86,7 +86,7 @@ export default class Stats extends Component {
                                                 </CardText>
                                                 </Col>
                                                 <Col>
-                                                <small text-muted>last update: </small>
+                                                <small className="text-muted">last update: </small>
                                                 </Col>
                                                 <Col>
                                                 <Button className="discardStat text-center"

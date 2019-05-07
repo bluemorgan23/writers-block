@@ -7,7 +7,7 @@ import cache from "../../modules/cache"
 import filtering from "../../modules/filter"
 import synAPI from "../../modules/synAPI"
 import entryData from "../../modules/entryData"
-import Loading from "../loading/Loading"
+import LoadingSyns from "../loading/Loading"
 
 //icons 
 import { GiEnlightenment } from "react-icons/gi"
@@ -47,30 +47,26 @@ export default class Results extends Component {
                 this.setState({averageScore: await json.avgScore, scoreGroup: await json.scoreGroup})
 
                 cache.locStr(newArray)
+
         }
     }
 
     whichIconToUse = (score) => {
+        let casual = <GiEnlightenment size="4em" color="#843131" />
+        let biz = <IoIosBowtie size="4em"/>
+        let complex = <GiCrown size="4em" color="#d1a849"/>
+        let genius = <GiBrain size="4em" color="#ba5e77"/>
         switch(true) {
             case(score < 3):
-                return <GiEnlightenment size="4em" color="#843131"/>
+                return [casual, "Casual"]
             case(score > 2 && score < 5):
-                return <IoIosBowtie size="4em"/>
+                return [biz, "Business"]
             case(score > 4 && score < 7):
-                return <GiCrown size="4em" color="#d1a849"/>
+                return [complex, "Complex"]
             case(score > 6 && score < 11):
-                return <GiBrain size="4em" color="#ba5e77"/>
+                return [genius, "Semantic Genius"]
         }
     }
-
-    // shouldComponentUpdate(prevState) {
-    //     if(this.state.isLoading !== prevState.isLoading){
-    //         return true
-    //     }
-    //     else{
-    //         return false
-    //     }
-    // }
 
    switchToSyns = () => {
         this.setState({
@@ -106,7 +102,7 @@ export default class Results extends Component {
     render() {
 
         if(this.state.isLoading){
-            return <Loading
+            return <LoadingSyns
             sentenceArray={this.props.sentenceArray} 
             entry={this.props.body}
             updateSentence={this.props.updateSentence}
@@ -114,6 +110,8 @@ export default class Results extends Component {
             avgScore={this.props.avgScore}
             history={this.props.history}
             grabData={this.props.grabData}
+            switchToSyns={this.switchToSyns}
+            isLoading={this.state.isLoading}
             />
             } else {
         return (
@@ -179,12 +177,12 @@ export default class Results extends Component {
                                         </CardHeader>
                                         <CardBody>
                                            <CardText>
-                                            {this.whichIconToUse(this.props.avgScore)}
+                                            {(this.whichIconToUse(this.state.averageScore))[0]}
                                             </CardText>
 
                                             <CardText>
                                                  We calculate a {" "}
-                                                <b>{this.props.scoreGroup}
+                                                <b>{(this.whichIconToUse(this.state.averageScore))[1]}
                                                 </b>{" "}
                                                 level of readability based on your input.
                                                 
