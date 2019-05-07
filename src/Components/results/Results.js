@@ -9,6 +9,12 @@ import synAPI from "../../modules/synAPI"
 import entryData from "../../modules/entryData"
 import Loading from "../loading/Loading"
 
+//icons 
+import { GiEnlightenment } from "react-icons/gi"
+import { IoIosBowtie } from "react-icons/io"
+import { GiCrown } from "react-icons/gi"
+import { GiBrain } from "react-icons/gi"
+
 import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup, Container, Row, Col, Badge } from "reactstrap"
 import "./results.css"
 
@@ -25,20 +31,36 @@ export default class Results extends Component {
     }
 
     componentDidMount = async() => {
-        console.log("mount")
+        
         let idToGrab = Number(sessionStorage.getItem("currentEntryID"))
-      if(idToGrab){
-           const response = entryData.getCurrentEntry(idToGrab)
-            const json = await response
-            console.log(json.body)
-            const wordArray = await filtering.getRidOfPunctuation(json.body)
-            console.log(wordArray)
-            const newArray = await filtering.filterOutWeakWords(wordArray)
+            if(idToGrab){
 
-            this.setState({averageScore: await json.avgScore, scoreGroup: await json.scoreGroup})
+                const response = entryData.getCurrentEntry(idToGrab)
 
-            cache.locStr(newArray)
-      }
+                const json = await response
+            
+                const wordArray = await filtering.getRidOfPunctuation(json.body)
+
+           
+                const newArray = await filtering.filterOutWeakWords(wordArray)
+
+                this.setState({averageScore: await json.avgScore, scoreGroup: await json.scoreGroup})
+
+                cache.locStr(newArray)
+        }
+    }
+
+    whichIconToUse = (score) => {
+        switch(true) {
+            case(score < 3):
+                return <GiEnlightenment />
+            case(score > 2 && score < 5):
+                return <IoIosBowtie />
+            case(score > 4 && score < 7):
+                return <IoIosBowtie />
+            case(score > 6 && score < 11):
+                return <IoIosBowtie />
+        }
     }
 
     // shouldComponentUpdate(prevState) {
@@ -120,6 +142,7 @@ export default class Results extends Component {
                                         scoreGroup={this.props.scoreGroup}
                                         scoreGroupId={this.props.scoreGroupId}
                                         />
+                                        
                                     </CardBody>
                                 </Card>
                             </React.Fragment>
@@ -162,7 +185,7 @@ export default class Results extends Component {
                                             <CardText>The readability grade of this entry is {this.props.scoreGroup}
                             
                                             </CardText>
-                                            {/* <CardText>The highest scoring word is: </CardText> */}
+                                            {this.whichIconToUse(this.props.avgScore)}
                                             
                                         </CardBody>
                                     </Card>
