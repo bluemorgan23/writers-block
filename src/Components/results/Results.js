@@ -9,7 +9,7 @@ import synAPI from "../../modules/synAPI"
 import entryData from "../../modules/entryData"
 import Loading from "../loading/Loading"
 
-import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup } from "reactstrap"
+import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup, Container, Row, Col, Badge } from "reactstrap"
 import "./results.css"
 
 
@@ -24,19 +24,20 @@ export default class Results extends Component {
         sentencesAndWords: []
     }
 
-    async componentDidMount() {
+    componentDidMount = async() => {
         console.log("mount")
         let idToGrab = Number(sessionStorage.getItem("currentEntryID"))
       if(idToGrab){
            const response = entryData.getCurrentEntry(idToGrab)
             const json = await response
             console.log(json.body)
-            const wordArray = filtering.getRidOfPunctuation(json.body)
+            const wordArray = await filtering.getRidOfPunctuation(json.body)
             console.log(wordArray)
-            const newArray = filtering.filterOutWeakWords(wordArray)
+            const newArray = await filtering.filterOutWeakWords(wordArray)
+
+            this.setState({averageScore: await json.avgScore, scoreGroup: await json.scoreGroup})
 
             cache.locStr(newArray)
-            // .then(response => cache.locStr(response))
       }
     }
 
@@ -83,9 +84,16 @@ export default class Results extends Component {
             />
             }
         return (
-            <Card>
-                <CardHeader>Results</CardHeader>
-                <CardBody className="resultsBody">
+            <Container className="resultsContainer" fluid >
+            <Card className="mt-3">
+                <CardHeader>
+                    <h1 className="resultsTitle">
+                        <Badge >
+                           Results 
+                        </Badge>
+                    </h1>
+                </CardHeader>
+                <CardBody className="resultsBody bg-secondary">
                     
                             { this.state.editButtonClicked ?
                             
@@ -104,24 +112,39 @@ export default class Results extends Component {
                                     </CardBody>
                                 </Card>
                             </React.Fragment>
-                           
                              
                             :
 
                             <React.Fragment>
-                                
-                                <Card className="resultsEntry">
+                                <Row>
+                                <Col>
+                                <Card
+                                className="resultsEntry">
                                     <CardBody>
-                                        <CardTitle>{this.props.title}</CardTitle>
+                                        <CardTitle>
+                                            <h4>
+                                                <Badge color="primary">
+                                                   {this.props.title} 
+                                                </Badge>
+                                            </h4>
+                                        </CardTitle>
                                         <CardText>{this.props.body}</CardText>  
                                     </CardBody>
                                 </Card>
-                                <div className="resultsBody-right">
+                                </Col>
+                                </Row>
+                                <Row className="mt-3">
+                                <Col className="resultsBody-right">
                                     <Card className="resultsAnalysis">
+                                        <CardHeader className="bg-light">
+                                            <h1 className="resultsTitle">
+                                                <Badge color="secondary">
+                                                    Analysis
+                                                </Badge>
+                                            </h1>
+                                        </CardHeader>
                                         <CardBody>
-                                            
-                                            <CardTitle>Analysis</CardTitle>
-                                             
+                                           
                                             <CardText>Average Score: {this.props.avgScore}
                             
                                             </CardText>
@@ -132,27 +155,50 @@ export default class Results extends Component {
                                             
                                         </CardBody>
                                     </Card>
-                                    <Card>
-                                        <CardBody>
-                                            <ButtonGroup className="resultsButtons">
-                                                <Button
+                                    <Card className="rightBottom-card">
+                                    <CardHeader >
+                                        <h1 className="resultsTitle"
+                                        id="">
+                                        <Badge >
+                                        Editor
+                                        </Badge>
+                                        </h1>
+                                        </CardHeader>
+                                        <CardBody className="buttonGroup-results">
+                                            <ButtonGroup vertical={true}
+                                             size="lg"
+                                            className="resultsButtons">
+                                                <Button 
+                                                size="lg"
+                                                color="info"
+                                                block
                                                 onClick={this.switchToSyns}
                                                 >Find Synonyms</Button>
-                                                <Button onClick={this.handleEdit}>Edit Entry</Button>
-                                                <Button onClick={this.handleDelete}
+                                                <Button 
+                                                size="lg"
+                                                className="mt-1"
+                                                block
+                                                color="info"
+                                                 onClick={this.handleEdit}>Edit Entry</Button>
+                                                <Button size="lg"
+                                                className="mt-1"
+                                                block
+                                                color="danger"
+                                                onClick={this.handleDelete}
                                                 >Discard Entry</Button>
                                             </ButtonGroup>
                                         </CardBody>
                                     </Card>
-                                    </div>
-
+                                    </Col>
+                                    </Row>
                             </React.Fragment> 
                             }
                             
                         
                     
                 </CardBody>
-            </Card>
+                </Card>
+            </Container>
         )
     }
 }

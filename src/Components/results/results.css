@@ -1,19 +1,17 @@
-.resultsBody {
+ resultsBody {
     display: flex;
-    flex-flow: row nowrap;
-    justify-content: center
+    flex-flow: column nowrap;
+    align-content: space-around
+
 }
 
 .resultsBody-right {
-    max-width: 50%;
-}
-
-.resultsEntry {
-    max-width: 50%;
-}
-
-.resultsButtons {
     display: flex;
+    justify-content: space-around
+}
+
+.rightBottom-card {
+    min-width: 40% !important;
 }
 
 .resultsEntry-edit{
@@ -29,5 +27,16 @@
 .editTextarea {
     min-height: 200px
 }
+
+.resultsTitle {
+    text-align: center
+}
+
+.buttonGroup-results{
+    padding: .75rem !important;
+    display: flex;
+    justify-content: center
+}
+
 
 

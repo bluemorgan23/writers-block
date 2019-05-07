@@ -1,5 +1,18 @@
 .statsContainer {
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
-    justify-content: space-between
+    justify-content: space-between;
 }
+
+.statsListItem {
+    display: flex !important;
+    align-items: space-between !important;
+    min-width: 80%
+
+}
+
+small {
+    font-size: .3rem !important
+}
+
+

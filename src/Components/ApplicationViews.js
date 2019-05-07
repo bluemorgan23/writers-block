@@ -50,6 +50,7 @@ class ApplicationViews extends Component {
     }
 
     grabData = (data) => {
+
       this.setState({sentencesAndWords : data})
       return data
     }
@@ -95,7 +96,6 @@ class ApplicationViews extends Component {
 
             entryData.putEntry(editedEntry) 
        
-        // .then(response => entryData.putEntry(response))
     }
 
     updateSentence = (updatedSentence, index) => {
@@ -162,6 +162,7 @@ class ApplicationViews extends Component {
     }
 
     onAnalyze = (entryObj) => {
+        localStorage.removeItem("eachScore")
         let stateToChange = {
             title: entryObj.title,
             body: entryObj.body,
