@@ -15,7 +15,7 @@ import { IoIosBowtie } from "react-icons/io"
 import { GiCrown } from "react-icons/gi"
 import { GiBrain } from "react-icons/gi"
 
-import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup, Container, Row, Col, Badge } from "reactstrap"
+import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup, Container, Row, Col, Badge, CardImg } from "reactstrap"
 import "./results.css"
 
 
@@ -53,13 +53,13 @@ export default class Results extends Component {
     whichIconToUse = (score) => {
         switch(true) {
             case(score < 3):
-                return <GiEnlightenment />
+                return <GiEnlightenment size="4em" color="#843131"/>
             case(score > 2 && score < 5):
-                return <IoIosBowtie />
+                return <IoIosBowtie size="4em"/>
             case(score > 4 && score < 7):
-                return <IoIosBowtie />
+                return <GiCrown size="4em" color="#d1a849"/>
             case(score > 6 && score < 11):
-                return <IoIosBowtie />
+                return <GiBrain size="4em" color="#ba5e77"/>
         }
     }
 
@@ -169,7 +169,7 @@ export default class Results extends Component {
                                 </Row>
                                 <Row className="mt-3">
                                 <Col className="resultsBody-right">
-                                    <Card className="resultsAnalysis">
+                                    <Card className="resultsAnalysis text-center">
                                         <CardHeader className="bg-light">
                                             <h1 className="resultsTitle">
                                                 <Badge color="secondary">
@@ -178,14 +178,19 @@ export default class Results extends Component {
                                             </h1>
                                         </CardHeader>
                                         <CardBody>
-                                           
-                                            <CardText>Average Score: {this.props.avgScore}
-                            
-                                            </CardText>
-                                            <CardText>The readability grade of this entry is {this.props.scoreGroup}
-                            
-                                            </CardText>
+                                           <CardText>
                                             {this.whichIconToUse(this.props.avgScore)}
+                                            </CardText>
+
+                                            <CardText>
+                                                 We calculate a {" "}
+                                                <b>{this.props.scoreGroup}
+                                                </b>{" "}
+                                                level of readability based on your input.
+                                                
+                            
+                                            </CardText>
+                                            
                                             
                                         </CardBody>
                                     </Card>

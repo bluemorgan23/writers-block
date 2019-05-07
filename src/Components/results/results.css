@@ -6,8 +6,8 @@
 }
 
 .resultsBody-right {
-    display: flex;
-    justify-content: space-around
+    display: flex !important;
+    justify-content: space-around !important
 }
 
 .rightBottom-card {
