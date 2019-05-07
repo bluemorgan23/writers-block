@@ -44,7 +44,7 @@ class ApplicationViews extends Component {
 
     componentWillUnmount() {
         if(this.isAuthenticated() === false ){
-            let stateToChange = {}
+            let stateToChange = {body: "", title: "", sentenceArray: [], sentencesAndWords: []}
             this.setState(stateToChange)
         }
     }
@@ -229,7 +229,7 @@ class ApplicationViews extends Component {
                 }
                 
             }} />
-            <Route exact path="/results" render={ props => {
+            <Route path="/results" render={ props => {
                 if(this.isAuthenticated()){
                     return <Results body={this.state.body}
                      title={this.state.title} 

@@ -41,12 +41,22 @@ export default class Results extends Component {
       }
     }
 
+    // shouldComponentUpdate(prevState) {
+    //     if(this.state.isLoading !== prevState.isLoading){
+    //         return true
+    //     }
+    //     else{
+    //         return false
+    //     }
+    // }
+
    switchToSyns = () => {
         this.setState({
            isLoading: !this.state.isLoading
        })
    }
 
+  
   
     handleDelete = () => {
 
@@ -72,6 +82,7 @@ export default class Results extends Component {
     
 
     render() {
+
         if(this.state.isLoading){
             return <Loading
             sentenceArray={this.props.sentenceArray} 
@@ -82,7 +93,7 @@ export default class Results extends Component {
             history={this.props.history}
             grabData={this.props.grabData}
             />
-            }
+            } else {
         return (
             <Container className="resultsContainer" fluid >
             <Card className="mt-3">
@@ -199,6 +210,6 @@ export default class Results extends Component {
                 </CardBody>
                 </Card>
             </Container>
-        )
+        )}
     }
 }

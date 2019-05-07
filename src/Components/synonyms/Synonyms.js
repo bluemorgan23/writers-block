@@ -223,7 +223,7 @@ class Synonyms extends Component {
                                     </DropdownMenu>
                                 </ButtonDropdown>
                                 <Button onClick={() => this.props.history.push("/results")}
-                                size="sm">Save All h Changes</Button>
+                                size="sm">Return to Results</Button>
                             </ButtonGroup>
                             
                         </CardBody>
