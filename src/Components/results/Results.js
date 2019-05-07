@@ -30,7 +30,7 @@ export default class Results extends Component {
         sentencesAndWords: []
     }
 
-    componentDidMount = async() => {
+    componentWillMount = async() => {
         
         let idToGrab = Number(sessionStorage.getItem("currentEntryID"))
             if(idToGrab){

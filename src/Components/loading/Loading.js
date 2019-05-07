@@ -24,23 +24,6 @@ export default class LoadingSyns extends PureComponent {
 
     async componentDidMount() {
   
-        // const cachedData = await cache.eachScore
-        // if(cachedData){
-            
-        //     const lowScoringWords = cachedData.filter(word => word.response.ten_degree < this.props.avgScore)
-
-            
-
-        //     const justWord = lowScoringWords.map(word => word.response.entry)
-
-        //     const arrayOfSentences = justWord.map(word => this.sentencesContainWords(this.props.sentenceArray, word))
-
-        //     Promise.all(arrayOfSentences)
-        //     .then(newArray => newArray.filter(response => response !== undefined && response.sentence !== undefined))
-        //     .then(response => this.props.grabData(response))
-        //     .then(response => this.setState({loading: true, data: response}))
-        //     .then(() => setTimeout(this.onContinue, 2000))
-        // } else {
             let idToGrab = Number(sessionStorage.getItem("currentEntryID"))
             
             const response = entryData.getCurrentEntry(idToGrab)
@@ -63,7 +46,7 @@ export default class LoadingSyns extends PureComponent {
             Promise.all(arrayOfSentences)
             .then(newArray => newArray.filter(response => response !== undefined && response.sentence !== undefined))
             .then(response => this.props.grabData(response))
-            .then(response => this.setState({ data: response, loading: true}))
+            .then(response => setTimeout(this.setState({ data: response, loading: true}), 2000))
             .then(() => setTimeout(this.onContinue, 2000))
       
         
@@ -101,10 +84,7 @@ export default class LoadingSyns extends PureComponent {
                 textColor='#676767'
                 text='Checking for Synonyms'
                     > 
-    {/* // ...
-    // here loadable content
-    // for example, async data
-    //<div>Loadable content</div> */}
+    
             
             </LoadingScreen>
             
