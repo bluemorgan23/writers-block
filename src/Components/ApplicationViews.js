@@ -16,6 +16,7 @@ import Results from "./results/Results"
 import Synonyms from "./synonyms/Synonyms"
 import Stats from "./stats/Stats"
 
+
 class ApplicationViews extends Component {
 
     state = {
@@ -55,7 +56,7 @@ class ApplicationViews extends Component {
     }
 
     indentifyScoreGroup = (score) => {
-       
+
         if(score <= 2) {
             return [1, "Casual"]
         } else if(score <= 4 && score > 2) {
