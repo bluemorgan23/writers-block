@@ -3,11 +3,16 @@ import scoreAPI from "./scoreAPI"
 const cache = {
 
     eachScore: JSON.parse(localStorage.getItem("eachScore")),
+
+
     locStr: (wordArray) => {
+
         let wordsAndScore = []
 
         if(JSON.parse(localStorage.getItem("eachScore"))){
+
             return JSON.parse(localStorage.getItem("eachScore"))
+            
         } else {
             
             

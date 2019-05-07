@@ -66,14 +66,13 @@ export default class NewEntry extends Component {
                     title: this.state.title,
                     body: this.state.body,
                     userId: Number(sessionStorage.getItem("userID")),
-                    scoreGroupId: 0,
                     scoreGroup: ""
                 }
 
                 return scoreAPI.getAverageVocabScoreNOSAVE(this.state.body).then(response => entryObj.avgScore = response.ten_degree)
-                .then(() => scoreAPI.getAverageVocabScoreNOSAVE(this.state.body))
-                .then(response => response.ten_degree)
-                .then(response => entryObj.scoreGroupId = this.indentifyScoreGroup(response)[0])
+                // .then(() => scoreAPI.getAverageVocabScoreNOSAVE(this.state.body))
+                // .then(response => response.ten_degree)
+                // .then(response => entryObj.scoreGroupId = this.indentifyScoreGroup(response)[0])
                 .then(() => scoreAPI.getAverageVocabScoreNOSAVE(this.state.body))
                 .then(response => response.ten_degree)
                 .then(response => entryObj.scoreGroup = this.indentifyScoreGroup(response)[1])

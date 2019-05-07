@@ -90,7 +90,6 @@ class ApplicationViews extends Component {
             editedEntry.body = updatedEntry
             editedEntry.title = newValue.title
             editedEntry.avgScore = response.ten_degree
-            editedEntry.scoreGroupId = this.indentifyScoreGroup(response.ten_degree)[0]
             editedEntry.scoreGroup = this.indentifyScoreGroup(response.ten_degree)[1]
             
 
@@ -126,7 +125,6 @@ class ApplicationViews extends Component {
                 body: joinedArray,
                 title: this.state.title,
                 scoreGroup: this.state.scoreGroup,
-                scoreGroupId: this.state.scoreGroupId,
                 avgScore: this.state.avgScore
             }
     
@@ -138,8 +136,7 @@ class ApplicationViews extends Component {
                 title: currentEntry.title,
                 sentenceArray: filtering.removeEmptyStrings(currentEntry.body.split(".")),
                  avgScore: currentEntry.avgScore,
-                 scoreGroup: currentEntry.scoreGroup.name,
-                 scoreGroupId: currentEntry.scoreGroupId
+                 scoreGroup: currentEntry.scoreGroup.name
                 }) 
             }) )
 
@@ -168,7 +165,6 @@ class ApplicationViews extends Component {
             body: entryObj.body,
             sentenceArray: filtering.removeEmptyStrings((entryObj.body).split(".")),
             avgScore: entryObj.avgScore,
-            scoreGroupId: entryObj.scoreGroupId,
             scoreGroup: entryObj.scoreGroup
         }
         this.setState(stateToChange)

@@ -19,7 +19,7 @@ const entryData = {
     },
     getCurrentEntry: (id) => {
 
-        return fetch(`${baseURL}/${id}?_expand=scoreGroup`)
+        return fetch(`${baseURL}/${id}`)
             .then(response => response.json())
     },
     deleteEntry: (id) => {
