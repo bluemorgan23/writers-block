@@ -4,10 +4,10 @@ const baseURL = "https://api.datamuse.com/words?ml="
 
 const synAPI = {
     getSynonymsForWord: (word) => {
-        return fetch(`${baseURL}${word}&max=7`)
+        return fetch(`${baseURL}${word}&max=100`)
         .then(response => response.json())
         .then(parsedResponse => parsedResponse.filter(words => {
-            return words.score > 25000
+            return words.score > 70000
         } )).then(response => response.map(word => word.word))
     }
 }
@@ -15,10 +15,3 @@ const synAPI = {
 export default synAPI
 
 
-// getSynonymsForWord: (word) => {
-//     return fetch(`${baseURL}${word}&max=5`)
-//     .then(response => response.json())
-//     .then(parsedResponse => parsedResponse.filter(words => {
-//         return words.score > 1000
-//     } )).then(response => response.map(word => word.word))
-// }

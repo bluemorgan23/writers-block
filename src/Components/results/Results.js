@@ -1,23 +1,66 @@
 import React, {Component} from "react"
 
+
+
 import EditResults from "./EditResults"
+import cache from "../../modules/cache"
+import filtering from "../../modules/filter"
+import synAPI from "../../modules/synAPI"
+import entryData from "../../modules/entryData"
+import Loading from "../loading/Loading"
 
-
-import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup } from "reactstrap"
+import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup, Container, Row, Col, Badge } from "reactstrap"
 import "./results.css"
+
+
 
 export default class Results extends Component {
 
     state = {
         editButtonClicked: false,
         averageScore: 0,
-        scoreGroup: ""
+        scoreGroup: "",
+        isLoading: false,
+        sentencesAndWords: []
     }
 
+    componentDidMount = async() => {
+        console.log("mount")
+        let idToGrab = Number(sessionStorage.getItem("currentEntryID"))
+      if(idToGrab){
+           const response = entryData.getCurrentEntry(idToGrab)
+            const json = await response
+            console.log(json.body)
+            const wordArray = await filtering.getRidOfPunctuation(json.body)
+            console.log(wordArray)
+            const newArray = await filtering.filterOutWeakWords(wordArray)
+
+            this.setState({averageScore: await json.avgScore, scoreGroup: await json.scoreGroup})
+
+            cache.locStr(newArray)
+      }
+    }
+
+    // shouldComponentUpdate(prevState) {
+    //     if(this.state.isLoading !== prevState.isLoading){
+    //         return true
+    //     }
+    //     else{
+    //         return false
+    //     }
+    // }
+
+   switchToSyns = () => {
+        this.setState({
+           isLoading: !this.state.isLoading
+       })
+   }
+
+  
+  
     handleDelete = () => {
 
         this.props.onDelete(sessionStorage.getItem("currentEntryID"))
-        // .then(() => sessionStorage.removeItem("currentEntryID"))
         .then(() => this.props.history.push("/new-entry"))
     }
 
@@ -36,18 +79,32 @@ export default class Results extends Component {
         })
     }
 
-
-    handleFindSynonyms = () => {
-        this.props.history.push("/synonyms")
-    }
-
+    
 
     render() {
 
+        if(this.state.isLoading){
+            return <Loading
+            sentenceArray={this.props.sentenceArray} 
+            entry={this.props.body}
+            updateSentence={this.props.updateSentence}
+            updateEntry={this.props.updateEntry}
+            avgScore={this.props.avgScore}
+            history={this.props.history}
+            grabData={this.props.grabData}
+            />
+            } else {
         return (
-            <Card>
-                <CardHeader>Results</CardHeader>
-                <CardBody className="resultsBody">
+            <Container className="resultsContainer" fluid >
+            <Card className="mt-3">
+                <CardHeader>
+                    <h1 className="resultsTitle">
+                        <Badge >
+                           Results 
+                        </Badge>
+                    </h1>
+                </CardHeader>
+                <CardBody className="resultsBody bg-secondary">
                     
                             { this.state.editButtonClicked ?
                             
@@ -66,24 +123,39 @@ export default class Results extends Component {
                                     </CardBody>
                                 </Card>
                             </React.Fragment>
-                           
                              
                             :
 
                             <React.Fragment>
-                                
-                                <Card className="resultsEntry">
+                                <Row>
+                                <Col>
+                                <Card
+                                className="resultsEntry">
                                     <CardBody>
-                                        <CardTitle>{this.props.title}</CardTitle>
+                                        <CardTitle>
+                                            <h4>
+                                                <Badge color="primary">
+                                                   {this.props.title} 
+                                                </Badge>
+                                            </h4>
+                                        </CardTitle>
                                         <CardText>{this.props.body}</CardText>  
                                     </CardBody>
                                 </Card>
-                                <div className="resultsBody-right">
+                                </Col>
+                                </Row>
+                                <Row className="mt-3">
+                                <Col className="resultsBody-right">
                                     <Card className="resultsAnalysis">
+                                        <CardHeader className="bg-light">
+                                            <h1 className="resultsTitle">
+                                                <Badge color="secondary">
+                                                    Analysis
+                                                </Badge>
+                                            </h1>
+                                        </CardHeader>
                                         <CardBody>
-                                            
-                                            <CardTitle>Analysis</CardTitle>
-                                             
+                                           
                                             <CardText>Average Score: {this.props.avgScore}
                             
                                             </CardText>
@@ -94,27 +166,50 @@ export default class Results extends Component {
                                             
                                         </CardBody>
                                     </Card>
-                                    <Card>
-                                        <CardBody>
-                                            <ButtonGroup className="resultsButtons">
-                                                <Button
-                                                onClick={this.handleFindSynonyms}
+                                    <Card className="rightBottom-card">
+                                    <CardHeader >
+                                        <h1 className="resultsTitle"
+                                        id="">
+                                        <Badge >
+                                        Editor
+                                        </Badge>
+                                        </h1>
+                                        </CardHeader>
+                                        <CardBody className="buttonGroup-results">
+                                            <ButtonGroup vertical={true}
+                                             size="lg"
+                                            className="resultsButtons">
+                                                <Button 
+                                                size="lg"
+                                                color="info"
+                                                block
+                                                onClick={this.switchToSyns}
                                                 >Find Synonyms</Button>
-                                                <Button onClick={this.handleEdit}>Edit Entry</Button>
-                                                <Button onClick={this.handleDelete}
+                                                <Button 
+                                                size="lg"
+                                                className="mt-1"
+                                                block
+                                                color="info"
+                                                 onClick={this.handleEdit}>Edit Entry</Button>
+                                                <Button size="lg"
+                                                className="mt-1"
+                                                block
+                                                color="danger"
+                                                onClick={this.handleDelete}
                                                 >Discard Entry</Button>
                                             </ButtonGroup>
                                         </CardBody>
                                     </Card>
-                                    </div>
-
+                                    </Col>
+                                    </Row>
                             </React.Fragment> 
                             }
                             
                         
                     
                 </CardBody>
-            </Card>
-        )
+                </Card>
+            </Container>
+        )}
     }
 }

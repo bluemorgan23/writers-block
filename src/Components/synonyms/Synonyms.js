@@ -1,11 +1,15 @@
 import React, { Component } from "react"
 
+
+
 import {Card, CardBody, CardText, Input, CardHeader, Button, ButtonGroup, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from "reactstrap"
 import cache from "../../modules/cache"
-
 import filtering from "../../modules/filter"
+import entryData from "../../modules/entryData"
+
+
 import synAPI from "../../modules/synAPI"
-import scoreAPI from "../../modules/scoreAPI"
+
 
 import "./synonyms.css"
 
@@ -20,67 +24,65 @@ class Synonyms extends Component {
         sentencesAndWords: [],
         indexToShow: 0,
         dropdownOpen: false,
+        isLoading: true
     }
+
 
 
     componentDidMount(){
-        
-        const lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < cache.avg.ten_degree)
 
-        const justWord = lowScoringWords.map(word => word.response.entry)
-
-        const arrayOfSentences = justWord.map(word => this.sentencesContainWords(this.props.sentenceArray, word))
-
-        
-
-         Promise.all(arrayOfSentences)
-         .then(response => {
-           let newArray = response.filter(response => response !== undefined && response.sentence !== undefined)
-           this.setState({
-               sentencesAndWords: newArray
-           })
-         })
-        
-    }
-
-    componentDidUpdate(prevProps) {
-        if(prevProps.sentenceArray !== this.props.sentenceArray){
-            const lowScoringWords = cache.eachScore.filter(word => word.response.ten_degree < cache.avg.ten_degree)
-
-        const justWord = lowScoringWords.map(word => word.response.entry)
-
-        const arrayOfSentences = justWord.map(word => this.sentencesContainWords(this.props.sentenceArray, word))
-
-
-         Promise.all(arrayOfSentences)
-         .then(response => {
-           let newArray = response.filter(response => response !== undefined && response.sentence !== undefined)
-           this.setState({
-               sentencesAndWords: newArray
-           })
-         })
+        if(this.props.sentencesAndWords){
+            this.setState({
+                sentencesAndWords: this.props.sentencesAndWords
+            })
         }
+       
     }
-    
 
+
+    async componentDidUpdate(prevProps, prevState) {
+      
+        
+        if(prevProps.sentenceArray !== this.props.sentenceArray){
+        
+            let idToGrab = Number(sessionStorage.getItem("currentEntryID"))
+            
+            const response = entryData.getCurrentEntry(idToGrab)
+            const json = await response
+            console.log(json.body)
+            const wordArray = await filtering.getRidOfPunctuation(json.body)
+         
+            const newArray = await filtering.filterOutWeakWords(wordArray)
+
+            const cachedData = await cache.locStr(newArray)
+            const lowScoringWords = cachedData.filter(word => word.response.ten_degree < this.props.avgScore)
+
+         
+
+            const justWord = lowScoringWords.map(word => word.response.entry)
+
+            const arrayOfSentences = justWord.map(word => this.sentencesContainWords(this.props.sentenceArray, word))
+
+            Promise.all(arrayOfSentences)
+            .then(newArray => newArray.filter(response => response !== undefined && response.sentence !== undefined))
+            .then(response => this.props.grabData(response))
+            .then(response => this.setState({isLoading: false, sentencesAndWords: response}))
+    }
+}
+    
     replaceWord = (event) => {
         
         let updatedEntry = this.props.entry.replace(event.target.parentNode.parentNode.firstChild.innerHTML, event.target.value)
 
-        const arrayOfSentences = this.state.sentencesAndWords
 
         return this.props.updateEntry(updatedEntry)
     }
 
     sentencesContainWords = (sentenceArray, word) => {
         
-       
-
         let sentenceString = sentenceArray.find(sentence => {
-            return sentence.toLowerCase().includes(word.toLowerCase())
+            return sentence.includes(word)
         })
-
-    
 
         let newObj = {sentence: sentenceString, word: word, index: sentenceArray.indexOf(sentenceString), matches: []}
 
@@ -89,12 +91,8 @@ class Synonyms extends Component {
             if(results.length > 0){
                 newObj.matches = results
                 return newObj 
-            }
-            
-              
+            }    
         })
-
-        
     }
 
     toggle = () => {
@@ -119,6 +117,10 @@ class Synonyms extends Component {
     toggleNext = (event) => {
         event.preventDefault()
 
+        if(!this.state.sentencesAndWords){
+            window.alert("No more suggestions! Let's see how you did.")
+        }
+
         let length = this.state.sentencesAndWords.length
 
         if( this.state.indexToShow === (length - 1)){
@@ -128,7 +130,7 @@ class Synonyms extends Component {
         } else {
 
             return this.setState(prevState => {
-            return prevState.indexToShow += 1
+                return prevState.indexToShow += 1
             })
         }
     }
@@ -157,7 +159,6 @@ class Synonyms extends Component {
 
 
     render() {
-        // this.state.sentencesAndWords.length > 0 && console.log("matches", this.state.sentencesAndWords[0].matches, this.state.sentencesAndWords)
         return (
             
             <React.Fragment>
@@ -221,7 +222,8 @@ class Synonyms extends Component {
                                     })}
                                     </DropdownMenu>
                                 </ButtonDropdown>
-                                <Button size="sm">Save All Changes</Button>
+                                <Button onClick={() => this.props.history.push("/results")}
+                                size="sm">Return to Results</Button>
                             </ButtonGroup>
                             
                         </CardBody>

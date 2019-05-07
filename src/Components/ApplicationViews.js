@@ -6,7 +6,7 @@ import {Route, Redirect} from "react-router-dom"
 import userData from '../modules/userData';
 import entryData from "../modules/entryData"
 import filtering from "../modules/filter"
-
+import scoreAPI from "../modules/scoreAPI"
 
 // Component Imports
 import Register from "./register/Register"
@@ -21,11 +21,12 @@ class ApplicationViews extends Component {
     state = {
         body: "",
         title: "",
-        sentenceArray: []
+        sentenceArray: [],
+        sentencesAndWords: []
     }
 
-    componentWillMount() {
-
+    componentDidMount() {
+        
         if(this.isEntrySaved()){
            return entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID"))
         .then(currentEntry => {
@@ -41,16 +42,60 @@ class ApplicationViews extends Component {
         }
     }
 
-    componentWillUnmount(){
-        this.setState({
-            body: "", title: "", sentenceArray: [], avgScore: null, scoreGroup: ""
-        })
+    componentWillUnmount() {
+        if(this.isAuthenticated() === false ){
+            let stateToChange = {body: "", title: "", sentenceArray: [], sentencesAndWords: []}
+            this.setState(stateToChange)
+        }
     }
 
-    updateEntry = (updatedEntry) => {
-        return this.setState({
+    grabData = (data) => {
+
+      this.setState({sentencesAndWords : data})
+      return data
+    }
+
+    indentifyScoreGroup = (score) => {
+       
+        if(score <= 2) {
+            return [1, "Casual"]
+        } else if(score <= 4 && score > 2) {
+            return [2, "Business Formal"]
+        } else if (score <= 6 && score > 4) {
+            return [3, "Complex"]
+        } else if (score <= 10 && score > 6) {
+            return [4, "Semantic Genius"]
+        }
+     }
+    
+
+    updateEntry= async(updatedEntry) =>  {
+       this.setState({
             body: updatedEntry, sentenceArray: filtering.removeEmptyStrings(updatedEntry.split("."))
         })
+
+        let promise = scoreAPI.getAverageVocabScoreNOSAVE(updatedEntry)
+        let response = await promise
+
+        let editedEntry = {}
+        let currentEntryID = sessionStorage.getItem("currentEntryID")
+        let grabEntry = entryData.getCurrentEntry(currentEntryID)
+        let newValue = await grabEntry
+        
+
+            
+
+            editedEntry.id = currentEntryID
+            editedEntry.userId = newValue.userId
+            editedEntry.body = updatedEntry
+            editedEntry.title = newValue.title
+            editedEntry.avgScore = response.ten_degree
+            editedEntry.scoreGroupId = this.indentifyScoreGroup(response.ten_degree)[0]
+            editedEntry.scoreGroup = this.indentifyScoreGroup(response.ten_degree)[1]
+            
+
+            entryData.putEntry(editedEntry) 
+       
     }
 
     updateSentence = (updatedSentence, index) => {
@@ -97,8 +142,7 @@ class ApplicationViews extends Component {
                  scoreGroupId: currentEntry.scoreGroupId
                 }) 
             }) )
-            
-            // return {sentenceArray: sentenceArray, entry: joinedArray}
+
         })
     }
 
@@ -118,6 +162,7 @@ class ApplicationViews extends Component {
     }
 
     onAnalyze = (entryObj) => {
+        localStorage.removeItem("eachScore")
         let stateToChange = {
             title: entryObj.title,
             body: entryObj.body,
@@ -127,6 +172,7 @@ class ApplicationViews extends Component {
             scoreGroup: entryObj.scoreGroup
         }
         this.setState(stateToChange)
+        
         return entryData.postNewEntry(entryObj)
     }
 
@@ -193,6 +239,9 @@ class ApplicationViews extends Component {
                      onDelete={this.onDelete}
                      saveEditedEntry = {this.saveEditedEntry}
                      scoreGroupId = {this.state.scoreGroupId}
+                     updateSentence={this.updateSentence}
+                     updateEntry={this.updateEntry}
+                     grabData={this.grabData}
                      {...props} />
                 } else {
                     return <Redirect to="/" />
@@ -205,6 +254,8 @@ class ApplicationViews extends Component {
                     updateSentence={this.updateSentence}
                     updateEntry={this.updateEntry}
                     avgScore={this.state.avgScore}
+                    sentencesAndWords={this.state.sentencesAndWords}
+                    grabData={this.grabData}
                     {...props} />
                 } else {
                     return <Redirect to="/" />
