@@ -29,15 +29,15 @@ class Synonyms extends Component {
 
 
 
-    componentDidMount(){
+    componentWillMount(){
 
         if(this.props.sentencesAndWords){
             this.setState({
                 sentencesAndWords: this.props.sentencesAndWords
             })
-        }
-       
+        } 
     }
+
 
 
     async componentDidUpdate(prevProps, prevState) {
@@ -61,12 +61,19 @@ class Synonyms extends Component {
 
             const justWord = lowScoringWords.map(word => word.response.entry)
 
-            const arrayOfSentences = justWord.map(word => this.sentencesContainWords(this.props.sentenceArray, word))
+            const arrayOfSentences = await justWord.map(word => this.sentencesContainWords(this.props.sentenceArray, word))
 
-            Promise.all(arrayOfSentences)
-            .then(newArray => newArray.filter(response => response !== undefined && response.sentence !== undefined))
-            .then(response => this.props.grabData(response))
-            .then(response => this.setState({isLoading: false, sentencesAndWords: response}))
+            if(this.state.sentencesAndWords.length === 0 || !this.state.sentencesAndWords){
+                window.alert("Looking good! Let's check out your new results!")
+                this.props.history.push("/results")
+            } else {
+              Promise.all(arrayOfSentences)
+                .then(newArray => newArray.filter(response => response !== undefined && response.sentence !== undefined))
+                .then(response => this.props.grabData(response))
+                .then(response => this.setState({isLoading: false, sentencesAndWords: response}))  
+            }
+
+            
     }
 }
     
