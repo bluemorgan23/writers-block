@@ -30,6 +30,12 @@ export default class Results extends Component {
         sentencesAndWords: []
     }
 
+    static getDerivedStateFromProps(nextProps){
+        if(nextProps.avgScore !== nextProps.averageScore){
+            return {averageScore: nextProps.avgScore, scoreGroup: nextProps.scoreGroup}
+        }
+    }
+
     componentDidMount = async() => {
         
 
@@ -45,7 +51,6 @@ export default class Results extends Component {
            
                 const newArray = await filtering.filterOutWeakWords(wordArray)
 
-                this.setState({averageScore: json.avgScore, scoreGroup: await json.scoreGroup})
 
                 cache.locStr(newArray)
 
