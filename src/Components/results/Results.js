@@ -110,7 +110,7 @@ export default class Results extends Component {
             updateEntry={this.props.updateEntry}
             avgScore={this.props.avgScore}
             history={this.props.history}
-            grabData={this.props.grabData}
+            grabData={this.props.grabSynData}
             switchToSyns={this.switchToSyns}
             isLoading={this.state.isLoading}
             />

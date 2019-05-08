@@ -252,7 +252,7 @@ class ApplicationViews extends Component {
                      scoreGroupId = {this.state.scoreGroupId}
                      updateSentence={this.updateSentence}
                      updateEntry={this.updateEntry}
-                     grabSynData={this.grabData}
+                     grabSynData={this.grabSynData}
                      {...props} />
                 } else {
                     return <Redirect to="/" />
@@ -266,7 +266,7 @@ class ApplicationViews extends Component {
                     updateEntry={this.updateEntry}
                     avgScore={this.state.avgScore}
                     sentencesAndWords={this.state.sentencesAndWords}
-                    grabSynData={this.grabData}
+                    grabData={this.grabSynData}
                     {...props} />
                 } else {
                     return <Redirect to="/" />
