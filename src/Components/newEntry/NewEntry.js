@@ -46,6 +46,9 @@ export default class NewEntry extends Component {
     }
 
     handleAnalyze = (event) => {
+        if(sessionStorage.getItem("currentEntryID")){
+            sessionStorage.removeItem("currentEntryID")
+        }
         event.preventDefault()
         entryData.getUserEntries()
         .then(entryList => {
@@ -79,14 +82,15 @@ export default class NewEntry extends Component {
                 .then(() => this.props.onAnalyze(entryObj))
 
 
-                    .then(() => entryData.getUserEntries())
-                    .then(entries => {
-                            return entries.find(entry => entry.title.toLowerCase() === this.state.title.toLowerCase())
-                            })
-                    .then(matchedEntry => {
-                        this.props.history.push("/results")
-                        sessionStorage.setItem("currentEntryID", matchedEntry.id)
-                    })
+                    // .then(() => entryData.getUserEntries())
+                    // .then(entries => {
+                    //         return entries.find(entry => entry.title.toLowerCase() === this.state.title.toLowerCase())
+                    //         })
+                    // .then(matchedEntry => {
+                    //     sessionStorage.setItem("currentEntryID", matchedEntry.id)
+                    // })
+                    
+                    .then(() => this.props.history.push("/results"))
                 }
             })
     }

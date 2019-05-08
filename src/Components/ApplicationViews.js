@@ -17,6 +17,7 @@ import Synonyms from "./synonyms/Synonyms"
 import Stats from "./stats/Stats"
 
 
+
 class ApplicationViews extends Component {
 
     state = {
@@ -39,6 +40,10 @@ class ApplicationViews extends Component {
              scoreGroup: currentEntry.scoreGroup
             }) 
         }) 
+        } else {
+            this.setState({
+                body: "", title: "", sentenceArray: [], sentencesAndWords: []
+            })
         }
     }
 
@@ -49,7 +54,11 @@ class ApplicationViews extends Component {
         }
     }
 
-    grabData = (data) => {
+    grabScoreData = (obj) => {
+        this.setState(obj)
+    }
+
+    grabSynData = (data) => {
 
       this.setState({sentencesAndWords : data})
       return data
@@ -169,7 +178,13 @@ class ApplicationViews extends Component {
         }
         this.setState(stateToChange)
         
-        return entryData.postNewEntry(entryObj)
+       
+        entryData.postNewEntry(entryObj)
+        .then(() => entryData.getUserEntries())
+        .then(userEntries => {
+            return userEntries.find(entry => entry.title === entryObj.title)
+        })
+        .then(matchedEntry => sessionStorage.setItem("currentEntryID", matchedEntry.id))
     }
 
     onDelete = (id) => {
@@ -219,7 +234,7 @@ class ApplicationViews extends Component {
             }} />
             <Route path="/new-entry" render={ props => {
                 if(this.isAuthenticated()){
-                    return <NewEntry onAnalyze={this.onAnalyze} {...props} />
+                    return <NewEntry onAnalyze={this.onAnalyze} grabScoreData={this.grabScoreData} {...props} />
                 } else {
                     return <Redirect to="/" />
                 }
@@ -237,7 +252,7 @@ class ApplicationViews extends Component {
                      scoreGroupId = {this.state.scoreGroupId}
                      updateSentence={this.updateSentence}
                      updateEntry={this.updateEntry}
-                     grabData={this.grabData}
+                     grabSynData={this.grabData}
                      {...props} />
                 } else {
                     return <Redirect to="/" />
@@ -251,7 +266,7 @@ class ApplicationViews extends Component {
                     updateEntry={this.updateEntry}
                     avgScore={this.state.avgScore}
                     sentencesAndWords={this.state.sentencesAndWords}
-                    grabData={this.grabData}
+                    grabSynData={this.grabData}
                     {...props} />
                 } else {
                     return <Redirect to="/" />
@@ -259,7 +274,7 @@ class ApplicationViews extends Component {
             }} />
             <Route path="/stats" render={ props => {
                 if(this.isAuthenticated()){
-                    return <Stats  delete={this.onDelete}{...props} />
+                    return <Stats grabScoreData={this.grabScoreData}  delete={this.onDelete}{...props} />
                 } else {
                     return <Redirect to="/" />
                 }

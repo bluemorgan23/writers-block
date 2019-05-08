@@ -2,7 +2,7 @@ import React, {Component} from "react"
 
 import entryData from "../../modules/entryData"
 
-import { Card, CardHeader, CardTitle, CardBody, CardText, CardLink, Button, ListGroup, ListGroupItem, Container, Row, Col, CardSubtitle, Badge } from "reactstrap"
+import { Card, CardHeader, CardTitle, CardBody, CardText, CardLink, Button, ListGroup, ListGroupItem, Container, Row, Col, CardSubtitle } from "reactstrap"
 import "./stats.css"
 
 import { GiEnlightenment, GiCrown, GiBrain } from "react-icons/gi"

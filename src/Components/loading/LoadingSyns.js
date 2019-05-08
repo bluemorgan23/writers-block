@@ -4,8 +4,7 @@ import cache from "../../modules/cache"
 import synAPI from "../../modules/synAPI"
 import entryData from "../../modules/entryData"
 import filtering from "../../modules/filter"
-import { Card, CardHeader, Button, CardBody } from "reactstrap"
-import Synonyms from "../synonyms/Synonyms"
+
 
 import LoadingScreen from 'react-loading-screen';
 
@@ -85,7 +84,7 @@ export default class LoadingSyns extends PureComponent {
                 text='Checking for Synonyms'
                     > 
     
-            
+            <div></div>
             </LoadingScreen>
             
            

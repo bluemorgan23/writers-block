@@ -1,8 +1,8 @@
 const baseURL = "https://api.datamuse.com/words?rel_syn="
 
 // Words API
-const url = "https://wordsapiv1.p.mashape.com/"
-const key = "19783159f2msh8d529c3b101051ep17b582jsn2a291563b2cd"
+// const url = "https://wordsapiv1.p.mashape.com/"
+// const key = "19783159f2msh8d529c3b101051ep17b582jsn2a291563b2cd"
 
 // const apiKey = "19783159f2msh8d529c3b101051ep17b582jsn2a291563b2cd"
 
