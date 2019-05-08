@@ -2,8 +2,11 @@ import React, {Component} from "react"
 
 import entryData from "../../modules/entryData"
 
-import { Card, CardHeader, CardTitle, CardBody, CardText, CardLink, Button, ListGroup, ListGroupItem, Container, Row, Col, CardSubtitle, Badge } from "reactstrap"
+import { Card, CardHeader, CardTitle, CardBody, CardText, CardLink, Button, ListGroup, ListGroupItem, Container, Row, Col, CardSubtitle } from "reactstrap"
 import "./stats.css"
+
+import { GiEnlightenment, GiCrown, GiBrain } from "react-icons/gi"
+import { IoIosBowtie } from "react-icons/io"
 
 export default class Stats extends Component {
 
@@ -24,6 +27,19 @@ export default class Stats extends Component {
         })
     }
 
+    whichIconToUse = (score) => {
+        switch(true) {
+            case(score < 3):
+                return <GiEnlightenment size="2em" color="#843131"/>
+            case(score > 2 && score < 5):
+                return <IoIosBowtie size="2em"/>
+            case(score > 4 && score < 7):
+                return <GiCrown size="2em" color="#d1a849"/>
+            case(score > 6 && score < 11):
+                return <GiBrain size="2em" color="#ba5e77"/>
+        }
+    }
+
     handleDiscard = (event) => {
         
         this.props.delete(Number(event.target.id))
@@ -41,10 +57,11 @@ export default class Stats extends Component {
 
     render() {
         return (
-           <Card>
-            <CardHeader>User Statistics</CardHeader>
+           <Card className="text-center">
+            <CardHeader>Saved Entries</CardHeader>
             <CardBody>
                 <CardTitle>Click on an entry title to view the results.</CardTitle>
+                <CardSubtitle></CardSubtitle>
                 <hr></hr>
                 <Container>
                     <Col>
@@ -53,7 +70,7 @@ export default class Stats extends Component {
                            
                             return  <ListGroup className="statsContainer mb-3" key={entry.id}>
                                         <Row className="statsRow">
-                                            <ListGroupItem className="statsListItem">
+                                            <ListGroupItem key={entry.id}className="statsListItem">
                                             
                                                 <Col>
                                                 <CardLink
@@ -63,20 +80,20 @@ export default class Stats extends Component {
                                                     >{entry.title}
                                                 </CardLink>
                                                 </Col>
-                                           
-                                            
                                                 <Col>
-                                                <CardText>Average Score</CardText>
+                                                <CardText>
+                                                {this.whichIconToUse(entry.avgScore)}
+                                                </CardText>
                                                 </Col>
                                                 <Col>
-                                                <small text-muted>last update: </small>
+                                                <small className="text-muted">last update: </small>
                                                 </Col>
                                                 <Col>
-                                                <Badge className="discardStat text-center"
+                                                <Button className="discardStat text-center"
                                                 size="sm"
                                                 color="danger"
                                                 onClick={this.handleDiscard}
-                                                id={entry.id}>X</Badge>
+                                                id={entry.id}>X</Button>
                                                 </Col>
                                             
                                             </ListGroupItem>

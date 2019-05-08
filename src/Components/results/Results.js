@@ -5,11 +5,17 @@ import React, {Component} from "react"
 import EditResults from "./EditResults"
 import cache from "../../modules/cache"
 import filtering from "../../modules/filter"
-import synAPI from "../../modules/synAPI"
-import entryData from "../../modules/entryData"
-import Loading from "../loading/Loading"
 
-import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup, Container, Row, Col, Badge } from "reactstrap"
+import entryData from "../../modules/entryData"
+import LoadingSyns from "../loading/LoadingSyns"
+
+//icons 
+import { GiEnlightenment } from "react-icons/gi"
+import { IoIosBowtie } from "react-icons/io"
+import { GiCrown } from "react-icons/gi"
+import { GiBrain } from "react-icons/gi"
+
+import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup, Container, Row, Col, Badge, CardDeck } from "reactstrap"
 import "./results.css"
 
 
@@ -25,30 +31,43 @@ export default class Results extends Component {
     }
 
     componentDidMount = async() => {
-        console.log("mount")
+        
+
         let idToGrab = Number(sessionStorage.getItem("currentEntryID"))
-      if(idToGrab){
-           const response = entryData.getCurrentEntry(idToGrab)
-            const json = await response
-            console.log(json.body)
-            const wordArray = await filtering.getRidOfPunctuation(json.body)
-            console.log(wordArray)
-            const newArray = await filtering.filterOutWeakWords(wordArray)
+            if(idToGrab){
 
-            this.setState({averageScore: await json.avgScore, scoreGroup: await json.scoreGroup})
+                const response = entryData.getCurrentEntry(idToGrab)
 
-            cache.locStr(newArray)
-      }
+                const json = await response
+            
+                const wordArray = await filtering.getRidOfPunctuation(json.body)
+
+           
+                const newArray = await filtering.filterOutWeakWords(wordArray)
+
+                this.setState({averageScore: json.avgScore, scoreGroup: await json.scoreGroup})
+
+                cache.locStr(newArray)
+
+        }
     }
 
-    // shouldComponentUpdate(prevState) {
-    //     if(this.state.isLoading !== prevState.isLoading){
-    //         return true
-    //     }
-    //     else{
-    //         return false
-    //     }
-    // }
+    whichIconToUse = (score) => {
+        let casual = <GiEnlightenment size="4em" color="#843131" />
+        let biz = <IoIosBowtie size="4em"/>
+        let complex = <GiCrown size="4em" color="#d1a849"/>
+        let genius = <GiBrain size="4em" color="#ba5e77"/>
+        switch(true) {
+            case(score < 3):
+                return [casual, "Casual"]
+            case(score > 2 && score < 5):
+                return [biz, "Business"]
+            case(score > 4 && score < 7):
+                return [complex, "Complex"]
+            case(score > 6 && score < 11):
+                return [genius, "Semantic Genius"]
+        }
+    }
 
    switchToSyns = () => {
         this.setState({
@@ -84,27 +103,29 @@ export default class Results extends Component {
     render() {
 
         if(this.state.isLoading){
-            return <Loading
+            return <LoadingSyns
             sentenceArray={this.props.sentenceArray} 
             entry={this.props.body}
             updateSentence={this.props.updateSentence}
             updateEntry={this.props.updateEntry}
             avgScore={this.props.avgScore}
             history={this.props.history}
-            grabData={this.props.grabData}
+            grabData={this.props.grabSynData}
+            switchToSyns={this.switchToSyns}
+            isLoading={this.state.isLoading}
             />
             } else {
         return (
             <Container className="resultsContainer" fluid >
             <Card className="mt-3">
-                <CardHeader>
+                <CardHeader className="bg-secondary text-center">
                     <h1 className="resultsTitle">
                         <Badge >
                            Results 
                         </Badge>
                     </h1>
                 </CardHeader>
-                <CardBody className="resultsBody bg-secondary">
+                <CardBody className="resultsBody bg-light">
                     
                             { this.state.editButtonClicked ?
                             
@@ -120,6 +141,7 @@ export default class Results extends Component {
                                         scoreGroup={this.props.scoreGroup}
                                         scoreGroupId={this.props.scoreGroupId}
                                         />
+                                        
                                     </CardBody>
                                 </Card>
                             </React.Fragment>
@@ -127,8 +149,10 @@ export default class Results extends Component {
                             :
 
                             <React.Fragment>
-                                <Row>
-                                <Col>
+                                
+                              
+                                
+                                <Row className="entryRow">
                                 <Card
                                 className="resultsEntry">
                                     <CardBody>
@@ -142,12 +166,13 @@ export default class Results extends Component {
                                         <CardText>{this.props.body}</CardText>  
                                     </CardBody>
                                 </Card>
-                                </Col>
                                 </Row>
-                                <Row className="mt-3">
-                                <Col className="resultsBody-right">
-                                    <Card className="resultsAnalysis">
-                                        <CardHeader className="bg-light">
+                               
+                                
+                               <Row>
+                                <CardDeck className="mt-3 bottomGroup">
+                                    <Card className="resultsAnalysis text-center">
+                                        <CardHeader className="bg-secondary">
                                             <h1 className="resultsTitle">
                                                 <Badge color="secondary">
                                                     Analysis
@@ -155,19 +180,24 @@ export default class Results extends Component {
                                             </h1>
                                         </CardHeader>
                                         <CardBody>
-                                           
-                                            <CardText>Average Score: {this.props.avgScore}
+                                           <CardText>
+                                            {(this.whichIconToUse(this.state.averageScore))[0]}
+                                            </CardText>
+
+                                            <CardText>
+                                                 We calculate a {" "}
+                                                <b>{(this.whichIconToUse(this.state.averageScore))[1]}
+                                                </b>{" "}
+                                                level of vocabulary based on your input.
+                                                
                             
                                             </CardText>
-                                            <CardText>The readability grade of this entry is {this.props.scoreGroup}
-                            
-                                            </CardText>
-                                            {/* <CardText>The highest scoring word is: </CardText> */}
                                             
+                                           
                                         </CardBody>
                                     </Card>
                                     <Card className="rightBottom-card">
-                                    <CardHeader >
+                                    <CardHeader className="bg-secondary text-center">
                                         <h1 className="resultsTitle"
                                         id="">
                                         <Badge >
@@ -200,8 +230,9 @@ export default class Results extends Component {
                                             </ButtonGroup>
                                         </CardBody>
                                     </Card>
-                                    </Col>
-                                    </Row>
+                                    
+                                   </CardDeck>
+                                   </Row>
                             </React.Fragment> 
                             }
                             

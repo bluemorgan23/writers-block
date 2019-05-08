@@ -23,6 +23,9 @@ const filtering = {
         let filter6 = "is"
         let filter7 = "will"
         let filter8 = "to"
+        let filter9 = "in"
+        let filter10 = "one"
+        let filter11 = "by"
         const filters = 
             [
                 filter1, 
@@ -32,7 +35,10 @@ const filtering = {
                 filter5,
                 filter6,
                 filter7,
-                filter8
+                filter8,
+                filter9,
+                filter10,
+                filter11
             ]
 
         const filteredWords = array.filter(word => !filters.includes(word))

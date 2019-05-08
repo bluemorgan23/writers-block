@@ -46,6 +46,9 @@ export default class NewEntry extends Component {
     }
 
     handleAnalyze = (event) => {
+        if(sessionStorage.getItem("currentEntryID")){
+            sessionStorage.removeItem("currentEntryID")
+        }
         event.preventDefault()
         entryData.getUserEntries()
         .then(entryList => {
@@ -66,28 +69,28 @@ export default class NewEntry extends Component {
                     title: this.state.title,
                     body: this.state.body,
                     userId: Number(sessionStorage.getItem("userID")),
-                    scoreGroupId: 0,
                     scoreGroup: ""
                 }
 
                 return scoreAPI.getAverageVocabScoreNOSAVE(this.state.body).then(response => entryObj.avgScore = response.ten_degree)
-                .then(() => scoreAPI.getAverageVocabScoreNOSAVE(this.state.body))
-                .then(response => response.ten_degree)
-                .then(response => entryObj.scoreGroupId = this.indentifyScoreGroup(response)[0])
+                // .then(() => scoreAPI.getAverageVocabScoreNOSAVE(this.state.body))
+                // .then(response => response.ten_degree)
+                // .then(response => entryObj.scoreGroupId = this.indentifyScoreGroup(response)[0])
                 .then(() => scoreAPI.getAverageVocabScoreNOSAVE(this.state.body))
                 .then(response => response.ten_degree)
                 .then(response => entryObj.scoreGroup = this.indentifyScoreGroup(response)[1])
                 .then(() => this.props.onAnalyze(entryObj))
 
 
-                    .then(() => entryData.getUserEntries())
-                    .then(entries => {
-                            return entries.find(entry => entry.title.toLowerCase() === this.state.title.toLowerCase())
-                            })
-                    .then(matchedEntry => {
-                        this.props.history.push("/results")
-                        sessionStorage.setItem("currentEntryID", matchedEntry.id)
-                    })
+                    // .then(() => entryData.getUserEntries())
+                    // .then(entries => {
+                    //         return entries.find(entry => entry.title.toLowerCase() === this.state.title.toLowerCase())
+                    //         })
+                    // .then(matchedEntry => {
+                    //     sessionStorage.setItem("currentEntryID", matchedEntry.id)
+                    // })
+                    
+                    .then(() => this.props.history.push("/results"))
                 }
             })
     }

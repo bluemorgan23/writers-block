@@ -1,17 +1,21 @@
- resultsBody {
+.resultsBody {
     display: flex;
-    flex-flow: column nowrap;
-    align-content: space-around
+    align-items: center;
+    flex-direction: column
+} 
 
+.resultsContainer {
+    display: flex;
+    justify-content: center
 }
 
-.resultsBody-right {
-    display: flex;
-    justify-content: space-around
+.resultsEntry {
+    max-width: 90%;
 }
 
-.rightBottom-card {
-    min-width: 40% !important;
+.entryRow {
+    display: flex;
+    justify-content: center
 }
 
 .resultsEntry-edit{
@@ -20,17 +24,13 @@
     align-items: center
 }
 
-.resultsEntry-body{
-    width: 80%;
-}
+
 
 .editTextarea {
     min-height: 200px
 }
 
-.resultsTitle {
-    text-align: center
-}
+
 
 .buttonGroup-results{
     padding: .75rem !important;
