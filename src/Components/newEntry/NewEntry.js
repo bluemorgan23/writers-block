@@ -73,22 +73,16 @@ export default class NewEntry extends Component {
                 }
 
                 return scoreAPI.getAverageVocabScoreNOSAVE(this.state.body).then(response => entryObj.avgScore = response.ten_degree)
-                // .then(() => scoreAPI.getAverageVocabScoreNOSAVE(this.state.body))
-                // .then(response => response.ten_degree)
-                // .then(response => entryObj.scoreGroupId = this.indentifyScoreGroup(response)[0])
+
                 .then(() => scoreAPI.getAverageVocabScoreNOSAVE(this.state.body))
+
                 .then(response => response.ten_degree)
+                
                 .then(response => entryObj.scoreGroup = this.indentifyScoreGroup(response)[1])
+
                 .then(() => this.props.onAnalyze(entryObj))
 
 
-                    // .then(() => entryData.getUserEntries())
-                    // .then(entries => {
-                    //         return entries.find(entry => entry.title.toLowerCase() === this.state.title.toLowerCase())
-                    //         })
-                    // .then(matchedEntry => {
-                    //     sessionStorage.setItem("currentEntryID", matchedEntry.id)
-                    // })
                     
                     .then(() => this.props.history.push("/results"))
                 }
