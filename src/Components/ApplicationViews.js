@@ -15,6 +15,7 @@ import NewEntry from './newEntry/NewEntry';
 import Results from "./results/Results"
 import Synonyms from "./synonyms/Synonyms"
 import Stats from "./stats/Stats"
+import NoResults from "./fourZeroFour/NoResultSaved"
 
 
 
@@ -158,6 +159,14 @@ class ApplicationViews extends Component {
 
     isEntrySaved = () => sessionStorage.getItem("currentEntryID") !== null
 
+    // isEntryStored = () => {
+    //  if(sessionStorage.getItem("isEntryStored") === true){
+    //      return true
+    //  } else {
+    //      return false
+    //  }
+    // }
+
     onRegister = (userToRegister) => {
         return userData.postUser(userToRegister)
             .then(() => userData.getAllUsers())
@@ -195,6 +204,7 @@ class ApplicationViews extends Component {
                 
                 
             sessionStorage.removeItem("currentEntryID")
+            sessionStorage.setItem("isEntryStored", false)
             return entryData.deleteEntry(id)
                 .then(() => this.setState({
                     body: "",
@@ -281,6 +291,14 @@ class ApplicationViews extends Component {
             <Route path="/stats" render={ props => {
                 if(this.isAuthenticated()){
                     return <Stats grabScoreData={this.grabScoreData}  delete={this.onDelete}{...props} />
+                } else {
+                    return <Redirect to="/" />
+                }
+                
+            }} />
+            <Route path="/no-entry" render={ props => {
+                if(this.isAuthenticated()){
+                    return <NoResults {...props}  />
                 } else {
                     return <Redirect to="/" />
                 }

@@ -2,7 +2,7 @@ import React, { Component } from "react"
 
 
 
-import {Card, CardBody, CardText, Input, CardHeader, Button, ButtonGroup, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from "reactstrap"
+import {Card, CardBody, CardText, Input, CardHeader, Button, ButtonGroup, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle, Badge } from "reactstrap"
 import cache from "../../modules/cache"
 import filtering from "../../modules/filter"
 import entryData from "../../modules/entryData"
@@ -170,7 +170,13 @@ class Synonyms extends Component {
             
             <React.Fragment>
             <Card className="synonymCard m-2 mt-4">
-            <CardHeader className="synonymCardHeader">Let's replace some words!</CardHeader>
+            <CardHeader className="synonymCardHeader bg-secondary">
+                <h1>
+                    <Badge>
+                        Let's replace some words!
+                    </Badge>
+                </h1>
+            </CardHeader>
             {this.state.buttonClicked === true ? (
                         <CardBody className="synonymCardBody">
                             {(() => {
@@ -197,21 +203,28 @@ class Synonyms extends Component {
                     :
                     
                         <CardBody className="synonymCardBody bg-light">
-                            <Button
-                            onClick={this.toggleNext} id={this.state.indexToShow}
+                            <Button size="lg"
+                            color="dark"
+                            onClick={this.toggleNext} 
+                            id={this.state.indexToShow}
                             className="mb-2"
                             >Next</Button>
-                            <CardText className="sentence"
+                            <CardText className="sentence mt-2"
                             id={this.state.indexToShow}>{this.state.sentencesAndWords.length > 0 && this.state.sentencesAndWords[this.state.indexToShow].sentence}</CardText>
                             
-                            <ButtonGroup>
-                               <Button size="sm"
-                               id={this.state.indexToShow} onClick={this.toggleChange}>Edit</Button>
-                               <ButtonDropdown
+                            <div className="mt-2 synsButtons">
+                               <Button className="mr-1"
+                                    color="dark"
+                                    size="lg"
+                                    id={this.state.indexToShow} onClick={this.toggleChange}>Edit Sentence
+                                </Button>
+                               <ButtonDropdown className="mr-1"
+                                color="dark"
                                 id={this.state.indexToShow}
                                 isOpen={this.state.dropdownOpen} 
                                 toggle={this.toggle}>
-                                    <DropdownToggle caret size="sm">
+                                    <DropdownToggle color="dark"
+                                        caret size="lg">
                                     {this.state.sentencesAndWords.length > 0 && 
                                         this.state.sentencesAndWords[this.state.indexToShow].word}
                                     </DropdownToggle>
@@ -229,9 +242,12 @@ class Synonyms extends Component {
                                     })}
                                     </DropdownMenu>
                                 </ButtonDropdown>
-                                <Button onClick={() => this.props.history.push("/results")}
-                                size="sm">Return to Results</Button>
-                            </ButtonGroup>
+                                <Button color="dark"
+                                    onClick={() => this.props.history.push("/results")}
+                                    size="lg">
+                                    Save Changes
+                                </Button>
+                            </div>
                             
                         </CardBody>
                 }

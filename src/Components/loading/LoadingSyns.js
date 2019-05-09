@@ -45,7 +45,7 @@ export default class LoadingSyns extends PureComponent {
             Promise.all(arrayOfSentences)
             .then(newArray => newArray.filter(response => response !== undefined && response.sentence !== undefined))
             .then(response => this.props.grabData(response))
-            .then(response => setTimeout(this.setState({ data: response, loading: true}), 2000))
+            .then(response => setTimeout(this.setState({ data: response, loading: true}), 1500))
             .then(() => setTimeout(this.onContinue, 2000))
       
         
@@ -78,10 +78,10 @@ export default class LoadingSyns extends PureComponent {
           
             <LoadingScreen
                 loading={this.state.loading}
-                bgColor='#f1f1f1'
-                spinnerColor='#9ee5f8'
-                textColor='#676767'
-                text='Checking for Synonyms'
+                bgColor='#bbc0c9'
+                spinnerColor='#5f86d3'
+                textColor='#f9fbff'
+                text='Checking for Synonyms...'
                     > 
     
             <div></div>

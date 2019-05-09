@@ -72,7 +72,7 @@ export default class NewEntry extends Component {
                     userId: Number(sessionStorage.getItem("userID")),
                     scoreGroup: ""
                 }
-            
+                debugger
                 return scoreAPI.getAverageVocabScoreNOSAVE(this.state.body).then(response => entryObj.avgScore = response.ten_degree)
 
                 .then(() => scoreAPI.getAverageVocabScoreNOSAVE(this.state.body))
@@ -82,10 +82,7 @@ export default class NewEntry extends Component {
                 .then(response => entryObj.scoreGroup = this.indentifyScoreGroup(response)[1])
 
                 .then(() => this.props.onAnalyze(entryObj))
-
-
-                    
-                    .then(() => this.props.history.push("/results"))
+                .then(() => this.props.history.push("/results"))
                 }
             })
     }
