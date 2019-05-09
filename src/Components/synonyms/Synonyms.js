@@ -169,7 +169,7 @@ class Synonyms extends Component {
         return (
             
             <React.Fragment>
-            <Card className="synonymCard m-2">
+            <Card className="synonymCard m-2 mt-4">
             <CardHeader className="synonymCardHeader">Let's replace some words!</CardHeader>
             {this.state.buttonClicked === true ? (
                         <CardBody className="synonymCardBody">
@@ -196,7 +196,7 @@ class Synonyms extends Component {
 
                     :
                     
-                        <CardBody className="synonymCardBody">
+                        <CardBody className="synonymCardBody bg-light">
                             <Button
                             onClick={this.toggleNext} id={this.state.indexToShow}
                             className="mb-2"

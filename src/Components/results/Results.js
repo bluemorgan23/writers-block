@@ -192,12 +192,12 @@ export default class Results extends Component {
                               
                                 
                                 <Row className="entryRow">
-                                <Card
+                                <Card 
                                 className="resultsEntry">
                                     <CardBody>
                                         <CardTitle>
                                             <h4>
-                                                <Badge color="primary">
+                                                <Badge color="dark">
                                                    {this.props.title} 
                                                 </Badge>
                                             </h4>
@@ -210,7 +210,7 @@ export default class Results extends Component {
                                 
                                <Row>
                                 <CardDeck className="mt-3 bottomGroup">
-                                    <Card className="resultsAnalysis text-center">
+                                    <Card className="resultsAnalysis text-center ml-5">
                                         <CardHeader className="bg-secondary">
                                             <h1 className="resultsTitle">
                                                 <Badge color="secondary">
@@ -235,7 +235,7 @@ export default class Results extends Component {
                                            
                                         </CardBody>
                                     </Card>
-                                    <Card className="rightBottom-card">
+                                    <Card className="rightBottom-card mr-5">
                                     <CardHeader className="bg-secondary text-center">
                                         <h1 className="resultsTitle"
                                         id="">
@@ -250,7 +250,7 @@ export default class Results extends Component {
                                             className="resultsButtons">
                                                 <Button 
                                                 size="lg"
-                                                color="info"
+                                                color="dark"
                                                 block
                                                 onClick={this.switchToSyns}
                                                 >Find Synonyms</Button>
@@ -258,7 +258,7 @@ export default class Results extends Component {
                                                 size="lg"
                                                 className="mt-1"
                                                 block
-                                                color="info"
+                                                color="dark"
                                                  onClick={this.handleEdit}>Edit Entry</Button>
                                                 <Button size="lg"
                                                 className="mt-1"

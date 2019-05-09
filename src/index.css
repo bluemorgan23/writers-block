@@ -6,6 +6,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100%
   
 }
 
@@ -23,5 +24,7 @@ code {
 }
 
 .card {
-  margin-top: 10px
+  /* margin-top: 10px; */
+  border: 0px !important;
+  box-shadow: 4px 5px 5px #5e6063
 }

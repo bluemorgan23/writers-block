@@ -64,7 +64,7 @@ export default class Stats extends Component {
 
     render() {
         return (
-           <Card className="text-center statsCard bg-light">
+           <Card className="text-center statsCard bg-light mt-3">
             <CardHeader className="bg-secondary text-center">
                 <h1>
                     <Badge>

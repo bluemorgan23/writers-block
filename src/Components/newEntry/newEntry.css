@@ -1,3 +1,22 @@
 .newEntryTextarea {
-    height: 100px
+    height: 100px !important
+}
+
+.analyzeButton {
+    max-width: 80% !important;
+}
+
+.newEntryForm {
+    min-width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center
+}
+
+.newEntryTitle {
+    min-width: 90%;
+}
+
+.newEntryAreaGroup {
+    min-width: 90%;
 }

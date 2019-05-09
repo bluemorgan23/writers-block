@@ -6,7 +6,7 @@ import {Link} from "react-router-dom"
 import userData from "../../modules/userData"
 
 // Style imports
-import { Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CardTitle, CardFooter } from "reactstrap"
+import { Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CardTitle, CardFooter, Badge, CardSubtitle } from "reactstrap"
 import "./login.css"
 
 export default class Login extends Component {
@@ -42,10 +42,19 @@ export default class Login extends Component {
 
     render() {
         return (
-            <Card className="loginCard">
-                <CardHeader className="loginCard-header text-center bg-secondary text-white">Welcome to The Writer's Block</CardHeader>
+            <Card className="loginCard mt-3">
+                <CardHeader className="loginCard-header text-center bg-secondary text-white">
+                    <h1>
+                        <Badge>
+                           Welcome to The Writer's Block 
+                        </Badge>
+                    </h1>
+                    <CardTitle className="loginMessage">
+                    Please Login To Your Account
+                    </CardTitle>
+                </CardHeader>
                 <CardBody className="bg-light">
-                    <CardTitle className="loginMessage">Please Login To Your Account</CardTitle>
+                    
                    <Form>
                         <FormGroup>
                             <Label for="username">Username: </Label>

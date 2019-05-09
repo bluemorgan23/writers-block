@@ -92,7 +92,7 @@ export default class NewEntry extends Component {
 
     render() {
         return (
-            <Card>
+            <Card className="mr-3 ml-3 mt-3">
                 <CardHeader className="bg-secondary text-white text-center">
                     <h1>
                         <Badge>
@@ -102,8 +102,9 @@ export default class NewEntry extends Component {
                 </CardHeader>
                 <CardBody className="bg-light">
                     <CardTitle>Insert your entry and its title here. Click the "Analyze" button for text-analysis to begin.</CardTitle>
-                    <Form onSubmit={this.handleAnalyze}>
-                        <FormGroup>
+                    <Form className="newEntryForm"
+                     onSubmit={this.handleAnalyze}>
+                        <FormGroup className="newEntryTitle">
                             <Label for="title">Entry Title: </Label>
                             <Input type="text"
                                 name="title"
@@ -113,7 +114,7 @@ export default class NewEntry extends Component {
                                 required
                                 />
                         </FormGroup>
-                        <FormGroup>
+                        <FormGroup className="newEntryAreaGroup">
                             <Label for="entry">Entry: </Label>
                             <Input type="textarea"
                                 name="entry"
@@ -124,8 +125,8 @@ export default class NewEntry extends Component {
                                 required
                                 />
                         </FormGroup>
-                        <Button className="mt-4"
-                        color="primary"
+                        <Button className="mt-2 analyzeButton"
+                        color="dark"
                         block={true}
                         >Analyze</Button>
                     </Form>

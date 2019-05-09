@@ -5,7 +5,7 @@ import React, {Component} from "react"
 import userData from "../../modules/userData"
 
 // Styling Imports
-import { Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CardTitle } from "reactstrap"
+import { Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CardTitle, Badge, CardSubtitle } from "reactstrap"
 import "./register.css"
 
 export default class Register extends Component {
@@ -47,11 +47,18 @@ export default class Register extends Component {
 
     render() {
         return (
-            <Card className="registerCard">
-                <CardHeader className="registerCard-header text-center bg-secondary text-white">Register a New Account</CardHeader>
+            <Card className="registerCard mt-3">
+                <CardHeader className="registerCard-header text-center bg-secondary text-white">
+                    <h1>
+                        <Badge>
+                            Register a New Account
+                        </Badge>
+                    </h1>
+                    <CardSubtitle  
+                    text-muted={true}
+                    className="registerMessage">Please enter your preferred username and password to register</CardSubtitle>
+                </CardHeader>
                 <CardBody className="bg-light">
-                    <CardTitle className="registerMessage">Please enter your preferred username and password to register.</CardTitle>
-                    <hr></hr>
                    <Form onSubmit={this.handleRegister} >
                         <FormGroup>
                             <Label for="username">Username: </Label>

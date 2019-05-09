@@ -16,22 +16,22 @@ export default class NavBar extends Component {
         return (
             <Navbar className="navBar" dark={true} color="dark">
                 <NavItem className="NavList">
-                    <Link className="nav-link" to="/new-entry">
+                    <Link className="nav-link text-white" to="/new-entry">
                     New Entry
                     </Link>
                 </NavItem>
                 <NavItem className="NavList">
-                    <Link className="nav-link" to="/results" >
+                    <Link className="nav-link text-white" to="/results" >
                     Results
                     </Link>
                 </NavItem>
                 <NavItem className="NavList">
-                    <Link className="nav-link" to="/stats">
+                    <Link className="nav-link text-white" to="/stats">
                     Stats
                     </Link>
                 </NavItem>
                 <NavItem className="NavList">
-                    <Link onClick={logout}className="nav-link" to="/">
+                    <Link onClick={logout}className="nav-link text-white" to="/">
                     Logout
                     </Link>
                 </NavItem>
