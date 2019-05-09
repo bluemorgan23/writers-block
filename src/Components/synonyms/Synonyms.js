@@ -2,7 +2,7 @@ import React, { Component } from "react"
 
 
 
-import {Card, CardBody, CardText, Input, CardHeader, Button, ButtonGroup, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle, Badge } from "reactstrap"
+import {Card, CardBody, CardText, Input, CardHeader, Button, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle, Badge } from "reactstrap"
 import cache from "../../modules/cache"
 import filtering from "../../modules/filter"
 import entryData from "../../modules/entryData"
@@ -170,9 +170,10 @@ class Synonyms extends Component {
             
             <React.Fragment>
             <Card className="synonymCard m-2 mt-4">
-            <CardHeader className="synonymCardHeader bg-secondary">
+            <CardHeader className="synonymCardHeader bg-dark">
                 <h1>
-                    <Badge>
+                    <Badge color="dark"
+                    className="heading">
                         Let's replace some words!
                     </Badge>
                 </h1>
@@ -185,7 +186,11 @@ class Synonyms extends Component {
                                         <Input type="textarea" onChange={this.handleChange} value={this.state.entryToEdit} id="entryToEdit"
                                         className="sentenceEdit"
                                          />
-                                        <Button onClick={this.onSave} id={this.state.indexToShow} >Save</Button>
+                                        <Button
+                                        size="lg"
+                                        color="dark"
+                                        className="mt-2 synEdit-save"
+                                        onClick={this.onSave} id={this.state.indexToShow} >Save</Button>
                                     </React.Fragment>
                                 } else {
                                     return <React.Fragment>
@@ -207,7 +212,7 @@ class Synonyms extends Component {
                             color="dark"
                             onClick={this.toggleNext} 
                             id={this.state.indexToShow}
-                            className="mb-2"
+                            className="mb-2 nextButton"
                             >Next</Button>
                             <CardText className="sentence mt-2"
                             id={this.state.indexToShow}>{this.state.sentencesAndWords.length > 0 && this.state.sentencesAndWords[this.state.indexToShow].sentence}</CardText>
@@ -218,12 +223,13 @@ class Synonyms extends Component {
                                     size="lg"
                                     id={this.state.indexToShow} onClick={this.toggleChange}>Edit Sentence
                                 </Button>
-                               <ButtonDropdown className="mr-1"
+                               <ButtonDropdown className="mr-1 synDrop"
                                 color="dark"
                                 id={this.state.indexToShow}
                                 isOpen={this.state.dropdownOpen} 
                                 toggle={this.toggle}>
-                                    <DropdownToggle color="dark"
+                                    <DropdownToggle className="synDrop"
+                                    color="dark"
                                         caret size="lg">
                                     {this.state.sentencesAndWords.length > 0 && 
                                         this.state.sentencesAndWords[this.state.indexToShow].word}

@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react"
 
-import { Card, CardHeader, CardSubtitle, CardText, Button, Badge, CardBody, CardFooter } from "reactstrap"
+import { Card, CardHeader, Button, CardText, CardBody, CardFooter } from "reactstrap"
 
 import "./fourZeroFour.css"
 

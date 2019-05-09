@@ -6,7 +6,7 @@ import scoreAPI from "../../modules/scoreAPI"
 import cache from "../../modules/cache"
 import filtering from "../../modules/filter"
 
-import { Card, CardBody, CardHeader, CardTitle, Button, Form, FormGroup, Label, Input, Badge, CardSubtitle } from "reactstrap"
+import { Card, CardBody, CardHeader,  Button, Form, FormGroup, Label, Input, Badge, CardSubtitle } from "reactstrap"
 import "./newEntry.css"
 
 
@@ -90,14 +90,15 @@ export default class NewEntry extends Component {
     render() {
         return (
             <Card className="mr-3 ml-3 mt-3">
-                <CardHeader className="bg-secondary text-white text-center">
+                <CardHeader className="bg-dark text-white text-center">
                     <h1>
-                        <Badge>
+                        <Badge color="dark"
+                        className="heading">
                         Create a New Entry
                         </Badge>
                     </h1>
                     <CardSubtitle className="text-white newEntrySub">
-                        Insert your entry and its title here. Click the "Analyze" button for text-analysis to begin.
+                       Insert some text to analyze. Titles must be unique
                     </CardSubtitle>
                 </CardHeader>
                 <CardBody className="bg-light">

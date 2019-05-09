@@ -2,7 +2,7 @@ import React, {Component} from "react"
 
 import entryData from "../../modules/entryData"
 
-import { Card, CardHeader, CardTitle, CardBody, CardText, CardLink, Button,CardSubtitle, CardDeck, Badge } from "reactstrap"
+import { Card, CardHeader, CardBody, CardText, CardLink, Button,CardSubtitle, CardDeck, Badge } from "reactstrap"
 import "./stats.css"
 
 import { GiEnlightenment, GiCrown, GiBrain } from "react-icons/gi"
@@ -30,13 +30,13 @@ export default class Stats extends Component {
     whichIconToUse = (score) => {
         switch(true) {
             case(score < 3):
-                return <GiEnlightenment size="2em" color="#843131"/>
+                return <GiEnlightenment size="3em" color="#843131"/>
             case(score > 2 && score < 5):
-                return <IoIosBowtie size="2em"/>
+                return <IoIosBowtie size="3em"/>
             case(score > 4 && score < 7):
-                return <GiCrown size="2em" color="#d1a849"/>
+                return <GiCrown size="3em" color="#d1a849"/>
             case(score > 6 && score < 11):
-                return <GiBrain size="2em" color="#ba5e77"/>
+                return <GiBrain size="3em" color="#ba5e77"/>
         }
     }
 
@@ -65,9 +65,10 @@ export default class Stats extends Component {
     render() {
         return (
            <Card className="text-center statsCard bg-light mt-3">
-            <CardHeader className="bg-secondary text-center">
+            <CardHeader className="bg-dark text-center">
                 <h1>
-                    <Badge>
+                    <Badge color="dark"
+                    className="heading">
                         Saved Entries
                     </Badge>
                 </h1>
@@ -76,17 +77,18 @@ export default class Stats extends Component {
                 </CardSubtitle>
             </CardHeader>
             
-            <CardBody>
+            <CardBody className="bg-light">
                 
                 {
                     this.state.currentUserEntries.map(entry => {
                            
                             return  <CardDeck className="statsContainer mb-3" key={entry.id}>
                                         
-                                            <Card key={entry.id}className="statsCards">
+                                            <Card key={entry.id}className="statsCards bg-secondary">
                                             
                                                 <CardBody className="statsBody">
                                                     <CardLink
+                                                        className="text-white"
                                                         id={entry.id} 
                                                         href={`/results`}
                                                         onClick={this.onLinkClick}

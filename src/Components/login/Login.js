@@ -6,7 +6,7 @@ import {Link} from "react-router-dom"
 import userData from "../../modules/userData"
 
 // Style imports
-import { Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CardTitle, CardFooter, Badge, CardSubtitle } from "reactstrap"
+import { Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CardFooter, Badge, CardSubtitle } from "reactstrap"
 import "./login.css"
 
 export default class Login extends Component {
@@ -43,9 +43,10 @@ export default class Login extends Component {
     render() {
         return (
             <Card className="loginCard mt-3">
-                <CardHeader className="loginCard-header text-center bg-secondary text-white">
+                <CardHeader className="loginCard-header text-center bg-dark text-white">
                     <h1>
-                        <Badge>
+                        <Badge color="dark"
+                        className="heading">
                            Welcome to The Writer's Block 
                         </Badge>
                     </h1>
@@ -85,7 +86,7 @@ export default class Login extends Component {
                     <Button onClick={this.handleLogin}
                         color="dark"
                         size="lg"
-                        className="mb-2 mt-2">Submit</Button>
+                        className="mb-2 mt-2 submitButton">Submit</Button>
                     <Link className="registerLink" to="/register">Click here to register a new account</Link>
                 </CardFooter>
             </Card>

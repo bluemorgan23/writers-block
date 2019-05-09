@@ -4,10 +4,11 @@
 
 .analyzeButton {
     max-width: 80% !important;
+    font-family: "Lobster", cursive;
 }
 
 .newEntryForm {
-    min-width: 100%;
+    min-width: 100% !important;
     display: flex;
     flex-flow: column nowrap;
     align-items: center
@@ -22,6 +23,7 @@
 }
 
 .newEntrySub {
-    font-size: 1.1em
+    font-size: 1.4em;
+    font-family: "Muli", sans-serif;
 }
 

@@ -48,15 +48,16 @@ export default class Register extends Component {
     render() {
         return (
             <Card className="registerCard mt-3">
-                <CardHeader className="registerCard-header text-center bg-secondary text-white">
+                <CardHeader className="registerCard-header text-center bg-dark text-white">
                     <h1>
-                        <Badge>
+                        <Badge color="dark"
+                         className="heading">
                             Register a New Account
                         </Badge>
                     </h1>
                     <CardSubtitle  
                     text-muted={true}
-                    className="registerMessage">Please enter your preferred username and password to register</CardSubtitle>
+                    className="registerMessage">Username must be unique</CardSubtitle>
                 </CardHeader>
                 <CardBody className="bg-light">
                    <Form onSubmit={this.handleRegister} >

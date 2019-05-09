@@ -15,7 +15,7 @@ import { IoIosBowtie } from "react-icons/io"
 import { GiCrown } from "react-icons/gi"
 import { GiBrain } from "react-icons/gi"
 
-import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup, Container, Row, Col, Badge, CardDeck } from "reactstrap"
+import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup, Container, Row, Badge, CardDeck } from "reactstrap"
 import "./results.css"
 import LoadingScore from "../loading/LoadingScore";
 
@@ -32,8 +32,8 @@ export default class Results extends Component {
         isLoadingResults: true
     }
 
-    static getDerivedStateFromProps(nextProps)  {
-        if(nextProps.avgScore !== nextProps.avgScore){
+    static getDerivedStateFromProps(nextProps,props)  {
+        if(nextProps.avgScore !== props.avgScore){
     
             return {averageScore: nextProps.avgScore, scoreGroup: nextProps.scoreGroup}
         
@@ -157,9 +157,10 @@ export default class Results extends Component {
         return (
             <Container className="resultsContainer" fluid >
             <Card className="mt-3 resultsCard">
-                <CardHeader className="bg-secondary text-center">
+                <CardHeader className="bg-dark text-center">
                     <h1 className="resultsTitle">
-                        <Badge >
+                        <Badge color="dark"
+                        className="heading">
                            Results 
                         </Badge>
                     </h1>
@@ -196,13 +197,14 @@ export default class Results extends Component {
                                 className="resultsEntry">
                                     <CardBody>
                                         <CardTitle>
-                                            <h4>
-                                                <Badge color="dark">
+                                            <h3>
+                                                <Badge className="subTitle"
+                                                color="dark">
                                                    {this.props.title} 
                                                 </Badge>
-                                            </h4>
+                                            </h3>
                                         </CardTitle>
-                                        <CardText>{this.props.body}</CardText>  
+                                        <CardText className="resultsEntryBody">{this.props.body}</CardText>  
                                     </CardBody>
                                 </Card>
                                 </Row>
@@ -211,9 +213,9 @@ export default class Results extends Component {
                                <Row>
                                 <CardDeck className="mt-3 bottomGroup">
                                     <Card className="resultsAnalysis text-center ml-5">
-                                        <CardHeader className="bg-secondary">
+                                        <CardHeader className="bg-dark">
                                             <h1 className="resultsTitle">
-                                                <Badge color="secondary">
+                                                <Badge className="heading" color="dark">
                                                     Analysis
                                                 </Badge>
                                             </h1>
@@ -236,10 +238,12 @@ export default class Results extends Component {
                                         </CardBody>
                                     </Card>
                                     <Card className="rightBottom-card mr-5">
-                                    <CardHeader className="bg-secondary text-center">
+                                    <CardHeader className="bg-dark text-center">
                                         <h1 className="resultsTitle"
                                         id="">
-                                        <Badge >
+                                        <Badge className="heading"
+                                            color="dark"
+                                        >
                                         Editor
                                         </Badge>
                                         </h1>
@@ -250,7 +254,7 @@ export default class Results extends Component {
                                             className="resultsButtons">
                                                 <Button 
                                                 size="lg"
-                                                color="dark"
+                                                color="primary"
                                                 block
                                                 onClick={this.switchToSyns}
                                                 >Find Synonyms</Button>
@@ -258,7 +262,7 @@ export default class Results extends Component {
                                                 size="lg"
                                                 className="mt-1"
                                                 block
-                                                color="dark"
+                                                color="primary"
                                                  onClick={this.handleEdit}>Edit Entry</Button>
                                                 <Button size="lg"
                                                 className="mt-1"

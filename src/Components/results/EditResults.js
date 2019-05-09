@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 
-import ScoreAPI from "../../modules/scoreAPI"
-import {Form, FormGroup, Input, Label, Button, ButtonGroup} from "reactstrap"
+
+import {Form, FormGroup, Input, Label, Button } from "reactstrap"
 
 import "./results.css"
 import scoreAPI from "../../modules/scoreAPI";
@@ -91,7 +91,7 @@ export default class EditResults extends Component {
                     className="editTextarea"
                     />
                 </FormGroup>
-                <div>
+                <div className="editFormButtons">
                     <Button color="dark"
                     onClick={this.handleSave}>Save Edits</Button>
                     <Button className="ml-1"

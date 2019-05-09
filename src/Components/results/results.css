@@ -22,7 +22,7 @@
 }
 
 .resultsEntry-edit{
-    width: 80%;
+    min-width: 100%;
     display: flex;
     align-items: center
 }
@@ -31,7 +31,7 @@
 
 .editTextarea {
     min-height: 200px;
-    min-width: 100px
+    min-width: 400px
 }
 
 
@@ -39,7 +39,8 @@
 .buttonGroup-results{
     padding: .75rem !important;
     display: flex;
-    justify-content: center
+    justify-content: center;
+    font-family: "Lobster", cursive;
 }
 
 .resultsCard {
@@ -47,7 +48,7 @@
 }
 
 .editForm-group {
-    min-width: 90% !important;
+    min-width: 100% !important;
 }
 
 .editForm-results {
@@ -55,6 +56,15 @@
     min-width: 100%;
     flex-flow: column nowrap;
     align-items: center
+}
+
+.subTitle {
+    font-family: "Lobster", cursive;
+    font-size: 2rem
+}
+
+.editFormButtons {
+    font-family: "Lobster", cursive;
 }
 
 

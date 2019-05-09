@@ -22,4 +22,17 @@
     flex-flow: row nowrap;
     justify-content: space-around;
     min-width: 80% !important;
+    font-family: "Lobster", cursive
+}
+
+.synEdit-save {
+    font-family: "Lobster", cursive
+}
+
+.synDrop {
+    font-family: "Muli", sans-serif
+}
+
+.nextButton {
+    font-family: "Lobster", cursive
 }
