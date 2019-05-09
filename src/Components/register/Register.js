@@ -48,8 +48,8 @@ export default class Register extends Component {
     render() {
         return (
             <Card className="registerCard">
-                <CardHeader className="registerCard-header">Register a New Account</CardHeader>
-                <CardBody>
+                <CardHeader className="registerCard-header text-center bg-secondary text-white">Register a New Account</CardHeader>
+                <CardBody className="bg-light">
                     <CardTitle className="registerMessage">Please enter your preferred username and password to register.</CardTitle>
                     <hr></hr>
                    <Form onSubmit={this.handleRegister} >
@@ -77,8 +77,10 @@ export default class Register extends Component {
                         </FormGroup>
                         <hr></hr>
                         <div className="registerButtons-container">
-                            <Button>Register</Button>
-                            <Button onClick={() => this.props.history.push("/")} >Go Back</Button>
+                            <Button color="dark"
+                            >Register</Button>
+                            <Button color="danger"
+                            onClick={() => this.props.history.push("/")} >Go Back</Button>
                         </div>
                     </Form> 
                 </CardBody>

@@ -6,7 +6,7 @@ import {Link} from "react-router-dom"
 import userData from "../../modules/userData"
 
 // Style imports
-import { Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CardTitle } from "reactstrap"
+import { Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CardTitle, CardFooter } from "reactstrap"
 import "./login.css"
 
 export default class Login extends Component {
@@ -46,7 +46,7 @@ export default class Login extends Component {
                 <CardHeader className="loginCard-header text-center bg-secondary text-white">Welcome to The Writer's Block</CardHeader>
                 <CardBody className="bg-light">
                     <CardTitle className="loginMessage">Please Login To Your Account</CardTitle>
-                   <Form onSubmit={this.handleLogin}>
+                   <Form>
                         <FormGroup>
                             <Label for="username">Username: </Label>
                             <Input 
@@ -58,7 +58,7 @@ export default class Login extends Component {
                                 onChange={this.handleFieldChange}
                                 value={this.state.username} />
                         </FormGroup>
-                        <FormGroup className="mb-4">
+                        <FormGroup>
                             <Label for="password">Password: </Label>
                             <Input
                                 required
@@ -69,14 +69,15 @@ export default class Login extends Component {
                                 onChange={this.handleFieldChange}
                                 value={this.state.password} />
                         </FormGroup>
-                        <hr></hr>
-                        <div className="buttonLink-container">
-                            <Button color="dark"
-                            className="mb-2">Submit</Button>
-                            <Link to="/register">Click here to register a new account</Link>
-                        </div>
+                        
                     </Form> 
                 </CardBody>
+                <CardFooter className="buttonLink-container bg-light">
+                    <Button onClick={this.handleLogin}
+                        color="dark"
+                        className="mb-2 mt-2">Submit</Button>
+                    <Link to="/register">Click here to register a new account</Link>
+                </CardFooter>
             </Card>
             
         )
