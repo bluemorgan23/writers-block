@@ -79,9 +79,7 @@ class ApplicationViews extends Component {
     
 
     updateEntry= async(updatedEntry) =>  {
-       this.setState({
-            body: updatedEntry, sentenceArray: filtering.removeEmptyStrings(updatedEntry.split("."))
-        })
+       
 
         let promise = scoreAPI.getAverageVocabScoreNOSAVE(updatedEntry)
         let response = await promise
@@ -102,7 +100,11 @@ class ApplicationViews extends Component {
             editedEntry.scoreGroup = this.indentifyScoreGroup(response.ten_degree)[1]
             
 
-            entryData.putEntry(editedEntry) 
+            entryData.putEntry(editedEntry)
+            this.setState({
+                body: updatedEntry, sentenceArray: filtering.removeEmptyStrings(updatedEntry.split(".")), title: newValue.title, avgScore: response.ten_degree, scoreGroup: editedEntry.scoreGroup
+            })
+            
        
     }
 

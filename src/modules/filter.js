@@ -1,3 +1,4 @@
+import { GiGroupedDrops } from "react-icons/gi";
 
 
 const filtering = {
@@ -44,6 +45,10 @@ const filtering = {
         const filteredWords = array.filter(word => !filters.includes(word))
 
         return filteredWords
+    },
+    setInitialState: (score, group) => {
+        return {averageScore: score, scoreGroup: group, isLoadingResults: false}
+
     }
 }
 

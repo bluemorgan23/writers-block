@@ -17,6 +17,7 @@ import { GiBrain } from "react-icons/gi"
 
 import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup, Container, Row, Col, Badge, CardDeck } from "reactstrap"
 import "./results.css"
+import LoadingScore from "../loading/LoadingScore";
 
 
 
@@ -26,8 +27,24 @@ export default class Results extends Component {
         editButtonClicked: false,
         averageScore: 0,
         scoreGroup: "",
-        isLoading: false,
-        sentencesAndWords: []
+        isLoadingSyns: false,
+        sentencesAndWords: [],
+        isLoadingResults: true
+    }
+
+    static getDerivedStateFromProps(nextProps)  {
+        if(nextProps.avgScore !== nextProps.averageScore){
+    
+            return {averageScore: nextProps.avgScore, scoreGroup: nextProps.scoreGroup}
+        
+        } 
+        else {
+            return null
+        }
+    }
+
+    scoreLoadingChange = () => {
+        return this.setState({isLoadingResults: false})
     }
 
     componentDidMount = async() => {
@@ -45,7 +62,6 @@ export default class Results extends Component {
            
                 const newArray = await filtering.filterOutWeakWords(wordArray)
 
-                this.setState({averageScore: json.avgScore, scoreGroup: await json.scoreGroup})
 
                 cache.locStr(newArray)
 
@@ -71,7 +87,7 @@ export default class Results extends Component {
 
    switchToSyns = () => {
         this.setState({
-           isLoading: !this.state.isLoading
+           isLoadingSyns: !this.state.isLoadingSyns
        })
    }
 
@@ -102,7 +118,14 @@ export default class Results extends Component {
 
     render() {
 
-        if(this.state.isLoading){
+        if(this.state.isLoadingResults){
+            return <LoadingScore
+                    scoreLoadingChange={this.scoreLoadingChange}
+                    isLoadingResults={this.state.isLoadingResults}
+                    history={this.props.history}/>
+        }
+
+        else if(this.state.isLoadingSyns){
             return <LoadingSyns
             sentenceArray={this.props.sentenceArray} 
             entry={this.props.body}
