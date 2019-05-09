@@ -43,8 +43,8 @@ export default class Login extends Component {
     render() {
         return (
             <Card className="loginCard">
-                <CardHeader className="loginCard-header">Welcome to The Writer's Block</CardHeader>
-                <CardBody>
+                <CardHeader className="loginCard-header text-center bg-secondary text-white">Welcome to The Writer's Block</CardHeader>
+                <CardBody className="bg-light">
                     <CardTitle className="loginMessage">Please Login To Your Account</CardTitle>
                    <Form onSubmit={this.handleLogin}>
                         <FormGroup>
@@ -71,7 +71,8 @@ export default class Login extends Component {
                         </FormGroup>
                         <hr></hr>
                         <div className="buttonLink-container">
-                            <Button className="mb-2">Submit</Button>
+                            <Button color="dark"
+                            className="mb-2">Submit</Button>
                             <Link to="/register">Click here to register a new account</Link>
                         </div>
                     </Form> 

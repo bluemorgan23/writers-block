@@ -1,4 +1,14 @@
 .navBar {
     display: flex;
-    justify-content: space-around
+    flex-flow: row nowrap !important;
+    width: 100%;
+    justify-content: space-around !important
+}
+
+.NavList {
+    list-style-type: none;
+}
+
+NavLink {
+    font-weight: bolder
 }
