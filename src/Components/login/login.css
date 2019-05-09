@@ -7,3 +7,11 @@
 .loginCard {
     min-width: 60% !important;
 }
+
+.registerLink {
+    font-size: 1.2em
+}
+
+.loginMessage {
+    font-size: 1.1em
+}

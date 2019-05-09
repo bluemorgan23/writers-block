@@ -6,3 +6,7 @@
 .registerCard {
     min-width: 60% !important;
 }
+
+.registerMessage {
+    font-size: 1.1em
+}

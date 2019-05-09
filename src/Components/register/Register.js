@@ -5,7 +5,7 @@ import React, {Component} from "react"
 import userData from "../../modules/userData"
 
 // Styling Imports
-import { Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CardTitle, Badge, CardSubtitle } from "reactstrap"
+import { Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, Badge, CardSubtitle } from "reactstrap"
 import "./register.css"
 
 export default class Register extends Component {
@@ -84,9 +84,11 @@ export default class Register extends Component {
                         </FormGroup>
                         <hr></hr>
                         <div className="registerButtons-container">
-                            <Button color="dark"
+                            <Button size="lg"
+                            color="dark"
                             >Register</Button>
-                            <Button color="danger"
+                            <Button size="lg"
+                            color="danger"
                             onClick={() => this.props.history.push("/")} >Go Back</Button>
                         </div>
                     </Form> 

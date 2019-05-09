@@ -49,9 +49,9 @@ export default class Login extends Component {
                            Welcome to The Writer's Block 
                         </Badge>
                     </h1>
-                    <CardTitle className="loginMessage">
+                    <CardSubtitle className="loginMessage">
                     Please Login To Your Account
-                    </CardTitle>
+                    </CardSubtitle>
                 </CardHeader>
                 <CardBody className="bg-light">
                     
@@ -84,8 +84,9 @@ export default class Login extends Component {
                 <CardFooter className="buttonLink-container bg-light">
                     <Button onClick={this.handleLogin}
                         color="dark"
+                        size="lg"
                         className="mb-2 mt-2">Submit</Button>
-                    <Link to="/register">Click here to register a new account</Link>
+                    <Link className="registerLink" to="/register">Click here to register a new account</Link>
                 </CardFooter>
             </Card>
             
