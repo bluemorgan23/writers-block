@@ -190,18 +190,22 @@ class ApplicationViews extends Component {
     }
 
     onDelete = (id) => {
+       
         if(Number(id) === Number(sessionStorage.getItem("currentEntryID"))){
+                
+                
             sessionStorage.removeItem("currentEntryID")
             return entryData.deleteEntry(id)
-            .then(() => this.setState({
-                body: "",
-                title: "",
-                sentenceArray: []
-            }))
+                .then(() => this.setState({
+                    body: "",
+                    title: "",
+                    sentenceArray: []
+                }))
         } else {
+
             return entryData.deleteEntry(id)
         }
-        
+         
     }
 
     saveEditedEntry = (edit) => {

@@ -41,12 +41,19 @@ export default class Stats extends Component {
     }
 
     handleDiscard = (event) => {
+
+        const askUser = window.confirm("Are you sure you'd like to delete this entry?")
+
+        if (askUser){
         
         this.props.delete(Number(event.target.id))
         .then(() => entryData.getUserEntries())
         .then(response => this.setState({
             currentUserEntries: response
         }))
+        } else {
+            return null
+        }
     }
 
 
