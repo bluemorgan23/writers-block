@@ -6,7 +6,8 @@ import scoreAPI from "../../modules/scoreAPI"
 import cache from "../../modules/cache"
 import filtering from "../../modules/filter"
 
-import { Card, CardBody, CardHeader, CardTitle, Button, Form, FormGroup, Label, Input } from "reactstrap"
+import { Card, CardBody, CardHeader, CardTitle, Button, Form, FormGroup, Label, Input, Badge } from "reactstrap"
+import "./newEntry.css"
 
 
 
@@ -92,8 +93,14 @@ export default class NewEntry extends Component {
     render() {
         return (
             <Card>
-                <CardHeader>Create a New Entry</CardHeader>
-                <CardBody>
+                <CardHeader className="bg-secondary text-white text-center">
+                    <h1>
+                        <Badge>
+                        Create a New Entry
+                        </Badge>
+                    </h1>
+                </CardHeader>
+                <CardBody className="bg-light">
                     <CardTitle>Insert your entry and its title here. Click the "Analyze" button for text-analysis to begin.</CardTitle>
                     <Form onSubmit={this.handleAnalyze}>
                         <FormGroup>
@@ -110,13 +117,16 @@ export default class NewEntry extends Component {
                             <Label for="entry">Entry: </Label>
                             <Input type="textarea"
                                 name="entry"
-                                id="body"
+                                id="newEntryTextarea"
                                 placeholder="Enter some text to analyze"
                                 onChange={this.handleFieldChange}
                                 required
                                 />
                         </FormGroup>
-                        <Button>Analyze</Button>
+                        <Button className="mt-4"
+                        color="primary"
+                        block={true}
+                        >Analyze</Button>
                     </Form>
                 </CardBody>
             </Card>
