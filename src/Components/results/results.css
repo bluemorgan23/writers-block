@@ -10,12 +10,15 @@
 }
 
 .resultsEntry {
-    max-width: 90%;
+    min-width: inherit !important;
 }
 
 .entryRow {
     display: flex;
-    justify-content: center
+    justify-content: center !important;
+    min-width: 90% !important;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
 }
 
 .resultsEntry-edit{

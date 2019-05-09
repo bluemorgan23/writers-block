@@ -33,7 +33,7 @@ export default class Results extends Component {
     }
 
     static getDerivedStateFromProps(nextProps)  {
-        if(nextProps.avgScore !== nextProps.averageScore){
+        if(nextProps.avgScore !== nextProps.avgScore){
     
             return {averageScore: nextProps.avgScore, scoreGroup: nextProps.scoreGroup}
         
@@ -44,7 +44,7 @@ export default class Results extends Component {
     }
 
     scoreLoadingChange = () => {
-        return this.setState({isLoadingResults: false})
+        return this.setState({isLoadingResults: !this.state.isLoadingResults})
     }
 
     componentDidMount = async() => {
@@ -64,6 +64,10 @@ export default class Results extends Component {
 
 
                 cache.locStr(newArray)
+
+                this.setState({
+                    averageScore: await json.avgScore, scoreGroup: await json.scoreGroup
+                })
 
         }
     }
@@ -105,13 +109,25 @@ export default class Results extends Component {
         })
     }
 
-    savingEditedEntry = (edit) => {
+    savingEditedEntry = async (edit) => {
         
-        this.props.saveEditedEntry(edit)
+        let saveEdit = await this.props.saveEditedEntry(edit)
+
+        let idToGrab = Number(sessionStorage.getItem("currentEntryID"))
+        if(idToGrab){
+
+        const response = entryData.getCurrentEntry(idToGrab)
+
+        const json = await response
+
 
         this.setState({
-            editButtonClicked: false
+            editButtonClicked: false,
+            isLoadingResults: !this.state.isLoadingResults,
+            averageScore: await json.avgScore,
+            scoreGroup: await json.scoreGroup
         })
+    }
     }
 
     

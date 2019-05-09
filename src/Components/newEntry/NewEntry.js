@@ -72,7 +72,7 @@ export default class NewEntry extends Component {
                     userId: Number(sessionStorage.getItem("userID")),
                     scoreGroup: ""
                 }
-
+            
                 return scoreAPI.getAverageVocabScoreNOSAVE(this.state.body).then(response => entryObj.avgScore = response.ten_degree)
 
                 .then(() => scoreAPI.getAverageVocabScoreNOSAVE(this.state.body))
@@ -117,7 +117,8 @@ export default class NewEntry extends Component {
                             <Label for="entry">Entry: </Label>
                             <Input type="textarea"
                                 name="entry"
-                                id="newEntryTextarea"
+                                id="body"
+                                className="newEntryTextarea"
                                 placeholder="Enter some text to analyze"
                                 onChange={this.handleFieldChange}
                                 required
