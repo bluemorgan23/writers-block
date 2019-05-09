@@ -30,7 +30,8 @@
 
 
 .editTextarea {
-    min-height: 200px
+    min-height: 200px;
+    min-width: 100px
 }
 
 
@@ -41,5 +42,19 @@
     justify-content: center
 }
 
+.resultsCard {
+    min-width: 90% !important;
+}
+
+.editForm-group {
+    min-width: 90% !important;
+}
+
+.editForm-results {
+    display: flex;
+    min-width: 100%;
+    flex-flow: column nowrap;
+    align-items: center
+}
 
 

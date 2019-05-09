@@ -156,7 +156,7 @@ export default class Results extends Component {
             } else {
         return (
             <Container className="resultsContainer" fluid >
-            <Card className="mt-3">
+            <Card className="mt-3 resultsCard">
                 <CardHeader className="bg-secondary text-center">
                     <h1 className="resultsTitle">
                         <Badge >

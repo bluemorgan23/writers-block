@@ -69,9 +69,9 @@ export default class EditResults extends Component {
     render() {
         return (
           <React.Fragment>
-            <Form>
-                <FormGroup>
-                    <Label for="title">Title</Label>
+            <Form className="editForm-results">
+                <FormGroup className="editForm-group">
+                    <Label for="title">Entry Title: </Label>
                     <Input 
                     type="text"
                     id="title"
@@ -80,8 +80,8 @@ export default class EditResults extends Component {
                     value={this.state.title}
                     />
                 </FormGroup>
-                <FormGroup>
-                    <Label for="body">Entry</Label>
+                <FormGroup className="editForm-group">
+                    <Label for="body">Entry: </Label>
                     <Input 
                     type="textarea"
                     id="body"
@@ -91,10 +91,13 @@ export default class EditResults extends Component {
                     className="editTextarea"
                     />
                 </FormGroup>
-                <ButtonGroup>
-                    <Button onClick={this.handleSave}>Save Edits</Button>
-                    <Button onClick={this.handleGoBack}>Discard Edits</Button> 
-                </ButtonGroup>
+                <div>
+                    <Button color="dark"
+                    onClick={this.handleSave}>Save Edits</Button>
+                    <Button className="ml-1"
+                    color="danger"
+                    onClick={this.handleGoBack}>Discard Edits</Button> 
+                </div>
             </Form>
         </React.Fragment>  
         )

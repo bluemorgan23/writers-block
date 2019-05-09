@@ -6,7 +6,7 @@ import scoreAPI from "../../modules/scoreAPI"
 import cache from "../../modules/cache"
 import filtering from "../../modules/filter"
 
-import { Card, CardBody, CardHeader, CardTitle, Button, Form, FormGroup, Label, Input, Badge } from "reactstrap"
+import { Card, CardBody, CardHeader, CardTitle, Button, Form, FormGroup, Label, Input, Badge, CardSubtitle } from "reactstrap"
 import "./newEntry.css"
 
 
@@ -96,9 +96,11 @@ export default class NewEntry extends Component {
                         Create a New Entry
                         </Badge>
                     </h1>
+                    <CardSubtitle className="text-white newEntrySub">
+                        Insert your entry and its title here. Click the "Analyze" button for text-analysis to begin.
+                    </CardSubtitle>
                 </CardHeader>
                 <CardBody className="bg-light">
-                    <CardTitle>Insert your entry and its title here. Click the "Analyze" button for text-analysis to begin.</CardTitle>
                     <Form className="newEntryForm"
                      onSubmit={this.handleAnalyze}>
                         <FormGroup className="newEntryTitle">

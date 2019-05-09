@@ -71,11 +71,12 @@ export default class Stats extends Component {
                         Saved Entries
                     </Badge>
                 </h1>
+                <CardSubtitle className="text-white statsSub">
+                    Click on an entry title to view the results.
+                </CardSubtitle>
             </CardHeader>
+            
             <CardBody>
-                <CardTitle>Click on an entry title to view the results.</CardTitle>
-                <CardSubtitle></CardSubtitle>
-                <hr></hr>
                 
                 {
                     this.state.currentUserEntries.map(entry => {
