@@ -6,7 +6,8 @@ import scoreAPI from "../../modules/scoreAPI"
 import cache from "../../modules/cache"
 import filtering from "../../modules/filter"
 
-import { Card, CardBody, CardHeader, CardTitle, Button, Form, FormGroup, Label, Input } from "reactstrap"
+import { Card, CardBody, CardHeader,  Button, Form, FormGroup, Label, Input, Badge, CardSubtitle } from "reactstrap"
+import "./newEntry.css"
 
 
 
@@ -71,7 +72,7 @@ export default class NewEntry extends Component {
                     userId: Number(sessionStorage.getItem("userID")),
                     scoreGroup: ""
                 }
-
+                debugger
                 return scoreAPI.getAverageVocabScoreNOSAVE(this.state.body).then(response => entryObj.avgScore = response.ten_degree)
 
                 .then(() => scoreAPI.getAverageVocabScoreNOSAVE(this.state.body))
@@ -81,22 +82,29 @@ export default class NewEntry extends Component {
                 .then(response => entryObj.scoreGroup = this.indentifyScoreGroup(response)[1])
 
                 .then(() => this.props.onAnalyze(entryObj))
-
-
-                    
-                    .then(() => this.props.history.push("/results"))
+                .then(() => this.props.history.push("/results"))
                 }
             })
     }
 
     render() {
         return (
-            <Card>
-                <CardHeader>Create a New Entry</CardHeader>
-                <CardBody>
-                    <CardTitle>Insert your entry and its title here. Click the "Analyze" button for text-analysis to begin.</CardTitle>
-                    <Form onSubmit={this.handleAnalyze}>
-                        <FormGroup>
+            <Card className="mr-3 ml-3 mt-3">
+                <CardHeader className="bg-dark text-white text-center">
+                    <h1>
+                        <Badge color="dark"
+                        className="heading">
+                        Create a New Entry
+                        </Badge>
+                    </h1>
+                    <CardSubtitle className="text-white newEntrySub">
+                       Insert some text to analyze. Titles must be unique.
+                    </CardSubtitle>
+                </CardHeader>
+                <CardBody className="bg-light">
+                    <Form className="newEntryForm"
+                     onSubmit={this.handleAnalyze}>
+                        <FormGroup className="newEntryTitle">
                             <Label for="title">Entry Title: </Label>
                             <Input type="text"
                                 name="title"
@@ -106,17 +114,21 @@ export default class NewEntry extends Component {
                                 required
                                 />
                         </FormGroup>
-                        <FormGroup>
+                        <FormGroup className="newEntryAreaGroup">
                             <Label for="entry">Entry: </Label>
                             <Input type="textarea"
                                 name="entry"
                                 id="body"
+                                className="newEntryTextarea"
                                 placeholder="Enter some text to analyze"
                                 onChange={this.handleFieldChange}
                                 required
                                 />
                         </FormGroup>
-                        <Button>Analyze</Button>
+                        <Button className="mt-2 analyzeButton"
+                        color="dark"
+                        block={true}
+                        >Analyze</Button>
                     </Form>
                 </CardBody>
             </Card>

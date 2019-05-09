@@ -15,16 +15,16 @@ export default class LoadingScore extends Component {
     }
 
     dataDidLoad = () => {
-       return setTimeout(this.props.scoreLoadingChange, 2000)
+       return setTimeout(this.props.scoreLoadingChange, 1500)
     }
 
     render(){
         return (
             <LoadingScreen
                 loading={this.state.loading}
-                bgColor='#f1f1f1'
-                spinnerColor='#9ee5f8'
-                textColor='#676767'
+                bgColor='#bbc0c9'
+                spinnerColor='#5f86d3'
+                textColor='#f9fbff'
                 text='Calculating your results...'
             > 
             {/* // ...

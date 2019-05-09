@@ -6,7 +6,7 @@ import {Link} from "react-router-dom"
 import userData from "../../modules/userData"
 
 // Style imports
-import { Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CardTitle } from "reactstrap"
+import { Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CardFooter, Badge, CardSubtitle } from "reactstrap"
 import "./login.css"
 
 export default class Login extends Component {
@@ -33,7 +33,7 @@ export default class Login extends Component {
             }).then(matchedUser => {
                 if(matchedUser){
                    sessionStorage.setItem("userID", Number(matchedUser.id))
-                   this.props.history.push("/new-entry")
+                   this.props.history.push("/welcome")
                 } else {
                     window.alert("Invalid login information")
                 }
@@ -42,11 +42,21 @@ export default class Login extends Component {
 
     render() {
         return (
-            <Card className="loginCard">
-                <CardHeader className="loginCard-header">Welcome to The Writer's Block</CardHeader>
-                <CardBody>
-                    <CardTitle className="loginMessage">Please Login To Your Account</CardTitle>
-                   <Form onSubmit={this.handleLogin}>
+            <Card className="loginCard mt-3">
+                <CardHeader className="loginCard-header text-center bg-dark text-white">
+                    <h1>
+                        <Badge color="dark"
+                        className="heading">
+                           Welcome to The Writer's Block 
+                        </Badge>
+                    </h1>
+                    <CardSubtitle className="loginMessage">
+                    Please Login To Your Account
+                    </CardSubtitle>
+                </CardHeader>
+                <CardBody className="bg-light">
+                    
+                   <Form>
                         <FormGroup>
                             <Label for="username">Username: </Label>
                             <Input 
@@ -58,7 +68,7 @@ export default class Login extends Component {
                                 onChange={this.handleFieldChange}
                                 value={this.state.username} />
                         </FormGroup>
-                        <FormGroup className="mb-4">
+                        <FormGroup>
                             <Label for="password">Password: </Label>
                             <Input
                                 required
@@ -69,13 +79,16 @@ export default class Login extends Component {
                                 onChange={this.handleFieldChange}
                                 value={this.state.password} />
                         </FormGroup>
-                        <hr></hr>
-                        <div className="buttonLink-container">
-                            <Button className="mb-2">Submit</Button>
-                            <Link to="/register">Click here to register a new account</Link>
-                        </div>
+                        
                     </Form> 
                 </CardBody>
+                <CardFooter className="buttonLink-container bg-light">
+                    <Button onClick={this.handleLogin}
+                        color="dark"
+                        size="lg"
+                        className="mb-2 mt-2 submitButton">Submit</Button>
+                    <Link className="registerLink" to="/register">Click here to register a new account</Link>
+                </CardFooter>
             </Card>
             
         )

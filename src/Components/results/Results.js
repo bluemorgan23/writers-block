@@ -15,7 +15,7 @@ import { IoIosBowtie } from "react-icons/io"
 import { GiCrown } from "react-icons/gi"
 import { GiBrain } from "react-icons/gi"
 
-import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup, Container, Row, Col, Badge, CardDeck } from "reactstrap"
+import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup, Container, Row, Badge, CardDeck } from "reactstrap"
 import "./results.css"
 import LoadingScore from "../loading/LoadingScore";
 
@@ -32,8 +32,8 @@ export default class Results extends Component {
         isLoadingResults: true
     }
 
-    static getDerivedStateFromProps(nextProps)  {
-        if(nextProps.avgScore !== nextProps.averageScore){
+    static getDerivedStateFromProps(nextProps,props)  {
+        if(nextProps.avgScore !== props.avgScore){
     
             return {averageScore: nextProps.avgScore, scoreGroup: nextProps.scoreGroup}
         
@@ -44,7 +44,7 @@ export default class Results extends Component {
     }
 
     scoreLoadingChange = () => {
-        return this.setState({isLoadingResults: false})
+        return this.setState({isLoadingResults: !this.state.isLoadingResults})
     }
 
     componentDidMount = async() => {
@@ -64,6 +64,10 @@ export default class Results extends Component {
 
 
                 cache.locStr(newArray)
+
+                this.setState({
+                    averageScore: await json.avgScore, scoreGroup: await json.scoreGroup
+                })
 
         }
     }
@@ -105,13 +109,25 @@ export default class Results extends Component {
         })
     }
 
-    savingEditedEntry = (edit) => {
+    savingEditedEntry = async (edit) => {
         
-        this.props.saveEditedEntry(edit)
+        await this.props.saveEditedEntry(edit)
+
+        let idToGrab = Number(sessionStorage.getItem("currentEntryID"))
+        if(idToGrab){
+
+        const response = entryData.getCurrentEntry(idToGrab)
+
+        const json = await response
+
 
         this.setState({
-            editButtonClicked: false
+            editButtonClicked: false,
+            isLoadingResults: !this.state.isLoadingResults,
+            averageScore: await json.avgScore,
+            scoreGroup: await json.scoreGroup
         })
+    }
     }
 
     
@@ -140,10 +156,11 @@ export default class Results extends Component {
             } else {
         return (
             <Container className="resultsContainer" fluid >
-            <Card className="mt-3">
-                <CardHeader className="bg-secondary text-center">
+            <Card className="mt-3 resultsCard">
+                <CardHeader className="bg-dark text-center">
                     <h1 className="resultsTitle">
-                        <Badge >
+                        <Badge color="dark"
+                        className="heading">
                            Results 
                         </Badge>
                     </h1>
@@ -176,17 +193,18 @@ export default class Results extends Component {
                               
                                 
                                 <Row className="entryRow">
-                                <Card
+                                <Card 
                                 className="resultsEntry">
                                     <CardBody>
                                         <CardTitle>
-                                            <h4>
-                                                <Badge color="primary">
+                                            <h3>
+                                                <Badge className="subTitle"
+                                                color="dark">
                                                    {this.props.title} 
                                                 </Badge>
-                                            </h4>
+                                            </h3>
                                         </CardTitle>
-                                        <CardText>{this.props.body}</CardText>  
+                                        <CardText className="resultsEntryBody">{this.props.body}</CardText>  
                                     </CardBody>
                                 </Card>
                                 </Row>
@@ -194,10 +212,10 @@ export default class Results extends Component {
                                 
                                <Row>
                                 <CardDeck className="mt-3 bottomGroup">
-                                    <Card className="resultsAnalysis text-center">
-                                        <CardHeader className="bg-secondary">
+                                    <Card className="resultsAnalysis text-center ml-5">
+                                        <CardHeader className="bg-dark">
                                             <h1 className="resultsTitle">
-                                                <Badge color="secondary">
+                                                <Badge className="heading" color="dark">
                                                     Analysis
                                                 </Badge>
                                             </h1>
@@ -219,11 +237,13 @@ export default class Results extends Component {
                                            
                                         </CardBody>
                                     </Card>
-                                    <Card className="rightBottom-card">
-                                    <CardHeader className="bg-secondary text-center">
+                                    <Card className="rightBottom-card mr-5">
+                                    <CardHeader className="bg-dark text-center">
                                         <h1 className="resultsTitle"
                                         id="">
-                                        <Badge >
+                                        <Badge className="heading"
+                                            color="dark"
+                                        >
                                         Editor
                                         </Badge>
                                         </h1>
@@ -234,7 +254,7 @@ export default class Results extends Component {
                                             className="resultsButtons">
                                                 <Button 
                                                 size="lg"
-                                                color="info"
+                                                color="primary"
                                                 block
                                                 onClick={this.switchToSyns}
                                                 >Find Synonyms</Button>
@@ -242,7 +262,7 @@ export default class Results extends Component {
                                                 size="lg"
                                                 className="mt-1"
                                                 block
-                                                color="info"
+                                                color="primary"
                                                  onClick={this.handleEdit}>Edit Entry</Button>
                                                 <Button size="lg"
                                                 className="mt-1"

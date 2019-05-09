@@ -1,8 +1,10 @@
 import React, {Component} from "react"
 
-import {Form, FormGroup, Input, Label, Button, ButtonGroup} from "reactstrap"
+
+import {Form, FormGroup, Input, Label, Button } from "reactstrap"
 
 import "./results.css"
+import scoreAPI from "../../modules/scoreAPI";
 
 export default class EditResults extends Component {
 
@@ -24,19 +26,39 @@ export default class EditResults extends Component {
         this.setState(stateToChange)
     }
 
+    indentifyScoreGroup = (score) => {
 
-    handleSave = (event) => {
+        if(score <= 2) {
+            return [1, "Casual"]
+        } else if(score <= 4 && score > 2) {
+            return [2, "Business Formal"]
+        } else if (score <= 6 && score > 4) {
+            return [3, "Complex"]
+        } else if (score <= 10 && score > 6) {
+            return [4, "Semantic Genius"]
+        }
+     }
+
+
+    handleSave = async (event) => {
         event.preventDefault()
         let edit = {
             id: Number(sessionStorage.getItem("currentEntryID")),
             userId: Number(sessionStorage.getItem("userID")),
             body: this.state.body,
-            title: this.state.title,
-            scoreGroup: this.props.scoreGroup,
-            scoreGroupId: this.props.scoreGroupId,
-            avgScore: this.props.averageScore
+            title: this.state.title
+            // scoreGroup: this.props.scoreGroup,
+            // avgScore: this.props.averageScore
         }
-        this.props.onSave(edit)
+        let promise = scoreAPI.getAverageVocabScoreNOSAVE(this.state.body)
+
+        let score = await promise
+
+        edit.avgScore = await score.ten_degree
+
+        edit.scoreGroup = await this.indentifyScoreGroup(score.ten_degree)[1]
+        
+        this.props.onSave(await edit)
     }
 
     handleGoBack = (event) => {
@@ -47,9 +69,9 @@ export default class EditResults extends Component {
     render() {
         return (
           <React.Fragment>
-            <Form>
-                <FormGroup>
-                    <Label for="title">Title</Label>
+            <Form className="editForm-results">
+                <FormGroup className="editForm-group">
+                    <Label for="title">Entry Title: </Label>
                     <Input 
                     type="text"
                     id="title"
@@ -58,8 +80,8 @@ export default class EditResults extends Component {
                     value={this.state.title}
                     />
                 </FormGroup>
-                <FormGroup>
-                    <Label for="body">Entry</Label>
+                <FormGroup className="editForm-group">
+                    <Label for="body">Entry: </Label>
                     <Input 
                     type="textarea"
                     id="body"
@@ -69,10 +91,13 @@ export default class EditResults extends Component {
                     className="editTextarea"
                     />
                 </FormGroup>
-                <ButtonGroup>
-                    <Button onClick={this.handleSave}>Save Edits</Button>
-                    <Button onClick={this.handleGoBack}>Discard Edits</Button> 
-                </ButtonGroup>
+                <div className="editFormButtons">
+                    <Button color="dark"
+                    onClick={this.handleSave}>Save Edits</Button>
+                    <Button className="ml-1"
+                    color="danger"
+                    onClick={this.handleGoBack}>Discard Edits</Button> 
+                </div>
             </Form>
         </React.Fragment>  
         )

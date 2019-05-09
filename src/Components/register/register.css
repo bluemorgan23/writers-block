@@ -1,4 +1,14 @@
 .registerButtons-container {
     display: flex;
-    justify-content: space-evenly
+    justify-content: space-evenly;
+    font-family: "Lobster", cursive;
+}
+
+.registerCard {
+    min-width: 60% !important;
+}
+
+.registerMessage {
+    font-family: "Muli", sans-serif;
+    font-size: 1.5em
 }

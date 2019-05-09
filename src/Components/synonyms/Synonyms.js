@@ -2,7 +2,7 @@ import React, { Component } from "react"
 
 
 
-import {Card, CardBody, CardText, Input, CardHeader, Button, ButtonGroup, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from "reactstrap"
+import {Card, CardBody, CardText, Input, CardHeader, Button, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle, Badge } from "reactstrap"
 import cache from "../../modules/cache"
 import filtering from "../../modules/filter"
 import entryData from "../../modules/entryData"
@@ -169,8 +169,15 @@ class Synonyms extends Component {
         return (
             
             <React.Fragment>
-            <Card className="synonymCard m-2">
-            <CardHeader className="synonymCardHeader">Let's replace some words!</CardHeader>
+            <Card className="synonymCard m-2 mt-4">
+            <CardHeader className="synonymCardHeader bg-dark">
+                <h1>
+                    <Badge color="dark"
+                    className="heading">
+                        Let's replace some words!
+                    </Badge>
+                </h1>
+            </CardHeader>
             {this.state.buttonClicked === true ? (
                         <CardBody className="synonymCardBody">
                             {(() => {
@@ -179,7 +186,11 @@ class Synonyms extends Component {
                                         <Input type="textarea" onChange={this.handleChange} value={this.state.entryToEdit} id="entryToEdit"
                                         className="sentenceEdit"
                                          />
-                                        <Button onClick={this.onSave} id={this.state.indexToShow} >Save</Button>
+                                        <Button
+                                        size="lg"
+                                        color="dark"
+                                        className="mt-2 synEdit-save"
+                                        onClick={this.onSave} id={this.state.indexToShow} >Save</Button>
                                     </React.Fragment>
                                 } else {
                                     return <React.Fragment>
@@ -196,22 +207,30 @@ class Synonyms extends Component {
 
                     :
                     
-                        <CardBody className="synonymCardBody">
-                            <Button
-                            onClick={this.toggleNext} id={this.state.indexToShow}
-                            className="mb-2"
+                        <CardBody className="synonymCardBody bg-light">
+                            <Button size="lg"
+                            color="dark"
+                            onClick={this.toggleNext} 
+                            id={this.state.indexToShow}
+                            className="mb-2 nextButton"
                             >Next</Button>
-                            <CardText className="sentence"
+                            <CardText className="sentence mt-2"
                             id={this.state.indexToShow}>{this.state.sentencesAndWords.length > 0 && this.state.sentencesAndWords[this.state.indexToShow].sentence}</CardText>
                             
-                            <ButtonGroup>
-                               <Button size="sm"
-                               id={this.state.indexToShow} onClick={this.toggleChange}>Edit</Button>
-                               <ButtonDropdown
+                            <div className="mt-2 synsButtons">
+                               <Button className="mr-1"
+                                    color="dark"
+                                    size="lg"
+                                    id={this.state.indexToShow} onClick={this.toggleChange}>Edit Sentence
+                                </Button>
+                               <ButtonDropdown className="mr-1 synDrop"
+                                color="dark"
                                 id={this.state.indexToShow}
                                 isOpen={this.state.dropdownOpen} 
                                 toggle={this.toggle}>
-                                    <DropdownToggle caret size="sm">
+                                    <DropdownToggle className="synDrop"
+                                    color="dark"
+                                        caret size="lg">
                                     {this.state.sentencesAndWords.length > 0 && 
                                         this.state.sentencesAndWords[this.state.indexToShow].word}
                                     </DropdownToggle>
@@ -229,9 +248,12 @@ class Synonyms extends Component {
                                     })}
                                     </DropdownMenu>
                                 </ButtonDropdown>
-                                <Button onClick={() => this.props.history.push("/results")}
-                                size="sm">Return to Results</Button>
-                            </ButtonGroup>
+                                <Button color="dark"
+                                    onClick={() => this.props.history.push("/results")}
+                                    size="lg">
+                                    Save Changes
+                                </Button>
+                            </div>
                             
                         </CardBody>
                 }

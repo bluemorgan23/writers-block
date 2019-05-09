@@ -1,0 +1,29 @@
+.newEntryTextarea {
+    height: 100px !important
+}
+
+.analyzeButton {
+    max-width: 80% !important;
+    font-family: "Lobster", cursive;
+}
+
+.newEntryForm {
+    min-width: 100% !important;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center
+}
+
+.newEntryTitle {
+    min-width: 90%;
+}
+
+.newEntryAreaGroup {
+    min-width: 90%;
+}
+
+.newEntrySub {
+    font-size: 1.4em;
+    font-family: "Muli", sans-serif;
+}
+

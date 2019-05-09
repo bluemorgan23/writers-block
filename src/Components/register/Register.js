@@ -5,7 +5,7 @@ import React, {Component} from "react"
 import userData from "../../modules/userData"
 
 // Styling Imports
-import { Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, CardTitle } from "reactstrap"
+import { Button, Form, FormGroup, Label, Input, Card, CardBody, CardHeader, Badge, CardSubtitle } from "reactstrap"
 import "./register.css"
 
 export default class Register extends Component {
@@ -40,18 +40,26 @@ export default class Register extends Component {
                         return userList.find(user => 
                             user.username.toLowerCase() === this.state.username.toLowerCase())
                 }).then(matchedUser => sessionStorage.setItem("userID", matchedUser.id))
-                .then(() => this.props.history.push("/new-entry"))
+                .then(() => this.props.history.push("/welcome"))
                 }
             })
     }
 
     render() {
         return (
-            <Card className="registerCard">
-                <CardHeader className="registerCard-header">Register a New Account</CardHeader>
-                <CardBody>
-                    <CardTitle className="registerMessage">Please enter your preferred username and password to register.</CardTitle>
-                    <hr></hr>
+            <Card className="registerCard mt-3">
+                <CardHeader className="registerCard-header text-center bg-dark text-white">
+                    <h1>
+                        <Badge color="dark"
+                         className="heading">
+                            Register a New Account
+                        </Badge>
+                    </h1>
+                    <CardSubtitle  
+                    text-muted={true}
+                    className="registerMessage">Username must be unique</CardSubtitle>
+                </CardHeader>
+                <CardBody className="bg-light">
                    <Form onSubmit={this.handleRegister} >
                         <FormGroup>
                             <Label for="username">Username: </Label>
@@ -77,8 +85,12 @@ export default class Register extends Component {
                         </FormGroup>
                         <hr></hr>
                         <div className="registerButtons-container">
-                            <Button>Register</Button>
-                            <Button onClick={() => this.props.history.push("/")} >Go Back</Button>
+                            <Button size="lg"
+                            color="dark"
+                            >Register</Button>
+                            <Button size="lg"
+                            color="danger"
+                            onClick={() => this.props.history.push("/")} >Go Back</Button>
                         </div>
                     </Form> 
                 </CardBody>
