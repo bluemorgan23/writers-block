@@ -44,7 +44,7 @@ export default class Results extends Component {
     }
 
     scoreLoadingChange = () => {
-        return setTimeout(this.setState({isLoadingResults: false}), 2000)
+        return this.setState({isLoadingResults: false})
     }
 
     componentDidMount = async() => {

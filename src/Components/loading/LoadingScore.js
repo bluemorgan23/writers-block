@@ -1,11 +1,6 @@
 import React, { Component } from "react"
 import LoadingScreen from 'react-loading-screen';
 
-
-import filtering from "../../modules/filter"
-import cache from "../../modules/cache"
-import entryData from "../../modules/entryData"
-
 export default class LoadingScore extends Component {
 
     state = {
