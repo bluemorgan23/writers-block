@@ -98,7 +98,7 @@ export default class NewEntry extends Component {
                         </Badge>
                     </h1>
                     <CardSubtitle className="text-white newEntrySub">
-                       Insert some text to analyze. Titles must be unique
+                       Insert some text to analyze. Titles must be unique.
                     </CardSubtitle>
                 </CardHeader>
                 <CardBody className="bg-light">

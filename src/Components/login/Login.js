@@ -33,7 +33,7 @@ export default class Login extends Component {
             }).then(matchedUser => {
                 if(matchedUser){
                    sessionStorage.setItem("userID", Number(matchedUser.id))
-                   this.props.history.push("/new-entry")
+                   this.props.history.push("/welcome")
                 } else {
                     window.alert("Invalid login information")
                 }

@@ -40,7 +40,7 @@ export default class Register extends Component {
                         return userList.find(user => 
                             user.username.toLowerCase() === this.state.username.toLowerCase())
                 }).then(matchedUser => sessionStorage.setItem("userID", matchedUser.id))
-                .then(() => this.props.history.push("/new-entry"))
+                .then(() => this.props.history.push("/welcome"))
                 }
             })
     }

@@ -16,6 +16,7 @@ import Results from "./results/Results"
 import Synonyms from "./synonyms/Synonyms"
 import Stats from "./stats/Stats"
 import NoResults from "./fourZeroFour/NoResultSaved"
+import Welcome from "./welcome/Welcome"
 
 
 
@@ -299,6 +300,14 @@ class ApplicationViews extends Component {
             <Route path="/no-entry" render={ props => {
                 if(this.isAuthenticated()){
                     return <NoResults {...props}  />
+                } else {
+                    return <Redirect to="/" />
+                }
+                
+            }} />
+            <Route path="/welcome" render={ props => {
+                if(this.isAuthenticated()){
+                    return <Welcome {...props}  />
                 } else {
                     return <Redirect to="/" />
                 }
