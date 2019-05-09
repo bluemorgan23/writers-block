@@ -205,7 +205,6 @@ class ApplicationViews extends Component {
     }
 
     saveEditedEntry = (edit) => {
-        let stateChange = {}
         
         return entryData.putEntry(edit)
         .then(() => entryData.getCurrentEntry(sessionStorage.getItem("currentEntryID")))

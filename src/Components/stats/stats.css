@@ -4,15 +4,27 @@
     justify-content: space-between;
 }
 
-.statsListItem {
-    display: flex !important;
-    align-items: space-between !important;
-    min-width: 80%
+.statsBody {
+    display: flex;
+    flex-flow: row nowrap !important;
+    justify-content: space-between !important
+}
 
+.statsCard {
+    min-width: 80% !important;
 }
 
 small {
     font-size: .3rem !important
 }
+
+.discardStat {
+    height: 15px;
+    width: 15px;
+    padding: 0px !important;
+    font-size: .5rem !important
+}
+
+
 
 

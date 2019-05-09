@@ -111,7 +111,7 @@ export default class Results extends Component {
 
     savingEditedEntry = async (edit) => {
         
-        let saveEdit = await this.props.saveEditedEntry(edit)
+        await this.props.saveEditedEntry(edit)
 
         let idToGrab = Number(sessionStorage.getItem("currentEntryID"))
         if(idToGrab){

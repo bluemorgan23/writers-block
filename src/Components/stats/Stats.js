@@ -2,7 +2,7 @@ import React, {Component} from "react"
 
 import entryData from "../../modules/entryData"
 
-import { Card, CardHeader, CardTitle, CardBody, CardText, CardLink, Button, ListGroup, ListGroupItem, Container, Row, Col, CardSubtitle } from "reactstrap"
+import { Card, CardHeader, CardTitle, CardBody, CardText, CardLink, Button,CardSubtitle, CardDeck, Badge } from "reactstrap"
 import "./stats.css"
 
 import { GiEnlightenment, GiCrown, GiBrain } from "react-icons/gi"
@@ -57,54 +57,60 @@ export default class Stats extends Component {
 
     render() {
         return (
-           <Card className="text-center">
-            <CardHeader>Saved Entries</CardHeader>
+           <Card className="text-center statsCard bg-light">
+            <CardHeader className="bg-secondary text-center">
+                <h1>
+                    <Badge>
+                        Saved Entries
+                    </Badge>
+                </h1>
+            </CardHeader>
             <CardBody>
                 <CardTitle>Click on an entry title to view the results.</CardTitle>
                 <CardSubtitle></CardSubtitle>
                 <hr></hr>
-                <Container>
-                    <Col>
+                
                 {
                     this.state.currentUserEntries.map(entry => {
                            
-                            return  <ListGroup className="statsContainer mb-3" key={entry.id}>
-                                        <Row className="statsRow">
-                                            <ListGroupItem key={entry.id}className="statsListItem">
+                            return  <CardDeck className="statsContainer mb-3" key={entry.id}>
+                                        
+                                            <Card key={entry.id}className="statsCards">
                                             
-                                                <Col>
-                                                <CardLink
-                                                    id={entry.id} 
-                                                    href={`/results`}
-                                                    onClick={this.onLinkClick}
-                                                    >{entry.title}
-                                                </CardLink>
-                                                </Col>
-                                                <Col>
-                                                <CardText>
-                                                {this.whichIconToUse(entry.avgScore)}
-                                                </CardText>
-                                                </Col>
-                                                <Col>
-                                                <small className="text-muted">last update: </small>
-                                                </Col>
-                                                <Col>
-                                                <Button className="discardStat text-center"
-                                                size="sm"
-                                                color="danger"
-                                                onClick={this.handleDiscard}
-                                                id={entry.id}>X</Button>
-                                                </Col>
+                                                <CardBody className="statsBody">
+                                                    <CardLink
+                                                        id={entry.id} 
+                                                        href={`/results`}
+                                                        onClick={this.onLinkClick}
+                                                        >{entry.title}
+                                                    </CardLink>
+                                               
+                                                
+                                                
+                                                    <CardText>
+                                                    {this.whichIconToUse(entry.avgScore)}
+                                                    </CardText>
+                                                
+                                                
+                                                    
+                                                    {/* <small className="text-muted">last update: </small>
+                                                     */}
+                                                    
+                                                    <Button className="discardStat text-center"
+                                                    size="sm"
+                                                    color="danger"
+                                                    onClick={this.handleDiscard}
+                                                    id={entry.id}>X</Button>
+                                                
+                                                </CardBody>
+                                            </Card>
                                             
-                                            </ListGroupItem>
-                                            </Row>
-                                    </ListGroup>
+                                    </CardDeck>
                                 
                         })
                     
                 }
-                    </Col>
-                </Container>
+                  
             </CardBody>
          </Card> 
         )
