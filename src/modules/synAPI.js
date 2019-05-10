@@ -11,7 +11,7 @@ const synAPI = {
         return fetch(`${baseURL}${word}&max=100`)
         .then(response => response.json())
         .then(parsedResponse => parsedResponse.filter(words => {
-            return words.score > 70000
+            return words.score > 60000
         } )).then(response => response.map(word => word.word))
     }
 }
