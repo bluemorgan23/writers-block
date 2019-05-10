@@ -8,6 +8,7 @@ import filtering from "../../modules/filter"
 
 import entryData from "../../modules/entryData"
 import LoadingSyns from "../loading/LoadingSyns"
+import NoResults from "../fourZeroFour/NoResultSaved"
 
 //icons 
 import { GiEnlightenment } from "react-icons/gi"
@@ -29,7 +30,8 @@ export default class Results extends Component {
         scoreGroup: "",
         isLoadingSyns: false,
         sentencesAndWords: [],
-        isLoadingResults: true
+        isLoadingResults: true,
+        noResults: false
     }
 
     static getDerivedStateFromProps(nextProps,props)  {
@@ -44,7 +46,12 @@ export default class Results extends Component {
     }
 
     scoreLoadingChange = () => {
-        return this.setState({isLoadingResults: !this.state.isLoadingResults})
+        if(this.props.isEntrySaved()){
+           return this.setState({isLoadingResults: !this.state.isLoadingResults})
+        } else {
+            return this.setState({noResults: true})
+        }
+        
     }
 
     componentDidMount = async() => {
@@ -133,12 +140,17 @@ export default class Results extends Component {
     
 
     render() {
+        if(this.state.noResults) {
+            return <NoResults />
+        }
 
-        if(this.state.isLoadingResults){
+       else if(this.state.isLoadingResults){
             return <LoadingScore
                     scoreLoadingChange={this.scoreLoadingChange}
                     isLoadingResults={this.state.isLoadingResults}
-                    history={this.props.history}/>
+                    history={this.props.history}
+                    isEntrySaved={this.props.isEntrySaved}
+                    />
         }
 
         else if(this.state.isLoadingSyns){
@@ -153,7 +165,9 @@ export default class Results extends Component {
             switchToSyns={this.switchToSyns}
             isLoading={this.state.isLoading}
             />
-            } else {
+            } 
+            
+        else {
         return (
             <Container className="resultsContainer" fluid >
             <Card className="mt-3 resultsCard">

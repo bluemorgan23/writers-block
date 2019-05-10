@@ -270,6 +270,7 @@ class ApplicationViews extends Component {
                      updateSentence={this.updateSentence}
                      updateEntry={this.updateEntry}
                      grabSynData={this.grabSynData}
+                     isEntrySaved={this.isEntrySaved}
                      {...props} />
                 } else {
                     return <Redirect to="/" />
