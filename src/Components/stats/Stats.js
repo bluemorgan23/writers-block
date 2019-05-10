@@ -84,11 +84,11 @@ export default class Stats extends Component {
                            
                             return  <CardDeck className="statsContainer mb-3" key={entry.id}>
                                         
-                                            <Card key={entry.id}className="statsCards bg-secondary">
+                                            <Card key={entry.id}className="statsCards">
                                             
                                                 <CardBody className="statsBody">
                                                     <CardLink
-                                                        className="text-white"
+                                                       className="text-dark"
                                                         id={entry.id} 
                                                         href={`/results`}
                                                         onClick={this.onLinkClick}

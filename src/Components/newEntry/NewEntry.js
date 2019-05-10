@@ -72,7 +72,6 @@ export default class NewEntry extends Component {
                     userId: Number(sessionStorage.getItem("userID")),
                     scoreGroup: ""
                 }
-                debugger
                 return scoreAPI.getAverageVocabScoreNOSAVE(this.state.body).then(response => entryObj.avgScore = response.ten_degree)
 
                 .then(() => scoreAPI.getAverageVocabScoreNOSAVE(this.state.body))

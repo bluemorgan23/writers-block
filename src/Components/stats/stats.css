@@ -2,16 +2,19 @@
     display: inline-flex;
     flex-direction: row;
     justify-content: space-between;
+    
 }
 
 .statsBody {
     display: flex;
     flex-flow: row nowrap !important;
-    justify-content: space-between !important
+    justify-content: space-between !important;
+    background-color: #e0e0e0
 }
 
 .statsCard {
     min-width: 80% !important;
+
 }
 
 small {
