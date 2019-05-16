@@ -48,7 +48,7 @@ class ApplicationViews extends Component {
             })
         }
     }
-    
+
     grabScoreData = (obj) => {
         this.setState(obj)
     }

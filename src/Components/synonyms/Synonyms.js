@@ -6,6 +6,7 @@ import {Card, CardBody, CardText, Input, CardHeader, Button, ButtonDropdown, Dro
 import cache from "../../modules/cache"
 import filtering from "../../modules/filter"
 import entryData from "../../modules/entryData"
+import LoadingSyns from "../loading/LoadingSyns"
 
 
 import synAPI from "../../modules/synAPI"
@@ -29,7 +30,7 @@ class Synonyms extends Component {
 
 
 
-    componentWillMount(){
+    componentDidMount(){
 
         if(this.props.sentencesAndWords){
             this.setState({
@@ -166,7 +167,9 @@ class Synonyms extends Component {
 
 
     render() {
+
         return (
+
             
             <React.Fragment>
             <Card className="synonymCard m-2 mt-4">
@@ -223,6 +226,7 @@ class Synonyms extends Component {
                                     size="lg"
                                     id={this.state.indexToShow} onClick={this.toggleChange}>Edit Sentence
                                 </Button>
+                                
                                <ButtonDropdown className="mr-1 synDrop"
                                 color="dark"
                                 id={this.state.indexToShow}
@@ -234,7 +238,7 @@ class Synonyms extends Component {
                                     {this.state.sentencesAndWords.length > 0 && 
                                         this.state.sentencesAndWords[this.state.indexToShow].word}
                                     </DropdownToggle>
-                                    <DropdownMenu>
+                                    <DropdownMenu right>
                                     {this.state.sentencesAndWords.length > 0 && 
                                         
                                     this.state.sentencesAndWords[this.state.indexToShow].matches.map(match => {
