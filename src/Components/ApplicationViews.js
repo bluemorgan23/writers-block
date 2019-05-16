@@ -49,13 +49,6 @@ class ApplicationViews extends Component {
         }
     }
 
-    componentWillUnmount() {
-        if(this.isAuthenticated() === false ){
-            let stateToChange = {body: "", title: "", sentenceArray: [], sentencesAndWords: []}
-            this.setState(stateToChange)
-        }
-    }
-
     grabScoreData = (obj) => {
         this.setState(obj)
     }
@@ -160,14 +153,6 @@ class ApplicationViews extends Component {
 
     isEntrySaved = () => sessionStorage.getItem("currentEntryID") !== null
 
-    // isEntryStored = () => {
-    //  if(sessionStorage.getItem("isEntryStored") === true){
-    //      return true
-    //  } else {
-    //      return false
-    //  }
-    // }
-
     onRegister = (userToRegister) => {
         return userData.postUser(userToRegister)
             .then(() => userData.getAllUsers())
@@ -270,6 +255,7 @@ class ApplicationViews extends Component {
                      updateSentence={this.updateSentence}
                      updateEntry={this.updateEntry}
                      grabSynData={this.grabSynData}
+                     isEntrySaved={this.isEntrySaved}
                      {...props} />
                 } else {
                     return <Redirect to="/" />

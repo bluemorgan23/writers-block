@@ -6,6 +6,7 @@ import {Card, CardBody, CardText, Input, CardHeader, Button, ButtonDropdown, Dro
 import cache from "../../modules/cache"
 import filtering from "../../modules/filter"
 import entryData from "../../modules/entryData"
+import LoadingSyns from "../loading/LoadingSyns"
 
 
 import synAPI from "../../modules/synAPI"
@@ -29,7 +30,7 @@ class Synonyms extends Component {
 
 
 
-    componentWillMount(){
+    componentDidMount(){
 
         if(this.props.sentencesAndWords){
             this.setState({
@@ -121,6 +122,12 @@ class Synonyms extends Component {
 
     }
 
+    highlightWord = (text, highlight) => {
+        let parts = text.split(new RegExp(`(${highlight})`, "i"))
+        return <span> {parts.map((part, i) => 
+            <span key={i} style={part.toLowerCase() === highlight.toLowerCase() ? {color: "red", fontWeight: "bold"} : {}}> {part} </span>)}</span>
+    }
+
     toggleNext = (event) => {
         event.preventDefault()
 
@@ -166,7 +173,9 @@ class Synonyms extends Component {
 
 
     render() {
+
         return (
+
             
             <React.Fragment>
             <Card className="synonymCard m-2 mt-4">
@@ -215,7 +224,7 @@ class Synonyms extends Component {
                             className="mb-2 nextButton"
                             >Next</Button>
                             <CardText className="sentence mt-2"
-                            id={this.state.indexToShow}>{this.state.sentencesAndWords.length > 0 && this.state.sentencesAndWords[this.state.indexToShow].sentence}</CardText>
+                            id={this.state.indexToShow}>{this.state.sentencesAndWords.length > 0 && this.highlightWord(this.state.sentencesAndWords[this.state.indexToShow].sentence, this.state.sentencesAndWords[this.state.indexToShow].word)}</CardText>
                             
                             <div className="mt-2 synsButtons">
                                <Button className="mr-1"
@@ -223,6 +232,7 @@ class Synonyms extends Component {
                                     size="lg"
                                     id={this.state.indexToShow} onClick={this.toggleChange}>Edit Sentence
                                 </Button>
+                                
                                <ButtonDropdown className="mr-1 synDrop"
                                 color="dark"
                                 id={this.state.indexToShow}
@@ -234,7 +244,7 @@ class Synonyms extends Component {
                                     {this.state.sentencesAndWords.length > 0 && 
                                         this.state.sentencesAndWords[this.state.indexToShow].word}
                                     </DropdownToggle>
-                                    <DropdownMenu>
+                                    <DropdownMenu right>
                                     {this.state.sentencesAndWords.length > 0 && 
                                         
                                     this.state.sentencesAndWords[this.state.indexToShow].matches.map(match => {
@@ -261,7 +271,8 @@ class Synonyms extends Component {
             <br></br>
             <Card className="m-2">
                 <CardBody>
-                    <CardText>{this.props.entry}</CardText>
+                    <CardText>{ this.state.sentencesAndWords.length > 0 &&
+                        this.highlightWord(this.props.entry, this.state.sentencesAndWords[this.state.indexToShow].word)}</CardText>
                 </CardBody> 
             </Card>
             </React.Fragment>

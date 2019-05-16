@@ -13,6 +13,7 @@ const synAPI = {
         .then(parsedResponse => parsedResponse.filter(words => {
             return words.score > 60000
         } )).then(response => response.map(word => word.word))
+        .then(response => response.slice(0, 15))
     }
 }
 

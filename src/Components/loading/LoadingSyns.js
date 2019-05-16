@@ -22,6 +22,8 @@ export default class LoadingSyns extends PureComponent {
 
 
     async componentDidMount() {
+            
+            window.scrollTo(0,0)
   
             let idToGrab = Number(sessionStorage.getItem("currentEntryID"))
             

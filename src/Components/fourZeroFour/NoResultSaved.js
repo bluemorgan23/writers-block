@@ -10,7 +10,7 @@ export default class NoResults extends PureComponent {
         return (
             <Card className="noResults mt-4 bg-light">
                 <CardHeader className="bg-danger text-center">
-                    <h1 className="text-white">
+                    <h1 className="text-white subHeader">
                         
                             Sorry!
                         
@@ -21,8 +21,10 @@ export default class NoResults extends PureComponent {
                         We couldn't find any text to analyze. Please submit a new entry to view this section. To view results for one of your saved entries, head over to your Stats list and select an entry to analyze by clicking the title.
                     </CardText>
                 </CardBody>
-                <CardFooter>
-                    <Button onClick={() => this.props.history.push("/new-entry")}>
+                <CardFooter className="text-center">
+                    <Button className="errBtn"
+                    color="dark"
+                    onClick={() => this.props.history.push("/new-entry")}>
                         Create New Entry
                     </Button>
                 </CardFooter>
