@@ -125,7 +125,7 @@ class Synonyms extends Component {
     highlightWord = (text, highlight) => {
         let parts = text.split(new RegExp(`(${highlight})`, "i"))
         return <span> {parts.map((part, i) => 
-            <span key={i} style={part.toLowerCase() === highlight.toLowerCase() ? {color: "red"} : {}}> {part} </span>)}</span>
+            <span key={i} style={part.toLowerCase() === highlight.toLowerCase() ? {color: "red", fontWeight: "bold"} : {}}> {part} </span>)}</span>
     }
 
     toggleNext = (event) => {
@@ -271,7 +271,8 @@ class Synonyms extends Component {
             <br></br>
             <Card className="m-2">
                 <CardBody>
-                    <CardText>{this.props.entry}</CardText>
+                    <CardText>{ this.state.sentencesAndWords.length > 0 &&
+                        this.highlightWord(this.props.entry, this.state.sentencesAndWords[this.state.indexToShow].word)}</CardText>
                 </CardBody> 
             </Card>
             </React.Fragment>
