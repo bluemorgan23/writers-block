@@ -48,14 +48,7 @@ class ApplicationViews extends Component {
             })
         }
     }
-
-    componentWillUnmount() {
-        if(this.isAuthenticated() === false ){
-            let stateToChange = {body: "", title: "", sentenceArray: [], sentencesAndWords: []}
-            this.setState(stateToChange)
-        }
-    }
-
+    
     grabScoreData = (obj) => {
         this.setState(obj)
     }
@@ -159,14 +152,6 @@ class ApplicationViews extends Component {
     isAuthenticated = () => sessionStorage.getItem("userID") !== null
 
     isEntrySaved = () => sessionStorage.getItem("currentEntryID") !== null
-
-    // isEntryStored = () => {
-    //  if(sessionStorage.getItem("isEntryStored") === true){
-    //      return true
-    //  } else {
-    //      return false
-    //  }
-    // }
 
     onRegister = (userToRegister) => {
         return userData.postUser(userToRegister)

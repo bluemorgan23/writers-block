@@ -28,6 +28,9 @@ const filtering = {
         let filter10 = "one"
         let filter11 = "by"
         let filter12 = "up"
+        let filter13 = "user"
+        let filter14 = "users"
+        let filter15 = "scoring"
         const filters = 
             [
                 filter1, 
@@ -41,7 +44,10 @@ const filtering = {
                 filter9,
                 filter10,
                 filter11,
-                filter12
+                filter12,
+                filter13,
+                filter14,
+                filter15
             ]
 
         const filteredWords = array.filter(word => !filters.includes(word))

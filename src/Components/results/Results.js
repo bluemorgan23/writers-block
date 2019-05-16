@@ -141,7 +141,7 @@ export default class Results extends Component {
 
     render() {
         if(this.state.noResults) {
-            return <NoResults />
+            return <NoResults history={this.props.history} />
         }
 
        else if(this.state.isLoadingResults){

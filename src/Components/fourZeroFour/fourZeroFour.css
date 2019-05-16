@@ -5,3 +5,12 @@
 .errorMessage {
     font-size: 1.2em
 }
+
+.subHeader {
+    font-family: "Lobster", cursive;
+    font-size: 3em
+}
+
+.errBtn {
+    font-family: "Lobster", cursive;
+}
