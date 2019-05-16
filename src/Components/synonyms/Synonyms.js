@@ -122,6 +122,12 @@ class Synonyms extends Component {
 
     }
 
+    highlightWord = (text, highlight) => {
+        let parts = text.split(new RegExp(`(${highlight})`, "i"))
+        return <span> {parts.map((part, i) => 
+            <span key={i} style={part.toLowerCase() === highlight.toLowerCase() ? {color: "red"} : {}}> {part} </span>)}</span>
+    }
+
     toggleNext = (event) => {
         event.preventDefault()
 
@@ -218,7 +224,7 @@ class Synonyms extends Component {
                             className="mb-2 nextButton"
                             >Next</Button>
                             <CardText className="sentence mt-2"
-                            id={this.state.indexToShow}>{this.state.sentencesAndWords.length > 0 && this.state.sentencesAndWords[this.state.indexToShow].sentence}</CardText>
+                            id={this.state.indexToShow}>{this.state.sentencesAndWords.length > 0 && this.highlightWord(this.state.sentencesAndWords[this.state.indexToShow].sentence, this.state.sentencesAndWords[this.state.indexToShow].word)}</CardText>
                             
                             <div className="mt-2 synsButtons">
                                <Button className="mr-1"
