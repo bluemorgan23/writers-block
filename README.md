@@ -1,7 +1,7 @@
 
 # The Writer's Block
 
-The Writer's Block is a text-analysis utility that allows a user to determine score of a group of text based on the vocabulary selections. For example, if a user is preparing a work email, he/she could paste the content into the application to make sure that the text scores as a "business" level. If the text scores a "Casual" grade, the user can find synoynm replacements for certan words that the application systematically choses. The idea is that the application will be a second pair of eyes to look over your writing to make sure you are using strong word choices. The repititive user will have the benefit of learning many new words over time, which demonstrates the educational benefits of the application.
+The Writer's Block is a text-analysis utility that allows a user to determine the score of a group of text based on the vocabulary selections. For example, if a user is preparing a work email, he/she could paste the content into the application to make sure that the text scores as a "business" level. If the text scores a "Casual" grade, the user can find synoynm replacements for certan words that the application systematically choses. The idea is that the application will be a second pair of eyes to look over your writing to make sure you are using strong word choices. The repititive user will have the benefit of learning many new words over time, which demonstrates the educational benefits of the application.
 
 ## Getting Started
 
