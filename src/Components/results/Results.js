@@ -1,26 +1,29 @@
+
+// react imports
 import React, {Component} from "react"
 
+// reactstrap imports
+import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup, Container, Row, Badge, CardDeck } from "reactstrap"
 
-
+// Component imports
 import EditResults from "./EditResults"
-import cache from "../../modules/cache"
-import filtering from "../../modules/filter"
-
-import entryData from "../../modules/entryData"
+import LoadingScore from "../loading/LoadingScore";
 import LoadingSyns from "../loading/LoadingSyns"
 import NoResults from "../fourZeroFour/NoResultSaved"
 
-//icons 
+// module imports
+import cache from "../../modules/cache"
+import filtering from "../../modules/filter"
+import entryData from "../../modules/entryData"
+
+// react-icons imports
 import { GiEnlightenment } from "react-icons/gi"
 import { IoIosBowtie } from "react-icons/io"
 import { GiCrown } from "react-icons/gi"
 import { GiBrain } from "react-icons/gi"
 
-import { Card, CardHeader, CardTitle, CardText, Button, CardBody, ButtonGroup, Container, Row, Badge, CardDeck } from "reactstrap"
+// stylesheet imports
 import "./results.css"
-import LoadingScore from "../loading/LoadingScore";
-
-
 
 export default class Results extends Component {
 
@@ -34,6 +37,8 @@ export default class Results extends Component {
         noResults: false
     }
 
+    // this lifecycle method was necessary because it allows the component to grab the average score before the component is rendered instead of after. This prevented me from having to refresh the page to get the correct score to show.
+
     static getDerivedStateFromProps(nextProps,props)  {
         if(nextProps.avgScore !== props.avgScore){
     
@@ -44,6 +49,8 @@ export default class Results extends Component {
             return null
         }
     }
+
+    // State change that is used to make the loading screen appear
 
     scoreLoadingChange = () => {
         if(this.props.isEntrySaved()){
@@ -79,30 +86,46 @@ export default class Results extends Component {
         }
     }
 
+    // This function will dynamically return the correct icon that matches the average score of the entry
+
     whichIconToUse = (score) => {
-        let casual = <GiEnlightenment size="4em" color="#843131" />
-        let biz = <IoIosBowtie size="4em"/>
-        let complex = <GiCrown size="4em" color="#d1a849"/>
-        let genius = <GiBrain size="4em" color="#ba5e77"/>
+
+        const casual = <GiEnlightenment size="4em" color="#843131" />
+
+        const biz = <IoIosBowtie size="4em"/>
+
+        const complex = <GiCrown size="4em" color="#d1a849"/>
+
+        const genius = <GiBrain size="4em" color="#ba5e77"/>
+
         switch(true) {
+
             case(score < 3):
                 return [casual, "Casual"]
+
             case(score > 2 && score < 5):
                 return [biz, "Business"]
+
             case(score > 4 && score < 7):
                 return [complex, "Complex"]
+
             case(score > 6 && score < 11):
                 return [genius, "Semantic Genius"]
         }
     }
 
+    // This state change triggers the synonyms loading screen
+
    switchToSyns = () => {
+
         this.setState({
+
            isLoadingSyns: !this.state.isLoadingSyns
+
        })
    }
 
-  
+  // The handleDelete function is a handler that calls the onDelete prop from ApplicationViews. This deletes the entry from the database, and returns the user to the new entry page.
   
     handleDelete = () => {
 
@@ -110,11 +133,16 @@ export default class Results extends Component {
         .then(() => this.props.history.push("/new-entry"))
     }
 
+    // This triggers a conditional rendering that shows the edit form
+
     handleEdit = () => {
+
         this.setState({
             editButtonClicked: !this.state.editButtonClicked
         })
     }
+
+    // This saves the edited entry to the database.
 
     savingEditedEntry = async (edit) => {
         
@@ -140,10 +168,11 @@ export default class Results extends Component {
     
 
     render() {
+        // If there is nothing saved in session storage it will trigger the error message
         if(this.state.noResults) {
             return <NoResults history={this.props.history} />
         }
-
+        // The application takes a few seconds to gather the results, so the loading screen is rendered because the state of isLoadingResults is initially true until the analysis is complete.
        else if(this.state.isLoadingResults){
             return <LoadingScore
                     scoreLoadingChange={this.scoreLoadingChange}
@@ -153,6 +182,7 @@ export default class Results extends Component {
                     />
         }
 
+        // When the user clicks the find synonyms button, it triggers the synonym loading screen. This will allow the application to grab all the synonyms before rendering the Synonyms component.
         else if(this.state.isLoadingSyns){
             return <LoadingSyns
             sentenceArray={this.props.sentenceArray} 

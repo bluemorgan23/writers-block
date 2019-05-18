@@ -1,37 +1,53 @@
+// Author: Chris Morgan / May 2019
+
+// The NewEntry component is responsible for rendering the new entry form of the application. The form will grab user input, calculate the word score, and make a POST to the database.
+
+// react imports
 import React, {Component} from "react"
 
+// reactstrap imports
+import { Card, CardBody, CardHeader,  Button, Form, FormGroup, Label, Input, Badge, CardSubtitle } from "reactstrap"
+
+// module imports
 import entryData from "../../modules/entryData"
 import scoreAPI from "../../modules/scoreAPI"
-
 import cache from "../../modules/cache"
 import filtering from "../../modules/filter"
 
-import { Card, CardBody, CardHeader,  Button, Form, FormGroup, Label, Input, Badge, CardSubtitle } from "reactstrap"
+// stylesheet imports
 import "./newEntry.css"
-
 
 
 export default class NewEntry extends Component {
     
     state = {
+
         title: "",
         body: "",
+
     }
 
     handleFieldChange = (event) => {
+
         let stateToChange = {}
+
         stateToChange[event.target.id] = event.target.value
+
         this.setState(stateToChange)
     }
 
+    // When the component unmounts, the application will create an array with each word of the entry becoming an array item and removing punctuation and weak words. Then the cache.locStr function is called which makes a fetch call to the TwinWord language scoring API for each word. This array of promises is stored in localStorage
+
     componentWillUnmount() {
        
-            const wordArray = filtering.getRidOfPunctuation(this.state.body)
-            let filteredArray = filtering.filterOutWeakWords(wordArray)
-            cache.locStr(filteredArray)
-           
-        
+        const wordArray = filtering.getRidOfPunctuation(this.state.body)
+
+        let filteredArray = filtering.filterOutWeakWords(wordArray)
+
+        cache.locStr(filteredArray)
     }
+
+    // This function is responsible for determining which score group the entry will belong to.
 
     indentifyScoreGroup = (score) => {
        
@@ -45,6 +61,8 @@ export default class NewEntry extends Component {
            return [4, "Semantic Genius"]
        }
     }
+
+    // This function makes sure there is no entry currrently saved in sessionStorage. Then it will make sure an entry with this title doesn't already exist. If not, it will create an entryObj with the title, body, userID, and the scoreGroup which is found after submission.
 
     handleAnalyze = (event) => {
         if(sessionStorage.getItem("currentEntryID")){
@@ -63,8 +81,6 @@ export default class NewEntry extends Component {
 
             } else {
 
-                // let averageScore = scoreAPI.getAverageVocabScoreNOSAVE(this.state.body)
-                
 
                 let entryObj = {
                     title: this.state.title,

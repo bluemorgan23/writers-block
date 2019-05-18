@@ -1,4 +1,6 @@
+// Author: Chris Morgan / May 2019
 
+// The filtering module is responsible for manipulating the user input into a format that allows the application the get the individual word scores. It also is responsible for splitting up each of the sentences to array items. Also, the application has a growing list of words that I felt were not worth scoring/grabbing synonyms for.
 
 
 const filtering = {

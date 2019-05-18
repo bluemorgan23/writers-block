@@ -1,7 +1,17 @@
+// Author: Chris Morgan / May 2019
+
+// The NoResults PureComponent is simply an error message that is meant to be shown to the user if he/she tries to view results without submitting a new entry or selecting a saved entry from the Stats component. This prevents the user from seeing a blank results screen.
+
+// This is a PureComponent because it doesn't require any updating to render properly.
+
+
+// react imports
 import React, { PureComponent } from "react"
 
+// reactstrap imports
 import { Card, CardHeader, Button, CardText, CardBody, CardFooter } from "reactstrap"
 
+// stylesheet import
 import "./fourZeroFour.css"
 
 export default class NoResults extends PureComponent {
@@ -22,6 +32,7 @@ export default class NoResults extends PureComponent {
                     </CardText>
                 </CardBody>
                 <CardFooter className="text-center">
+                {/* onClick => send user to create a new entry */}
                     <Button className="errBtn"
                     color="dark"
                     onClick={() => this.props.history.push("/new-entry")}>
