@@ -27,6 +27,8 @@ In order to use this application, after cloning down the repository, the user mu
 * ReactStrap
 * React-Icons
 * React-Loading-Screens
+* TwinWord Language Scoring API
+* Wordnik Words API
 
 ## Authors
 
