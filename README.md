@@ -34,7 +34,7 @@ In order to use this application, after cloning down the repository, the user mu
 
 ## Authors
 
-* **Chris Morgan** -(https://github.com/bluemorgan23)
+* **Chris Morgan** -(GitHub: https://github.com/bluemorgan23 || Portfolio: https://bluemorgan23.github.io/cm-portfolio/)
 
 
 ## Acknowledgments
