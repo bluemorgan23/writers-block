@@ -17,6 +17,8 @@ const filtering = {
             .replace(/^(\s*)([\W\w]*)(\b\s*$)/g, '$2').split(" ")
     },
 
+    // Stop words don't bring semantic value 
+
     filterOutWeakWords: (array) => {
         let filter1 = "the"
         let filter2 = "can"

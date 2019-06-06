@@ -47,7 +47,7 @@ export default class Login extends Component {
                     <h1>
                         <Badge color="dark"
                         className="heading">
-                           Welcome to The Writer's Block 
+                           Welcome to <br/> The Writer's Block 
                         </Badge>
                     </h1>
                     <CardSubtitle className="loginMessage">

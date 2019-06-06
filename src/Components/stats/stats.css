@@ -14,6 +14,7 @@
 
 .statsCard {
     min-width: 80% !important;
+    max-height: 40% !important
 
 }
 
@@ -31,6 +32,10 @@ small {
 .statsSub {
     font-family: "Muli", sans-serif;
     font-size: 1.5em
+}
+
+.overflow {
+    overflow: scroll;
 }
 
 

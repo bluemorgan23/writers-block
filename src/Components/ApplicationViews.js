@@ -26,7 +26,8 @@ class ApplicationViews extends Component {
         body: "",
         title: "",
         sentenceArray: [],
-        sentencesAndWords: []
+        sentencesAndWords: [],
+        currentUserEntries: []
     }
 
     componentDidMount() {
@@ -41,12 +42,14 @@ class ApplicationViews extends Component {
              avgScore: currentEntry.avgScore,
              scoreGroup: currentEntry.scoreGroup
             }) 
-        }) 
+        }).then(() => entryData.getUserEntries())
+        .then(response => this.setState({currentUserEntries: response})) 
         } else {
             this.setState({
-                body: "", title: "", sentenceArray: [], sentencesAndWords: []
+                body: "", title: "", sentenceArray: [], sentencesAndWords: [], currentUserEntries: []
             })
         }
+
     }
 
     grabScoreData = (obj) => {
@@ -277,7 +280,8 @@ class ApplicationViews extends Component {
             }} />
             <Route path="/stats" render={ props => {
                 if(this.isAuthenticated()){
-                    return <Stats grabScoreData={this.grabScoreData}  delete={this.onDelete}{...props} />
+                    return <Stats currentUserEntries={this.state.currentUserEntries}
+                    grabScoreData={this.grabScoreData}  delete={this.onDelete}{...props} />
                 } else {
                     return <Redirect to="/" />
                 }
