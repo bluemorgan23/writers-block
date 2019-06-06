@@ -114,7 +114,7 @@ export default class Stats extends Component {
                     </CardSubtitle>
                 </CardHeader>
                 
-                <CardBody className="bg-light">
+                <CardBody className="bg-light overflow">
                     
                     {
                         this.state.currentUserEntries.map(entry => {

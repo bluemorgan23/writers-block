@@ -6,6 +6,7 @@
 
 .loginCard {
     min-width: 60% !important;
+    max-width: 100% !important;
 }
 
 .registerLink {

@@ -43,8 +43,12 @@ class Synonyms extends Component {
 
     async componentDidUpdate(prevProps, prevState) {
       
+        if(this.state.sentencesAndWords.length === 0) {
+            alert("We're out of suggestions! Let's return to the results page.")
+            return this.props.history.push("/results")
+        }
         
-        if(prevProps.sentenceArray !== this.props.sentenceArray){
+        else if(prevProps.sentenceArray !== this.props.sentenceArray){
         
             let idToGrab = Number(sessionStorage.getItem("currentEntryID"))
             
@@ -73,7 +77,7 @@ class Synonyms extends Component {
                 .then(response => this.props.grabData(response))
                 .then(response => this.setState({isLoading: false, sentencesAndWords: response}))  
             }
-
+            // 
             
     }
 }
