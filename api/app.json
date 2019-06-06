@@ -1,0 +1,57 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "chrism",
+      "password": "chris"
+    },
+    {
+      "username": "casfasdf",
+      "password": "sdafasdfasdf",
+      "id": 2
+    },
+    {
+      "username": "test",
+      "password": "test",
+      "id": 3
+    },
+    {
+      "username": "test2",
+      "password": "test",
+      "id": 4
+    },
+    {
+      "username": "testing1234",
+      "password": "test",
+      "id": 5
+    },
+    {
+      "username": "ChrisMorgan",
+      "password": "test",
+      "id": 6
+    },
+    {
+      "username": "testingsfsdf",
+      "password": "test",
+      "id": 7
+    }
+  ],
+  "entries": [
+    {
+      "title": "NOT A TEST",
+      "body": "test",
+      "userId": 4,
+      "id": 2,
+      "avgScore": 1,
+      "scoreGroup": "Casual"
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "body": "My first thought was to give users a score of their writing, and give the user the affordance to increase the complexity of his/her vocabulary choices by instantly substituting low scoring words with higher scoring synonyms. Then the amended input would be displayed to the user. However, after giving this some thought, I believe that automatically making a user’s writing way more complex might not be as useful for the casual user. Also, I feel like the application would lose the educational benefit of expanding the user’s vocabulary without the ability to select from a list of synonyms. Therefore, I’ve decided to provide my own ranking system that will be displayed to the user, and if he/she wants they can attempt to climb up the ladder of scoring groups listed below.",
+      "title": "Work Email",
+      "avgScore": 3,
+      "scoreGroup": "Business Formal"
+    }
+  ]
+}
