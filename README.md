@@ -20,6 +20,8 @@ In order to use this application, after cloning down the repository, the user mu
 
 5. The user will now see the welcome page that explains how to use the application. The short version is that the user can enter a grouping of text to receive a score based on the vocabulary used. The user can utilize the application to find synonyms for words that fall below the "average word score" of the entire text group. The idea is that the vocabulary of the text will be enhanced by using the application.
 
+## Gif
+![](WritersBlockGif.gif)
 
 ## Built With
 
@@ -27,10 +29,12 @@ In order to use this application, after cloning down the repository, the user mu
 * ReactStrap
 * React-Icons
 * React-Loading-Screens
+* TwinWord Language Scoring API
+* Wordnik Words API
 
 ## Authors
 
-* **Chris Morgan** -(https://github.com/bluemorgan23)
+* **Chris Morgan** -(GitHub: https://github.com/bluemorgan23 || Portfolio: https://bluemorgan23.github.io/cm-portfolio/)
 
 
 ## Acknowledgments
