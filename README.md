@@ -5,7 +5,27 @@ The Writer's Block is a text-analysis utility that allows a user to determine th
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+1. In order to use the application, you must visit the link provided below.
+
+2. Once you click the link, you must register a new account by clicking the registration link at the bottom of the login form.
+
+3. Once you've created an account, a welcome message will breifly explain the process and the scoring system.
+
+4. On the New Entry page, you can submit a group of text to be analyzed along with a title in order to reference the entry later from your Stats page.
+
+5. Once the text has been submitted, you will receive a score of your text based on the vocabulary used. Now, you can click the Find Synonyms button to begin the synonym-finding process.
+
+6. You will see a sentence with a highlighted word(s) that is being suggested to provide a synonym for. Now you can click on the dropdown menu to select a synonym replacement for this word.
+
+7. After going through all the replacement suggestions, you can return to results and the updated entry will be reanlyzed. Hopefully, your score has improved from before! 
+
+
+
+Visit the link below to demo the application!
+
+https://thewritersblock.herokuapp.com/
+
+<!-- These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 In order to use this application, after cloning down the repository, the user must follow these steps: 
 
@@ -18,7 +38,7 @@ In order to use this application, after cloning down the repository, the user mu
 
 4. Now the application should initiatilize. The user will be presented with a login screen. If the user is not already registered (on the local JSON-Server...), he/she can create an account on the register page.
 
-5. The user will now see the welcome page that explains how to use the application. The short version is that the user can enter a grouping of text to receive a score based on the vocabulary used. The user can utilize the application to find synonyms for words that fall below the "average word score" of the entire text group. The idea is that the vocabulary of the text will be enhanced by using the application.
+5. The user will now see the welcome page that explains how to use the application. The short version is that the user can enter a grouping of text to receive a score based on the vocabulary used. The user can utilize the application to find synonyms for words that fall below the "average word score" of the entire text group. The idea is that the vocabulary of the text will be enhanced by using the application. -->
 
 ## Gif
 ![](WritersBlockGif.gif)
@@ -30,7 +50,7 @@ In order to use this application, after cloning down the repository, the user mu
 * React-Icons
 * React-Loading-Screens
 * TwinWord Language Scoring API
-* Wordnik Words API
+* DataMuse / WordNik Words API
 
 ## Authors
 
