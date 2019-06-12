@@ -11,7 +11,7 @@ const synAPI = {
         return fetch(`${baseURL}${word}&max=100`, {
             method: "GET",
             headers: {
-                "Access-Control-Allow-Origin": "*"
+                "Access-Control-Allow-Origin": "https://thewritersblock.herokuapp.com"
             }
         })
         .then(response => response.json())
