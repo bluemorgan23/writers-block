@@ -52,6 +52,14 @@
       "title": "Work Email",
       "avgScore": 3,
       "scoreGroup": "Business Formal"
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "body": "My first thought was to give users a score of their writing, and give the user the affordance to increase the complexity of his/her vocabulary selections by instantly supplanting low scoring words with higher scoring synonyms. Then the amended input would be displayed to the user. However, after giving this some thought, I believe that automatically making a user’s writing way more complex might not be as useful for the casual user. Also, I feel like the application would lose the educational benefit of expanding the user’s vocabulary without the ability to select from a list of synonyms. Therefore, I’ve decided to provide my own ranking system that will be displayed to the user, and if he/she wants they can attempt to climb up the ladder of scoring groups listed below.",
+      "title": "Test",
+      "avgScore": 3,
+      "scoreGroup": "Business Formal"
     }
   ]
 }
