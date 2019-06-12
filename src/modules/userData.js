@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:5002/users"
+const baseURL = "https://writersblockapi.herokuapp.com/users"
 
 const userData = {
     getAllUsers: () => {
