@@ -1,5 +1,5 @@
 const baseURL = "https://api.datamuse.com/words?ml="
-
+const proxyURL = "https://cors-anywhere.herokuapp.com/"
 // Words API
 // const url = "https://wordsapiv1.p.mashape.com/"
 // const key = "19783159f2msh8d529c3b101051ep17b582jsn2a291563b2cd"
@@ -8,10 +8,7 @@ const baseURL = "https://api.datamuse.com/words?ml="
 
 const synAPI = {
     getSynonymsForWord: (word) => {
-        return fetch(`${baseURL}${word}&max=100`, {
-            method: "GET",
-            mode: "no-cors"
-        })
+        return fetch(`${proxyURL}${baseURL}${word}&max=100`)
         .then(response => response.json())
         .then(parsedResponse => parsedResponse.filter(words => {
             return words.score > 60000
