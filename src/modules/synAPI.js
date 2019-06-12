@@ -10,9 +10,7 @@ const synAPI = {
     getSynonymsForWord: (word) => {
         return fetch(`${baseURL}${word}&max=100`, {
             method: "GET",
-            headers: {
-                "Access-Control-Allow-Origin": "https://thewritersblock.herokuapp.com"
-            }
+            mode: "no-cors"
         })
         .then(response => response.json())
         .then(parsedResponse => parsedResponse.filter(words => {
