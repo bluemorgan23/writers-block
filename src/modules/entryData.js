@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:5002/entries"
+const baseURL = "https://writersblockapi.herokuapp.com/entries"
 
 
 
