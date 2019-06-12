@@ -8,7 +8,12 @@ const baseURL = "https://api.datamuse.com/words?ml="
 
 const synAPI = {
     getSynonymsForWord: (word) => {
-        return fetch(`${baseURL}${word}&max=100`)
+        return fetch(`${baseURL}${word}&max=100`, {
+            method: "GET",
+            headers: {
+                "Access-Control-Allow-Origin": "*"
+            }
+        })
         .then(response => response.json())
         .then(parsedResponse => parsedResponse.filter(words => {
             return words.score > 60000
